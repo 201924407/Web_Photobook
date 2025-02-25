@@ -82,7 +82,7 @@
 
         .photo-slideshow, .video-gallery, .letter-gallery {
             width: 100%;
-            flex-grow: 1; /* 이미지 영역이 버튼을 밀어내고 남은 공간을 채우도록 */
+            flex-grow: 1;
             position: relative;
             overflow: hidden;
         }
@@ -137,7 +137,7 @@
             text-align: center;
             padding: 10px;
             background-color: rgba(255, 255, 255, 0.9);
-            border-top: 1px solid #ddd; /* 이미지와 버튼 사이 경계선 */
+            border-top: 1px solid #ddd;
             width: 100%;
             box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
         }
@@ -157,6 +157,29 @@
         .slide-controls button:hover, .video-controls button:hover, .letter-controls button:hover {
             background-color: #76c0e7;
         }
+
+        /* 배경음 버튼 스타일 */
+        .audio-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 2000;
+        }
+
+        .audio-control button {
+            background-color: #87CEEB;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            font-size: 0.9em;
+        }
+
+        .audio-control button:hover {
+            background-color: #76c0e7;
+        }
     </style>
 </head>
 <body>
@@ -164,6 +187,17 @@
         <div class="book" onclick="showBook()"></div>
         <div class="tablet" onclick="showTablet()"></div>
         <div class="letter" onclick="showLetter()"></div>
+    </div>
+
+    <!-- 배경음 오디오 요소 -->
+    <audio id="backgroundMusic" loop>
+        <source src="/audio/background_music.mp3" type="audio/mp3">
+        브라우저가 오디오를 지원하지 않습니다.
+    </audio>
+
+    <!-- 배경음 제어 버튼 -->
+    <div class="audio-control">
+        <button id="toggleAudio" onclick="toggleAudio()">배경음 끄기</button>
     </div>
 
     <div class="enlarged book-enlarged" id="bookView">
@@ -216,10 +250,31 @@
     <script>
         let photoIndex = 0;
         let letterIndex = 0;
+        const audio = document.getElementById('backgroundMusic');
+        let isPlaying = false;
+
+        // 페이지 로드 시 배경음 자동 재생
+        window.addEventListener('load', function() {
+            audio.play();
+            isPlaying = true;
+            document.getElementById('toggleAudio').textContent = '배경음 끄기';
+        });
+
+        // 배경음 켜기/끄기 토글
+        function toggleAudio() {
+            if (isPlaying) {
+                audio.pause();
+                document.getElementById('toggleAudio').textContent = '배경음 켜기';
+            } else {
+                audio.play();
+                document.getElementById('toggleAudio').textContent = '배경음 끄기';
+            }
+            isPlaying = !isPlaying;
+        }
 
         function showBook() {
-            document.getElementById('bookView').style.display = 'flex'; // flex로 설정
-            initPhotos(); // 초기 사진 표시
+            document.getElementById('bookView').style.display = 'flex';
+            initPhotos();
         }
 
         function showTablet() {
@@ -228,7 +283,7 @@
 
         function showLetter() {
             document.getElementById('letterView').style.display = 'flex';
-            initLetters(); // 초기 편지 표시
+            initLetters();
         }
 
         function hideEnlarged() {
@@ -237,13 +292,12 @@
             document.getElementById('letterView').style.display = 'none';
         }
 
-        // 사진 초기화 (첫 번째 사진 표시)
         function initPhotos() {
             const photos = document.getElementsByClassName("slide");
             for (let i = 0; i < photos.length; i++) {
                 photos[i].classList.remove("active");
             }
-            photoIndex = 0; // 첫 번째 사진부터 시작
+            photoIndex = 0;
             photos[photoIndex].classList.add("active");
         }
 
@@ -253,7 +307,7 @@
                 photos[i].classList.remove("active");
             }
             photoIndex--;
-            if (photoIndex < 0) { photoIndex = photos.length - 1; } // 처음에서 이전하면 마지막으로
+            if (photoIndex < 0) { photoIndex = photos.length - 1; }
             photos[photoIndex].classList.add("active");
         }
 
@@ -263,7 +317,7 @@
                 photos[i].classList.remove("active");
             }
             photoIndex++;
-            if (photoIndex >= photos.length) { photoIndex = 0; } // 마지막에서 다음이면 처음으로
+            if (photoIndex >= photos.length) { photoIndex = 0; }
             photos[photoIndex].classList.add("active");
         }
 
@@ -283,13 +337,12 @@
             video.currentTime = 0;
         }
 
-        // 편지 초기화 (첫 번째 편지 표시)
         function initLetters() {
             const letters = document.getElementsByClassName("letter-slide");
             for (let i = 0; i < letters.length; i++) {
                 letters[i].classList.remove("active");
             }
-            letterIndex = 0; // 첫 번째 편지부터 시작
+            letterIndex = 0;
             letters[letterIndex].classList.add("active");
         }
 
