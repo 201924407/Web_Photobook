@@ -17,45 +17,69 @@
 
         .desk {
             width: 100%;
-            height: auto;
-            min-height: 100vh;
-            max-height: 100vh;
+            height: 200vh; /* 화면을 두 배로 확장해 위아래 절반으로 나누기 */
             position: relative;
-            background-image: url('/background_desk_mobile.png'); /* 제공된 이미지로 교체 (360x640px 기준, 자동 조정) */
+            background-image: url('/background_desk_mobile.png'); /* 제공된 단일 이미지로 교체 (360x640px 기준, 자동 조정) */
             background-size: contain;
             background-position: center;
             background-repeat: no-repeat;
             border-radius: 0;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            overflow: hidden; /* 여백 제거 및 오버플로우 방지 */
+            overflow: hidden;
+            scroll-behavior: smooth; /* 스크롤 부드럽게 */
         }
 
-        .book, .tablet {
+        .section {
+            width: 100%;
+            height: 50vh; /* 각 섹션은 화면 절반 높이 */
+            position: relative;
+        }
+
+        .top-section {
+            top: 0;
+        }
+
+        .bottom-section {
+            top: 50vh;
+        }
+
+        .button {
             position: absolute;
             cursor: pointer;
             transition: transform 0.3s ease, opacity 0.3s ease;
-        }
-
-        .book {
-            width: 120px; /* 모바일에서 포토 프레임 크기 조정 */
-            height: 90px;
-            top: 80px; /* 이미지에서 위쪽 포토 프레임의 세로 위치 */
-            left: 30px; /* 이미지에서 왼쪽 포토 프레임의 가로 위치 */
+            background-color: rgba(135, 206, 235, 0.8); /* 하늘색 반투명 배경 */
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
             box-shadow: 0 3px 6px rgba(0,0,0,0.2);
-            background: transparent; /* 배경 제거, 이미지에 의존 */
+            font-size: 0.9em;
+            text-align: center;
         }
 
-        .tablet {
-            width: 150px;
-            height: 90px;
-            top: 300px; /* 이미지에서 아래쪽 태블릿의 세로 위치 */
-            left: 200px; /* 이미지에서 오른쪽 태블릿의 가로 위치 */
-            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
-            background: transparent; /* 배경 제거, 이미지에 의존 */
-        }
-
-        .book:hover, .tablet:hover {
+        .button:hover {
             transform: scale(1.05);
+        }
+
+        #book-btn {
+            width: 100px; /* 왼쪽 위 포토 프레임 중간 크기 조정 */
+            height: 30px;
+            top: 130px; /* 왼쪽 위 포토 프레임 중간 세로 위치 */
+            left: 50px; /* 왼쪽 위 포토 프레임 중간 가로 위치 */
+        }
+
+        #tablet-btn {
+            width: 120px; /* 중간 오른쪽 태블릿 중앙 크기 조정 */
+            height: 30px;
+            top: 250px; /* 중간 오른쪽 태블릿 중앙 세로 위치 */
+            left: 220px; /* 중간 오른쪽 태블릿 중앙 가로 위치 */
+        }
+
+        #letter-btn {
+            width: 100px; /* 왼쪽 아래 편지 부분 크기 조정 */
+            height: 30px;
+            top: 450px; /* 왼쪽 아래 편지 부분 세로 위치 */
+            left: 30px; /* 왼쪽 아래 편지 부분 가로 위치 */
         }
 
         .enlarged {
@@ -76,28 +100,24 @@
             max-height: 80vh;
         }
 
-        .book-enlarged {
+        .book-enlarged, .tablet-enlarged, .letter-enlarged {
             max-height: 400px;
         }
 
-        .tablet-enlarged {
-            max-height: 300px;
-        }
-
-        .photo-slideshow, .video-gallery {
+        .photo-slideshow, .video-gallery, .letter-gallery {
             width: 100%;
             height: 100%;
             position: relative;
         }
 
-        .slide {
+        .slide, .letter-slide {
             width: 100%;
             height: 100%;
             object-fit: contain;
             display: none;
         }
 
-        .slide.active {
+        .slide.active, .letter-slide.active {
             display: block;
         }
 
@@ -136,12 +156,21 @@
             background-color: #76c0e7;
         }
 
-        .slide-controls {
+        .slide-controls, .video-controls, .letter-controls {
             text-align: center;
             margin-top: 10px;
+            position: fixed;
+            bottom: 20px;
+            width: 90%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        .slide-controls button {
+        .slide-controls button, .video-controls button, .letter-controls button {
             background-color: #87CEEB;
             color: #fff;
             border: none;
@@ -153,53 +182,37 @@
             font-size: 0.9em;
         }
 
-        .slide-controls button:hover {
+        .slide-controls button:hover, .video-controls button:hover, .letter-controls button:hover {
             background-color: #76c0e7;
         }
 
-        .video-controls {
-            margin-top: 10px;
-            text-align: center;
+        /* 스크롤 애니메이션 */
+        .desk {
+            transition: transform 0.5s ease;
         }
 
-        .video-controls button {
-            background-color: #87CEEB;
-            color: #fff;
-            border: none;
-            padding: 6px 12px;
-            margin: 0 5px;
-            cursor: pointer;
-            border-radius: 5px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            font-size: 0.9em;
+        .desk.scrolled-top {
+            transform: translateY(0);
         }
 
-        .video-controls button:hover {
-            background-color: #76c0e7;
+        .desk.scrolled-bottom {
+            transform: translateY(-50vh);
         }
 
         /* 갤럭시 S23 Ultra 및 유사한 고해상도 모바일 (1080px 이하) */
         @media (max-width: 1080px) {
             .desk {
-                width: 100%;
-                height: auto;
-                min-height: 100vh;
-                max-height: 100vh;
-                background-size: contain;
+                height: 200vh;
             }
 
-            .book {
-                width: 120px;
-                height: 90px;
-                top: 80px;
-                left: 30px;
+            .section {
+                height: 50vh;
             }
 
-            .tablet {
-                width: 150px;
-                height: 90px;
-                top: 300px;
-                left: 200px;
+            #book-btn, #tablet-btn, #letter-btn {
+                width: 100px;
+                height: 25px;
+                font-size: 0.8em;
             }
 
             .enlarged {
@@ -208,11 +221,7 @@
                 max-height: 80vh;
             }
 
-            .book-enlarged, .tablet-enlarged {
-                max-height: 400px;
-            }
-
-            .back-button, .slide-controls button, .video-controls button {
+            .back-button, .slide-controls button, .video-controls button, .letter-controls button {
                 padding: 6px 12px;
                 font-size: 0.9em;
             }
@@ -222,26 +231,36 @@
         @media (max-width: 360px) {
             .desk {
                 width: 100%;
-                height: auto;
+                height: 200vh;
                 min-height: 300px;
                 max-height: 640px;
             }
 
-            .book {
+            #book-btn {
+                width: 80px;
+                height: 20px;
+                top: 120px;
+                left: 40px;
+                font-size: 0.7em;
+            }
+
+            #tablet-btn {
                 width: 100px;
-                height: 75px;
-                top: 70px;
+                height: 20px;
+                top: 240px;
+                left: 200px;
+                font-size: 0.7em;
+            }
+
+            #letter-btn {
+                width: 80px;
+                height: 20px;
+                top: 440px;
                 left: 20px;
+                font-size: 0.7em;
             }
 
-            .tablet {
-                width: 120px;
-                height: 75px;
-                top: 280px;
-                left: 160px;
-            }
-
-            .book-enlarged, .tablet-enlarged {
+            .book-enlarged, .tablet-enlarged, .letter-enlarged {
                 width: 85%;
                 max-height: 250px;
             }
@@ -253,7 +272,13 @@
                 font-size: 0.8em;
             }
 
-            .slide-controls button, .video-controls button {
+            .slide-controls, .video-controls, .letter-controls {
+                bottom: 10px;
+                padding: 8px;
+                width: 85%;
+            }
+
+            .slide-controls button, .video-controls button, .letter-controls button {
                 padding: 5px 10px;
                 font-size: 0.8em;
             }
@@ -262,8 +287,13 @@
 </head>
 <body>
     <div class="desk">
-        <div class="book" onclick="showBook()">추억의 책</div>
-        <div class="tablet" onclick="showTablet()">추억의 영상</div>
+        <div class="section top-section">
+            <button id="book-btn" onclick="showBook()">추억의 책</button>
+        </div>
+        <div class="section bottom-section">
+            <button id="tablet-btn" onclick="showTablet()">추억의 영상</button>
+            <button id="letter-btn" onclick="showLetter()">추억의 편지</button>
+        </div>
     </div>
 
     <div class="enlarged book-enlarged" id="bookView" style="display: none;">
@@ -312,8 +342,26 @@
         </div>
     </div>
 
+    <div class="enlarged letter-enlarged" id="letterView" style="display: none;">
+        <button class="back-button" onclick="hideEnlarged()">뒤로가기</button>
+        <div class="letter-gallery">
+            <!-- 5개의 편지 이미지 슬라이드 (임시 이미지 URL 사용) -->
+            <img class="letter-slide" src="https://via.placeholder.com/800x600.png?text=추억+편지+1" alt="추억 편지 1">
+            <img class="letter-slide" src="https://via.placeholder.com/800x600.png?text=추억+편지+2" alt="추억 편지 2">
+            <img class="letter-slide" src="https://via.placeholder.com/800x600.png?text=추억+편지+3" alt="추억 편지 3">
+            <img class="letter-slide" src="https://via.placeholder.com/800x600.png?text=추억+편지+4" alt="추억 편지 4">
+            <img class="letter-slide" src="https://via.placeholder.com/800x600.png?text=추억+편지+5" alt="추억 편지 5">
+        </div>
+        <div class="letter-controls">
+            <button onclick="prevLetter()">이전 편지</button>
+            <button onclick="nextLetter()">다음 편지</button>
+        </div>
+    </div>
+
     <script>
         let photoIndex = 0;
+        let letterIndex = 0;
+        let isScrolled = false;
 
         function showBook() {
             document.getElementById('bookView').style.display = 'block';
@@ -324,9 +372,15 @@
             document.getElementById('tabletView').style.display = 'block';
         }
 
+        function showLetter() {
+            document.getElementById('letterView').style.display = 'block';
+            showLetters();
+        }
+
         function hideEnlarged() {
             document.getElementById('bookView').style.display = 'none';
             document.getElementById('tabletView').style.display = 'none';
+            document.getElementById('letterView').style.display = 'none';
         }
 
         function showPhotos() {
@@ -375,6 +429,57 @@
             video.pause();
             video.currentTime = 0;
         }
+
+        function showLetters() {
+            const letters = document.getElementsByClassName("letter-slide");
+            for (let i = 0; i < letters.length; i++) {
+                letters[i].classList.remove("active");
+            }
+            letterIndex++;
+            if (letterIndex > letters.length) { letterIndex = 1; }
+            letters[letterIndex - 1].classList.add("active");
+            setTimeout(showLetters, 5000); // 5초마다 자동 전환
+        }
+
+        function prevLetter() {
+            const letters = document.getElementsByClassName("letter-slide");
+            letterIndex--;
+            if (letterIndex < 1) { letterIndex = letters.length; }
+            for (let i = 0; i < letters.length; i++) {
+                letters[i].classList.remove("active");
+            }
+            letters[letterIndex - 1].classList.add("active");
+        }
+
+        function nextLetter() {
+            const letters = document.getElementsByClassName("letter-slide");
+            letterIndex++;
+            if (letterIndex > letters.length) { letterIndex = 1; }
+            for (let i = 0; i < letters.length; i++) {
+                letters[i].classList.remove("active");
+            }
+            letters[letterIndex - 1].classList.add("active");
+        }
+
+        // 스크롤 애니메이션 및 섹션 전환
+        window.addEventListener('scroll', function() {
+            const desk = document.querySelector('.desk');
+            const scrollPosition = window.scrollY;
+            const windowHeight = window.innerHeight;
+
+            if (scrollPosition < windowHeight / 2) {
+                desk.classList.remove('scrolled-bottom');
+                desk.classList.add('scrolled-top');
+            } else {
+                desk.classList.remove('scrolled-top');
+                desk.classList.add('scrolled-bottom');
+            }
+        });
+
+        // 초기 로드 시 상단으로 스크롤
+        window.addEventListener('load', function() {
+            window.scrollTo(0, 0);
+        });
     </script>
 </body>
 </html>
