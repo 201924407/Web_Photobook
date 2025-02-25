@@ -11,21 +11,20 @@
             color: #333;
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             height: 100vh;
             overflow: hidden;
         }
 
         .desk {
-            width: 1200px;
-            height: 700px;
+            width: 100%;
+            height: auto;
+            min-height: 500px;
+            max-height: 700px;
             position: relative;
             background-image: url('/background_desk.png'); /* 제공된 배경 이미지로 교체 */
             background-size: cover;
             background-position: center;
-            border-radius: 10px;
+            border-radius: 0;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
@@ -36,7 +35,7 @@
         }
 
         .book {
-            width: 200px; /* 왼쪽 흰색 포토 프레임 크기 조정 */
+            width: 200px; /* 데스크톱 크기 */
             height: 150px;
             top: 200px; /* 이미지에서 왼쪽 포토 프레임의 세로 위치 */
             left: 100px; /* 이미지에서 왼쪽 포토 프레임의 가로 위치 */
@@ -72,13 +71,17 @@
         }
 
         .book-enlarged {
-            width: 800px;
-            height: 600px;
+            width: 90%;
+            height: 60vh;
+            max-width: 800px;
+            max-height: 600px;
         }
 
         .tablet-enlarged {
-            width: 900px;
-            height: 500px;
+            width: 90%;
+            height: 50vh;
+            max-width: 900px;
+            max-height: 500px;
         }
 
         .photo-slideshow, .video-gallery {
@@ -171,35 +174,94 @@
             background-color: #76c0e7;
         }
 
-        /* 반응형 디자인 */
+        /* 모바일 레이아웃 (768px 이하) */
         @media (max-width: 768px) {
             .desk {
-                width: 90%;
-                height: 500px;
+                width: 100%;
+                height: auto;
+                min-height: 400px;
+                max-height: 500px;
+                background-size: contain;
+                background-repeat: no-repeat;
             }
 
             .book {
-                width: 150px;
-                height: 100px;
-                top: 150px;
-                left: 50px;
+                width: 120px; /* 모바일에서 더 작게 조정 */
+                height: 90px;
+                top: 120px; /* 모바일에서 위치 조정 */
+                left: 50px; /* 모바일에서 위치 조정 */
             }
 
             .tablet {
-                width: 200px;
-                height: 100px;
-                top: 150px;
-                left: 250px;
+                width: 150px;
+                height: 90px;
+                top: 120px; /* 모바일에서 위치 조정 */
+                left: 200px; /* 모바일에서 위치 조정 */
             }
 
             .book-enlarged {
                 width: 90%;
-                height: 400px;
+                height: 50vh;
+                max-width: 90%;
+                max-height: 400px;
             }
 
             .tablet-enlarged {
                 width: 90%;
-                height: 300px;
+                height: 40vh;
+                max-width: 90%;
+                max-height: 300px;
+            }
+
+            .back-button {
+                top: 10px;
+                left: 10px;
+                padding: 8px 15px;
+                font-size: 0.9em;
+            }
+
+            .slide-controls button, .video-controls button {
+                padding: 6px 12px;
+                font-size: 0.9em;
+            }
+        }
+
+        /* 매우 작은 화면 (480px 이하) 추가 조정 */
+        @media (max-width: 480px) {
+            .desk {
+                min-height: 300px;
+                max-height: 400px;
+            }
+
+            .book {
+                width: 100px;
+                height: 75px;
+                top: 100px;
+                left: 30px;
+            }
+
+            .tablet {
+                width: 120px;
+                height: 75px;
+                top: 100px;
+                left: 160px;
+            }
+
+            .book-enlarged, .tablet-enlarged {
+                width: 85%;
+                height: auto;
+                max-height: 300px;
+            }
+
+            .back-button {
+                top: 5px;
+                left: 5px;
+                padding: 6px 10px;
+            }
+
+            .slide-controls button, .video-controls button {
+                padding: 5px 10px;
+                font-size: 0.8em;
             }
         }
     </style>
