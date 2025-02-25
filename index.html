@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>추억의 포토북</title>
+    <title>추억의 책상 포토북</title>
     <style>
         body {
             font-family: 'Georgia', serif;
@@ -11,72 +11,156 @@
             color: #333;
             margin: 0;
             padding: 0;
-            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
         }
 
-        header {
-            background-color: #87CEEB;
-            padding: 20px;
-            text-align: center;
-            border-bottom: 5px solid #e0e0e0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        header h1 {
-            font-size: 2.5em;
-            margin: 0;
-            color: #fff;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* 사진 슬라이드쇼 (책 페이지 넘기기 효과) */
-        .slideshow {
+        .desk {
+            background-color: #f0f0f0;
+            width: 1200px;
+            height: 700px;
             position: relative;
-            height: 500px;
-            margin: 20px 0;
-            background-color: #f5f5f5;
             border: 2px solid #87CEEB;
             border-radius: 10px;
-            overflow: hidden;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            background-image: url('https://via.placeholder.com/1200x700.png?text=책상+배경');
+            background-size: cover;
+        }
+
+        .book, .tablet {
+            position: absolute;
+            cursor: pointer;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+
+        .book {
+            width: 300px;
+            height: 400px;
+            background-color: #fff;
+            border: 2px solid #87CEEB;
+            border-radius: 10px;
+            top: 150px;
+            left: 150px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+            background-image: url('https://via.placeholder.com/300x400.png?text=책+커버');
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5em;
+            color: #333;
+            text-align: center;
+        }
+
+        .tablet {
+            width: 350px;
+            height: 200px;
+            background-color: #e0f0ff;
+            border: 2px solid #87CEEB;
+            border-radius: 10px;
+            top: 150px;
+            left: 500px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+            background-image: url('https://via.placeholder.com/350x200.png?text=태블릿+화면');
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        .book:hover, .tablet:hover {
+            transform: scale(1.05);
+        }
+
+        .enlarged {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            background-color: #fff;
+            border: 5px solid #87CEEB;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+            display: none;
+        }
+
+        .book-enlarged {
+            width: 800px;
+            height: 600px;
+        }
+
+        .tablet-enlarged {
+            width: 900px;
+            height: 500px;
+        }
+
+        .photo-slideshow, .video-gallery {
+            width: 100%;
+            height: 100%;
+            position: relative;
         }
 
         .slide {
-            position: absolute;
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 0;
-            transform-origin: right;
-            transition: transform 1s ease, opacity 1s ease;
+            display: none;
         }
 
         .slide.active {
-            opacity: 1;
-            transform: rotateY(0deg);
+            display: block;
         }
 
-        .slide.leaving {
-            opacity: 0;
-            transform: rotateY(-20deg);
+        .video-item {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        video {
+            width: 90%;
+            height: 90%;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #87CEEB;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 1001;
+        }
+
+        .back-button:hover {
+            background-color: #76c0e7;
         }
 
         .slide-controls {
             text-align: center;
-            margin: 10px 0;
+            margin-top: 10px;
         }
 
         .slide-controls button {
             background-color: #87CEEB;
             color: #fff;
             border: none;
-            padding: 10px 20px;
+            padding: 8px 15px;
             margin: 0 5px;
             cursor: pointer;
             border-radius: 5px;
@@ -87,32 +171,9 @@
             background-color: #76c0e7;
         }
 
-        /* 동영상 갤러리 */
-        .video-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 40px;
-        }
-
-        .video-item {
-            background-color: #f5f5f5;
-            padding: 15px;
-            border: 2px solid #87CEEB;
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        video {
-            width: 100%;
-            max-height: 200px;
-            object-fit: cover;
-            border-radius: 5px;
-        }
-
         .video-controls {
             margin-top: 10px;
+            text-align: center;
         }
 
         .video-controls button {
@@ -132,40 +193,61 @@
 
         /* 반응형 디자인 */
         @media (max-width: 768px) {
-            .slideshow {
+            .desk {
+                width: 90%;
+                height: 500px;
+            }
+
+            .book {
+                width: 200px;
+                height: 250px;
+                top: 100px;
+                left: 50px;
+            }
+
+            .tablet {
+                width: 250px;
+                height: 150px;
+                top: 100px;
+                left: 300px;
+            }
+
+            .book-enlarged {
+                width: 90%;
+                height: 400px;
+            }
+
+            .tablet-enlarged {
+                width: 90%;
                 height: 300px;
-            }
-
-            header h1 {
-                font-size: 1.8em;
-            }
-
-            .video-gallery {
-                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>추억의 포토북</h1>
-    </header>
+    <div class="desk">
+        <div class="book" onclick="showBook()">추억의 책</div>
+        <div class="tablet" onclick="showTablet()">추억의 태블릿</div>
+    </div>
 
-    <div class="container">
-        <div class="slideshow">
+    <div class="enlarged book-enlarged" id="bookView" style="display: none;">
+        <button class="back-button" onclick="hideEnlarged()">뒤로가기</button>
+        <div class="photo-slideshow">
             <!-- 20개의 사진 슬라이드 (임시 이미지 URL 사용) -->
-            <img class="slide" src="https://via.placeholder.com/800x500.png?text=추억+사진+1" alt="추억 사진 1">
-            <img class="slide" src="https://via.placeholder.com/800x500.png?text=추억+사진+2" alt="추억 사진 2">
-            <img class="slide" src="https://via.placeholder.com/800x500.png?text=추억+사진+3" alt="추억 사진 3">
+            <img class="slide" src="https://via.placeholder.com/800x600.png?text=추억+사진+1" alt="추억 사진 1">
+            <img class="slide" src="https://via.placeholder.com/800x600.png?text=추억+사진+2" alt="추억 사진 2">
+            <img class="slide" src="https://via.placeholder.com/800x600.png?text=추억+사진+3" alt="추억 사진 3">
             <!-- 나머지 17개 사진도 비슷한 형식으로 추가 (총 20개) -->
-            <img class="slide" src="https://via.placeholder.com/800x500.png?text=추억+사진+20" alt="추억 사진 20">
+            <img class="slide" src="https://via.placeholder.com/800x600.png?text=추억+사진+20" alt="추억 사진 20">
         </div>
-
         <div class="slide-controls">
-            <button onclick="prevSlide()">이전 페이지</button>
-            <button onclick="nextSlide()">다음 페이지</button>
+            <button onclick="prevPhoto()">이전 페이지</button>
+            <button onclick="nextPhoto()">다음 페이지</button>
         </div>
+    </div>
 
+    <div class="enlarged tablet-enlarged" id="tabletView" style="display: none;">
+        <button class="back-button" onclick="hideEnlarged()">뒤로가기</button>
         <div class="video-gallery">
             <!-- 10개의 동영상 (임시 MP4 URL 사용, 실제 동영상으로 교체 필요) -->
             <div class="video-item">
@@ -195,47 +277,51 @@
     </div>
 
     <script>
-        let slideIndex = 0;
-        showSlides();
+        let photoIndex = 0;
 
-        function showSlides() {
-            const slides = document.getElementsByClassName("slide");
-            for (let i = 0; i < slides.length; i++) {
-                slides[i].classList.remove("active", "leaving");
-            }
-            slideIndex++;
-            if (slideIndex > slides.length) { slideIndex = 1; }
-            slides[slideIndex - 1].classList.add("active");
-            if (slideIndex > 1) {
-                slides[slideIndex - 2].classList.add("leaving");
-            }
-            setTimeout(showSlides, 5000); // 5초마다 자동 전환
+        function showBook() {
+            document.getElementById('bookView').style.display = 'block';
+            showPhotos();
         }
 
-        function prevSlide() {
-            const slides = document.getElementsByClassName("slide");
-            slideIndex--;
-            if (slideIndex < 1) { slideIndex = slides.length; }
-            for (let i = 0; i < slides.length; i++) {
-                slides[i].classList.remove("active", "leaving");
-            }
-            slides[slideIndex - 1].classList.add("active");
-            if (slideIndex < slides.length) {
-                slides[slideIndex].classList.add("leaving");
-            }
+        function showTablet() {
+            document.getElementById('tabletView').style.display = 'block';
         }
 
-        function nextSlide() {
-            const slides = document.getElementsByClassName("slide");
-            slideIndex++;
-            if (slideIndex > slides.length) { slideIndex = 1; }
-            for (let i = 0; i < slides.length; i++) {
-                slides[i].classList.remove("active", "leaving");
+        function hideEnlarged() {
+            document.getElementById('bookView').style.display = 'none';
+            document.getElementById('tabletView').style.display = 'none';
+        }
+
+        function showPhotos() {
+            const photos = document.getElementsByClassName("slide");
+            for (let i = 0; i < photos.length; i++) {
+                photos[i].classList.remove("active");
             }
-            slides[slideIndex - 1].classList.add("active");
-            if (slideIndex > 1) {
-                slides[slideIndex - 2].classList.add("leaving");
+            photoIndex++;
+            if (photoIndex > photos.length) { photoIndex = 1; }
+            photos[photoIndex - 1].classList.add("active");
+            setTimeout(showPhotos, 5000); // 5초마다 자동 전환
+        }
+
+        function prevPhoto() {
+            const photos = document.getElementsByClassName("slide");
+            photoIndex--;
+            if (photoIndex < 1) { photoIndex = photos.length; }
+            for (let i = 0; i < photos.length; i++) {
+                photos[i].classList.remove("active");
             }
+            photos[photoIndex - 1].classList.add("active");
+        }
+
+        function nextPhoto() {
+            const photos = document.getElementsByClassName("slide");
+            photoIndex++;
+            if (photoIndex > photos.length) { photoIndex = 1; }
+            for (let i = 0; i < photos.length; i++) {
+                photos[i].classList.remove("active");
+            }
+            photos[photoIndex - 1].classList.add("active");
         }
 
         function playVideo(videoId) {
