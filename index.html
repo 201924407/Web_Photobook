@@ -2,8 +2,8 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>추억의 책상 포토북</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>추억의 책상 포토북 (모바일)</title>
     <style>
         body {
             font-family: 'Georgia', serif;
@@ -11,44 +11,43 @@
             color: #333;
             margin: 0;
             padding: 0;
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
         .desk {
-            width: 100%;
-            height: auto;
-            min-height: 500px;
-            max-height: 700px;
+            width: 360px; /* 모바일 화면에 맞춘 너비 */
+            height: 640px; /* 모바일 화면에 맞춘 높이 */
             position: relative;
-            background-image: url('/background_desk.png'); /* 제공된 배경 이미지로 교체 */
+            background-image: url('/background_desk.png'); /* 제공된 이미지로 교체 (360x640px) */
             background-size: cover;
             background-position: center;
             border-radius: 0;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: auto; /* 오버플로우 시 스크롤 허용 */
         }
 
         .book, .tablet {
             position: absolute;
             cursor: pointer;
-            transition: transform 0.5s ease, opacity 0.5s ease;
+            transition: transform 0.3s ease, opacity 0.3s ease;
         }
 
         .book {
-            width: 200px; /* 데스크톱 크기 */
-            height: 150px;
-            top: 200px; /* 이미지에서 왼쪽 포토 프레임의 세로 위치 */
-            left: 100px; /* 이미지에서 왼쪽 포토 프레임의 가로 위치 */
-            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+            width: 120px; /* 모바일에서 포토 프레임 크기 조정 */
+            height: 90px;
+            top: 120px; /* 이미지에서 왼쪽 포토 프레임의 세로 위치 */
+            left: 30px; /* 이미지에서 왼쪽 포토 프레임의 가로 위치 */
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
             background: transparent; /* 배경 제거, 이미지에 의존 */
         }
 
         .tablet {
-            width: 250px;
-            height: 150px;
-            top: 200px; /* 이미지에서 오른쪽 태블릿의 세로 위치 */
-            left: 400px; /* 이미지에서 오른쪽 태블릿의 가로 위치 */
-            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+            width: 150px;
+            height: 90px;
+            top: 120px; /* 이미지에서 오른쪽 태블릿의 세로 위치 */
+            left: 200px; /* 이미지에서 오른쪽 태블릿의 가로 위치 */
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
             background: transparent; /* 배경 제거, 이미지에 의존 */
         }
 
@@ -63,25 +62,25 @@
             transform: translate(-50%, -50%);
             z-index: 1000;
             background-color: #fff;
-            border: 5px solid #87CEEB;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            overflow: hidden;
+            border: 3px solid #87CEEB;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            overflow: auto; /* 내용이 넘칠 경우 스크롤 */
             display: none;
+            max-width: 90%;
+            max-height: 80vh;
         }
 
         .book-enlarged {
             width: 90%;
-            height: 60vh;
-            max-width: 800px;
-            max-height: 600px;
+            height: auto;
+            max-height: 400px;
         }
 
         .tablet-enlarged {
             width: 90%;
-            height: 50vh;
-            max-width: 900px;
-            max-height: 500px;
+            height: auto;
+            max-height: 300px;
         }
 
         .photo-slideshow, .video-gallery {
@@ -111,22 +110,24 @@
 
         video {
             width: 90%;
-            height: 90%;
+            height: auto;
+            max-height: 90%;
             object-fit: cover;
             border-radius: 5px;
         }
 
         .back-button {
             position: absolute;
-            top: 20px;
-            left: 20px;
+            top: 10px;
+            left: 10px;
             background-color: #87CEEB;
             color: #fff;
             border: none;
-            padding: 10px 20px;
+            padding: 6px 12px;
             cursor: pointer;
             border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            font-size: 0.9em;
             z-index: 1001;
         }
 
@@ -143,11 +144,12 @@
             background-color: #87CEEB;
             color: #fff;
             border: none;
-            padding: 8px 15px;
+            padding: 6px 12px;
             margin: 0 5px;
             cursor: pointer;
             border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            font-size: 0.9em;
         }
 
         .slide-controls button:hover {
@@ -163,81 +165,32 @@
             background-color: #87CEEB;
             color: #fff;
             border: none;
-            padding: 8px 15px;
+            padding: 6px 12px;
             margin: 0 5px;
             cursor: pointer;
             border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            font-size: 0.9em;
         }
 
         .video-controls button:hover {
             background-color: #76c0e7;
         }
 
-        /* 모바일 레이아웃 (768px 이하) */
-        @media (max-width: 768px) {
+        /* 매우 작은 화면 (360px 이하 또는 기본 모바일 해상도) */
+        @media (max-width: 360px) {
             .desk {
                 width: 100%;
                 height: auto;
-                min-height: 400px;
-                max-height: 500px;
-                background-size: contain;
-                background-repeat: no-repeat;
-            }
-
-            .book {
-                width: 120px; /* 모바일에서 더 작게 조정 */
-                height: 90px;
-                top: 120px; /* 모바일에서 위치 조정 */
-                left: 50px; /* 모바일에서 위치 조정 */
-            }
-
-            .tablet {
-                width: 150px;
-                height: 90px;
-                top: 120px; /* 모바일에서 위치 조정 */
-                left: 200px; /* 모바일에서 위치 조정 */
-            }
-
-            .book-enlarged {
-                width: 90%;
-                height: 50vh;
-                max-width: 90%;
-                max-height: 400px;
-            }
-
-            .tablet-enlarged {
-                width: 90%;
-                height: 40vh;
-                max-width: 90%;
-                max-height: 300px;
-            }
-
-            .back-button {
-                top: 10px;
-                left: 10px;
-                padding: 8px 15px;
-                font-size: 0.9em;
-            }
-
-            .slide-controls button, .video-controls button {
-                padding: 6px 12px;
-                font-size: 0.9em;
-            }
-        }
-
-        /* 매우 작은 화면 (480px 이하) 추가 조정 */
-        @media (max-width: 480px) {
-            .desk {
                 min-height: 300px;
-                max-height: 400px;
+                max-height: 640px;
             }
 
             .book {
                 width: 100px;
                 height: 75px;
                 top: 100px;
-                left: 30px;
+                left: 20px;
             }
 
             .tablet {
@@ -250,13 +203,14 @@
             .book-enlarged, .tablet-enlarged {
                 width: 85%;
                 height: auto;
-                max-height: 300px;
+                max-height: 250px;
             }
 
             .back-button {
                 top: 5px;
                 left: 5px;
-                padding: 6px 10px;
+                padding: 5px 10px;
+                font-size: 0.8em;
             }
 
             .slide-controls button, .video-controls button {
