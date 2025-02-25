@@ -17,7 +17,9 @@
 
         .desk {
             width: 100%;
-            height: 200vh;
+            height: auto;
+            min-height: 100vh;
+            max-height: 100vh;
             position: relative;
             background-image: url('/background_desk_mobile.png');
             background-size: cover;
@@ -26,47 +28,35 @@
             border-radius: 0;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             overflow: hidden;
-            scroll-behavior: smooth;
         }
 
-        .section {
-            width: 100%;
-            height: 50vh;
-            position: relative;
-        }
-
-        .top-section {
-            top: 0;
-        }
-
-        .bottom-section {
-            top: 50vh;
-        }
-
-        .button {
+        .book, .tablet, .letter {
             position: absolute;
+            width: 200px;
+            height: 100px;
+            background-color: rgba(255, 255, 255, 0);
             cursor: pointer;
-            width: 100px;
-            height: 30px;
-            background-color: transparent;
-            border: none;
         }
 
-        #book-btn {
-            top: 130px;
-            left: 50px;
+        .book {
+            top: 140px;
+            left: 30%;
+            transform: translateX(-50%);
         }
 
-        #tablet-btn {
-            top: 250px;
-            left: 220px;
+        .tablet {
+            top: 360px;
+            left: 70%;
+            transform: translateX(-50%);
         }
 
-        #letter-btn {
-            top: 450px;
-            left: 30px;
+        .letter {
+            top: 600px;
+            left: 20%;
+            transform: translateX(-50%);
         }
 
+        /* 두 번째 코드에서 가져온 확대 창 스타일 */
         .enlarged {
             position: fixed;
             top: 50%;
@@ -84,37 +74,152 @@
             height: auto;
             max-height: 80vh;
         }
+
+        .book-enlarged, .tablet-enlarged, .letter-enlarged {
+            max-height: 400px;
+        }
+
+        .photo-slideshow, .video-gallery, .letter-gallery {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .slide, .letter-slide {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: none;
+        }
+
+        .slide.active, .letter-slide.active {
+            display: block;
+        }
+
+        .video-item {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        video {
+            width: 90%;
+            height: auto;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 5px;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #87CEEB;
+            color: #fff;
+            border: none;
+            padding: 6px 12px;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            font-size: 0.9em;
+            z-index: 1001;
+        }
+
+        .back-button:hover {
+            background-color: #76c0e7;
+        }
+
+        .slide-controls, .video-controls, .letter-controls {
+            text-align: center;
+            margin-top: 10px;
+            position: fixed;
+            bottom: 20px;
+            width: 90%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .slide-controls button, .video-controls button, .letter-controls button {
+            background-color: #87CEEB;
+            color: #fff;
+            border: none;
+            padding: 6px 12px;
+            margin: 0 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            font-size: 0.9em;
+        }
+
+        .slide-controls button:hover, .video-controls button:hover, .letter-controls button:hover {
+            background-color: #76c0e7;
+        }
     </style>
 </head>
 <body>
     <div class="desk">
-        <div class="section top-section">
-            <button id="book-btn" class="button" onclick="showBook()"></button>
+        <div class="book" onclick="showBook()"></div>
+        <div class="tablet" onclick="showTablet()"></div>
+        <div class="letter" onclick="showLetter()"></div>
+    </div>
+
+    <!-- 두 번째 코드에서 가져온 확대 창 -->
+    <div class="enlarged book-enlarged" id="bookView">
+        <button class="back-button" onclick="hideEnlarged()">뒤로가기</button>
+        <div class="photo-slideshow">
+            <img class="slide" src="https://via.placeholder.com/800x600.png?text=추억+사진+1" alt="추억 사진 1">
+            <img class="slide" src="https://via.placeholder.com/800x600.png?text=추억+사진+2" alt="추억 사진 2">
+            <img class="slide" src="https://via.placeholder.com/800x600.png?text=추억+사진+3" alt="추억 사진 3">
         </div>
-        <div class="section bottom-section">
-            <button id="tablet-btn" class="button" onclick="showTablet()"></button>
-            <button id="letter-btn" class="button" onclick="showLetter()"></button>
+        <div class="slide-controls">
+            <button onclick="prevPhoto()">이전 페이지</button>
+            <button onclick="nextPhoto()">다음 페이지</button>
         </div>
     </div>
 
-    <div class="enlarged" id="bookView">
-        <button onclick="hideEnlarged()">뒤로가기</button>
-        <p>추억의 책 내용</p>
+    <div class="enlarged tablet-enlarged" id="tabletView">
+        <button class="back-button" onclick="hideEnlarged()">뒤로가기</button>
+        <div class="video-gallery">
+            <div class="video-item">
+                <video id="video1">
+                    <source src="/your-video.mp4" type="video/mp4">
+                    브라우저가 동영상을 지원하지 않습니다.
+                </video>
+                <div class="video-controls">
+                    <button onclick="playVideo('video1')">재생</button>
+                    <button onclick="pauseVideo('video1')">일시정지</button>
+                    <button onclick="stopVideo('video1')">정지</button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="enlarged" id="tabletView">
-        <button onclick="hideEnlarged()">뒤로가기</button>
-        <p>추억의 영상 내용</p>
-    </div>
-
-    <div class="enlarged" id="letterView">
-        <button onclick="hideEnlarged()">뒤로가기</button>
-        <p>추억의 편지 내용</p>
+    <div class="enlarged letter-enlarged" id="letterView">
+        <button class="back-button" onclick="hideEnlarged()">뒤로가기</button>
+        <div class="letter-gallery">
+            <img class="letter-slide" src="https://via.placeholder.com/800x600.png?text=추억+편지+1" alt="추억 편지 1">
+            <img class="letter-slide" src="https://via.placeholder.com/800x600.png?text=추억+편지+2" alt="추억 편지 2">
+            <img class="letter-slide" src="https://via.placeholder.com/800x600.png?text=추억+편지+3" alt="추억 편지 3">
+        </div>
+        <div class="letter-controls">
+            <button onclick="prevLetter()">이전 편지</button>
+            <button onclick="nextLetter()">다음 편지</button>
+        </div>
     </div>
 
     <script>
+        let photoIndex = 0;
+        let letterIndex = 0;
+
         function showBook() {
             document.getElementById('bookView').style.display = 'block';
+            showPhotos();
         }
 
         function showTablet() {
@@ -123,12 +228,91 @@
 
         function showLetter() {
             document.getElementById('letterView').style.display = 'block';
+            showLetters();
         }
 
         function hideEnlarged() {
             document.getElementById('bookView').style.display = 'none';
             document.getElementById('tabletView').style.display = 'none';
             document.getElementById('letterView').style.display = 'none';
+        }
+
+        function showPhotos() {
+            const photos = document.getElementsByClassName("slide");
+            for (let i = 0; i < photos.length; i++) {
+                photos[i].classList.remove("active");
+            }
+            photoIndex++;
+            if (photoIndex > photos.length) { photoIndex = 1; }
+            photos[photoIndex - 1].classList.add("active");
+            setTimeout(showPhotos, 5000); // 5초마다 자동 전환
+        }
+
+        function prevPhoto() {
+            const photos = document.getElementsByClassName("slide");
+            photoIndex--;
+            if (photoIndex < 1) { photoIndex = photos.length; }
+            for (let i = 0; i < photos.length; i++) {
+                photos[i].classList.remove("active");
+            }
+            photos[photoIndex - 1].classList.add("active");
+        }
+
+        function nextPhoto() {
+            const photos = document.getElementsByClassName("slide");
+            photoIndex++;
+            if (photoIndex > photos.length) { photoIndex = 1; }
+            for (let i = 0; i < photos.length; i++) {
+                photos[i].classList.remove("active");
+            }
+            photos[photoIndex - 1].classList.add("active");
+        }
+
+        function playVideo(videoId) {
+            const video = document.getElementById(videoId);
+            video.play();
+        }
+
+        function pauseVideo(videoId) {
+            const video = document.getElementById(videoId);
+            video.pause();
+        }
+
+        function stopVideo(videoId) {
+            const video = document.getElementById(videoId);
+            video.pause();
+            video.currentTime = 0;
+        }
+
+        function showLetters() {
+            const letters = document.getElementsByClassName("letter-slide");
+            for (let i = 0; i < letters.length; i++) {
+                letters[i].classList.remove("active");
+            }
+            letterIndex++;
+            if (letterIndex > letters.length) { letterIndex = 1; }
+            letters[letterIndex - 1].classList.add("active");
+            setTimeout(showLetters, 5000); // 5초마다 자동 전환
+        }
+
+        function prevLetter() {
+            const letters = document.getElementsByClassName("letter-slide");
+            letterIndex--;
+            if (letterIndex < 1) { letterIndex = letters.length; }
+            for (let i = 0; i < letters.length; i++) {
+                letters[i].classList.remove("active");
+            }
+            letters[letterIndex - 1].classList.add("active");
+        }
+
+        function nextLetter() {
+            const letters = document.getElementsByClassName("letter-slide");
+            letterIndex++;
+            if (letterIndex > letters.length) { letterIndex = 1; }
+            for (let i = 0; i < letters.length; i++) {
+                letters[i].classList.remove("active");
+            }
+            letters[letterIndex - 1].classList.add("active");
         }
     </script>
 </body>
