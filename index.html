@@ -72,7 +72,6 @@
             max-width: 90%;
             height: auto;
             max-height: 80vh;
-            display: flex;
             flex-direction: column;
         }
 
@@ -164,7 +163,8 @@
             right: 20px;
             z-index: 2000;
             display: flex;
-            align-items: center;
+            flex-direction: column; /* 세로로 배치 */
+            align-items: flex-end;
             gap: 10px;
         }
 
@@ -220,7 +220,7 @@
     </audio>
 
     <div class="audio-control">
-        <button id="toggleAudio" onclick="toggleAudio()">배경음 켜기</button>
+        <button id="toggleAudio" onclick="toggleAudio()">배경음 끄기</button>
         <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="1" oninput="adjustVolume(this.value)">
     </div>
 
@@ -277,7 +277,7 @@
         const audio = document.getElementById('backgroundMusic');
         let isPlaying = false;
 
-        // 페이지 로드 시 초기 설정 (자동 재생 시도)
+        // 페이지 로드 시 초기 설정 (배경음 재생 시작)
         window.addEventListener('load', function() {
             audio.volume = 1;
             audio.play().then(() => {
