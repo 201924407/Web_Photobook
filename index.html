@@ -17,69 +17,53 @@
 
         .desk {
             width: 100%;
-            height: 200vh; /* 화면을 두 배로 확장해 위아래 절반으로 나누기 */
+            height: auto;
+            min-height: 100vh;
+            max-height: 100vh;
             position: relative;
-            background-image: url('/background_desk_mobile.png'); /* 제공된 단일 이미지로 교체 (360x640px 기준, 자동 조정) */
-            background-size: contain;
+            background-image: url('/background_desk_mobile.png');
+            background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             border-radius: 0;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             overflow: hidden;
-            scroll-behavior: smooth; /* 스크롤 부드럽게 */
         }
 
-        .section {
-            width: 100%;
-            height: 50vh; /* 각 섹션은 화면 절반 높이 */
-            position: relative;
-        }
-
-        .top-section {
-            top: 0;
-        }
-
-        .bottom-section {
-            top: 50vh;
-        }
-
-        .button {
+        .book, .tablet, .letter {
             position: absolute;
-            cursor: pointer;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-            background-color: rgba(135, 206, 235, 0.8); /* 하늘색 반투명 배경 */
-            color: #fff;
-            border: none;
-            padding: 8px 16px;
+            width: 100px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.8);
             border-radius: 5px;
             box-shadow: 0 3px 6px rgba(0,0,0,0.2);
-            font-size: 0.9em;
-            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
         }
 
-        .button:hover {
-            transform: scale(1.05);
+        .book {
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
-        #book-btn {
-            width: 100px; /* 왼쪽 위 포토 프레임 중간 크기 조정 */
-            height: 30px;
-            top: 130px; /* 왼쪽 위 포토 프레임 중간 세로 위치 */
-            left: 50px; /* 왼쪽 위 포토 프레임 중간 가로 위치 */
+        .tablet {
+            top: 350px;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
-        #tablet-btn {
-            width: 120px; /* 중간 오른쪽 태블릿 중앙 크기 조정 */
-            height: 30px;
-            top: 250px; /* 중간 오른쪽 태블릿 중앙 세로 위치 */
-            left: 220px; /* 중간 오른쪽 태블릿 중앙 가로 위치 */
+        .letter {
+            top: 550px;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
-        #letter-btn {
-            width: 100px; /* 왼쪽 아래 편지 부분 크기 조정 */
-            height: 30px;
-            top: 450px; /* 왼쪽 아래 편지 부분 세로 위치 */
-            left: 30px; /* 왼쪽 아래 편지 부분 가로 위치 */
+        .book:hover, .tablet:hover, .letter:hover {
+            transform: translateX(-50%) scale(1.1);
         }
 
         .enlarged {
@@ -92,394 +76,34 @@
             border: 3px solid #87CEEB;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            overflow: auto; /* 내용이 넘칠 경우 스크롤 */
+            overflow: auto;
             display: none;
             width: 90%;
             max-width: 90%;
             height: auto;
             max-height: 80vh;
         }
-
-        .book-enlarged, .tablet-enlarged, .letter-enlarged {
-            max-height: 400px;
-        }
-
-        .photo-slideshow, .video-gallery, .letter-gallery {
-            width: 100%;
-            height: 100%;
-            position: relative;
-        }
-
-        .slide, .letter-slide {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            display: none;
-        }
-
-        .slide.active, .letter-slide.active {
-            display: block;
-        }
-
-        .video-item {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        video {
-            width: 90%;
-            height: auto;
-            max-height: 90%;
-            object-fit: contain;
-            border-radius: 5px;
-        }
-
-        .back-button {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background-color: #87CEEB;
-            color: #fff;
-            border: none;
-            padding: 6px 12px;
-            cursor: pointer;
-            border-radius: 5px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            font-size: 0.9em;
-            z-index: 1001;
-        }
-
-        .back-button:hover {
-            background-color: #76c0e7;
-        }
-
-        .slide-controls, .video-controls, .letter-controls {
-            text-align: center;
-            margin-top: 10px;
-            position: fixed;
-            bottom: 20px;
-            width: 90%;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 10px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .slide-controls button, .video-controls button, .letter-controls button {
-            background-color: #87CEEB;
-            color: #fff;
-            border: none;
-            padding: 6px 12px;
-            margin: 0 5px;
-            cursor: pointer;
-            border-radius: 5px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            font-size: 0.9em;
-        }
-
-        .slide-controls button:hover, .video-controls button:hover, .letter-controls button:hover {
-            background-color: #76c0e7;
-        }
-
-        /* 스크롤 애니메이션 */
-        .desk {
-            transition: transform 0.5s ease;
-        }
-
-        .desk.scrolled-top {
-            transform: translateY(0);
-        }
-
-        .desk.scrolled-bottom {
-            transform: translateY(-50vh);
-        }
-
-        /* 갤럭시 S23 Ultra 및 유사한 고해상도 모바일 (1080px 이하) */
-        @media (max-width: 1080px) {
-            .desk {
-                height: 200vh;
-            }
-
-            .section {
-                height: 50vh;
-            }
-
-            #book-btn, #tablet-btn, #letter-btn {
-                width: 100px;
-                height: 25px;
-                font-size: 0.8em;
-            }
-
-            .enlarged {
-                width: 90%;
-                max-width: 90%;
-                max-height: 80vh;
-            }
-
-            .back-button, .slide-controls button, .video-controls button, .letter-controls button {
-                padding: 6px 12px;
-                font-size: 0.9em;
-            }
-        }
-
-        /* 매우 작은 화면 (360px 이하 또는 기본 모바일 해상도) */
-        @media (max-width: 360px) {
-            .desk {
-                width: 100%;
-                height: 200vh;
-                min-height: 300px;
-                max-height: 640px;
-            }
-
-            #book-btn {
-                width: 80px;
-                height: 20px;
-                top: 120px;
-                left: 40px;
-                font-size: 0.7em;
-            }
-
-            #tablet-btn {
-                width: 100px;
-                height: 20px;
-                top: 240px;
-                left: 200px;
-                font-size: 0.7em;
-            }
-
-            #letter-btn {
-                width: 80px;
-                height: 20px;
-                top: 440px;
-                left: 20px;
-                font-size: 0.7em;
-            }
-
-            .book-enlarged, .tablet-enlarged, .letter-enlarged {
-                width: 85%;
-                max-height: 250px;
-            }
-
-            .back-button {
-                top: 5px;
-                left: 5px;
-                padding: 5px 10px;
-                font-size: 0.8em;
-            }
-
-            .slide-controls, .video-controls, .letter-controls {
-                bottom: 10px;
-                padding: 8px;
-                width: 85%;
-            }
-
-            .slide-controls button, .video-controls button, .letter-controls button {
-                padding: 5px 10px;
-                font-size: 0.8em;
-            }
-        }
     </style>
 </head>
 <body>
     <div class="desk">
-        <div class="section top-section">
-            <button id="book-btn" onclick="showBook()">추억의 책</button>
-        </div>
-        <div class="section bottom-section">
-            <button id="tablet-btn" onclick="showTablet()">추억의 영상</button>
-            <button id="letter-btn" onclick="showLetter()">추억의 편지</button>
-        </div>
-    </div>
-
-    <div class="enlarged book-enlarged" id="bookView" style="display: none;">
-        <button class="back-button" onclick="hideEnlarged()">뒤로가기</button>
-        <div class="photo-slideshow">
-            <!-- 20개의 사진 슬라이드 (임시 이미지 URL 사용) -->
-            <img class="slide" src="https://via.placeholder.com/800x600.png?text=추억+사진+1" alt="추억 사진 1">
-            <img class="slide" src="https://via.placeholder.com/800x600.png?text=추억+사진+2" alt="추억 사진 2">
-            <img class="slide" src="https://via.placeholder.com/800x600.png?text=추억+사진+3" alt="추억 사진 3">
-            <!-- 나머지 17개 사진도 비슷한 형식으로 추가 (총 20개) -->
-            <img class="slide" src="https://via.placeholder.com/800x600.png?text=추억+사진+20" alt="추억 사진 20">
-        </div>
-        <div class="slide-controls">
-            <button onclick="prevPhoto()">이전 페이지</button>
-            <button onclick="nextPhoto()">다음 페이지</button>
-        </div>
-    </div>
-
-    <div class="enlarged tablet-enlarged" id="tabletView" style="display: none;">
-        <button class="back-button" onclick="hideEnlarged()">뒤로가기</button>
-        <div class="video-gallery">
-            <!-- 10개의 동영상 (your-video.mp4 사용, 실제 동영상으로 교체 필요) -->
-            <div class="video-item">
-                <video id="video1">
-                    <source src="/your-video.mp4" type="video/mp4">
-                    브라우저가 동영상을 지원하지 않습니다.
-                </video>
-                <div class="video-controls">
-                    <button onclick="playVideo('video1')">재생</button>
-                    <button onclick="pauseVideo('video1')">일시정지</button>
-                    <button onclick="stopVideo('video1')">정지</button>
-                </div>
-            </div>
-            <!-- 나머지 9개 동영상도 비슷한 형식으로 추가 (your-video.mp4 복사본 사용) -->
-            <div class="video-item">
-                <video id="video10">
-                    <source src="/your-video.mp4" type="video/mp4">
-                    브라우저가 동영상을 지원하지 않습니다.
-                </video>
-                <div class="video-controls">
-                    <button onclick="playVideo('video10')">재생</button>
-                    <button onclick="pauseVideo('video10')">일시정지</button>
-                    <button onclick="stopVideo('video10')">정지</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="enlarged letter-enlarged" id="letterView" style="display: none;">
-        <button class="back-button" onclick="hideEnlarged()">뒤로가기</button>
-        <div class="letter-gallery">
-            <!-- 5개의 편지 이미지 슬라이드 (임시 이미지 URL 사용) -->
-            <img class="letter-slide" src="https://via.placeholder.com/800x600.png?text=추억+편지+1" alt="추억 편지 1">
-            <img class="letter-slide" src="https://via.placeholder.com/800x600.png?text=추억+편지+2" alt="추억 편지 2">
-            <img class="letter-slide" src="https://via.placeholder.com/800x600.png?text=추억+편지+3" alt="추억 편지 3">
-            <img class="letter-slide" src="https://via.placeholder.com/800x600.png?text=추억+편지+4" alt="추억 편지 4">
-            <img class="letter-slide" src="https://via.placeholder.com/800x600.png?text=추억+편지+5" alt="추억 편지 5">
-        </div>
-        <div class="letter-controls">
-            <button onclick="prevLetter()">이전 편지</button>
-            <button onclick="nextLetter()">다음 편지</button>
-        </div>
+        <div class="book" onclick="showBook()">추억의 책</div>
+        <div class="tablet" onclick="showTablet()">추억의 영상</div>
+        <div class="letter" onclick="showLetter()">추억의 편지</div>
     </div>
 
     <script>
-        let photoIndex = 0;
-        let letterIndex = 0;
-        let isScrolled = false;
-
         function showBook() {
-            document.getElementById('bookView').style.display = 'block';
-            showPhotos();
+            alert("추억의 책 보기");
         }
 
         function showTablet() {
-            document.getElementById('tabletView').style.display = 'block';
+            alert("추억의 영상 보기");
         }
 
         function showLetter() {
-            document.getElementById('letterView').style.display = 'block';
-            showLetters();
+            alert("추억의 편지 보기");
         }
-
-        function hideEnlarged() {
-            document.getElementById('bookView').style.display = 'none';
-            document.getElementById('tabletView').style.display = 'none';
-            document.getElementById('letterView').style.display = 'none';
-        }
-
-        function showPhotos() {
-            const photos = document.getElementsByClassName("slide");
-            for (let i = 0; i < photos.length; i++) {
-                photos[i].classList.remove("active");
-            }
-            photoIndex++;
-            if (photoIndex > photos.length) { photoIndex = 1; }
-            photos[photoIndex - 1].classList.add("active");
-            setTimeout(showPhotos, 5000); // 5초마다 자동 전환
-        }
-
-        function prevPhoto() {
-            const photos = document.getElementsByClassName("slide");
-            photoIndex--;
-            if (photoIndex < 1) { photoIndex = photos.length; }
-            for (let i = 0; i < photos.length; i++) {
-                photos[i].classList.remove("active");
-            }
-            photos[photoIndex - 1].classList.add("active");
-        }
-
-        function nextPhoto() {
-            const photos = document.getElementsByClassName("slide");
-            photoIndex++;
-            if (photoIndex > photos.length) { photoIndex = 1; }
-            for (let i = 0; i < photos.length; i++) {
-                photos[i].classList.remove("active");
-            }
-            photos[photoIndex - 1].classList.add("active");
-        }
-
-        function playVideo(videoId) {
-            const video = document.getElementById(videoId);
-            video.play();
-        }
-
-        function pauseVideo(videoId) {
-            const video = document.getElementById(videoId);
-            video.pause();
-        }
-
-        function stopVideo(videoId) {
-            const video = document.getElementById(videoId);
-            video.pause();
-            video.currentTime = 0;
-        }
-
-        function showLetters() {
-            const letters = document.getElementsByClassName("letter-slide");
-            for (let i = 0; i < letters.length; i++) {
-                letters[i].classList.remove("active");
-            }
-            letterIndex++;
-            if (letterIndex > letters.length) { letterIndex = 1; }
-            letters[letterIndex - 1].classList.add("active");
-            setTimeout(showLetters, 5000); // 5초마다 자동 전환
-        }
-
-        function prevLetter() {
-            const letters = document.getElementsByClassName("letter-slide");
-            letterIndex--;
-            if (letterIndex < 1) { letterIndex = letters.length; }
-            for (let i = 0; i < letters.length; i++) {
-                letters[i].classList.remove("active");
-            }
-            letters[letterIndex - 1].classList.add("active");
-        }
-
-        function nextLetter() {
-            const letters = document.getElementsByClassName("letter-slide");
-            letterIndex++;
-            if (letterIndex > letters.length) { letterIndex = 1; }
-            for (let i = 0; i < letters.length; i++) {
-                letters[i].classList.remove("active");
-            }
-            letters[letterIndex - 1].classList.add("active");
-        }
-
-        // 스크롤 애니메이션 및 섹션 전환
-        window.addEventListener('scroll', function() {
-            const desk = document.querySelector('.desk');
-            const scrollPosition = window.scrollY;
-            const windowHeight = window.innerHeight;
-
-            if (scrollPosition < windowHeight / 2) {
-                desk.classList.remove('scrolled-bottom');
-                desk.classList.add('scrolled-top');
-            } else {
-                desk.classList.remove('scrolled-top');
-                desk.classList.add('scrolled-bottom');
-            }
-        });
-
-        // 초기 로드 시 상단으로 스크롤
-        window.addEventListener('load', function() {
-            window.scrollTo(0, 0);
-        });
     </script>
 </body>
 </html>
