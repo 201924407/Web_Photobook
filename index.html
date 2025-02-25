@@ -3,28 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>투어스 - Hey Hey 포토북</title>
+    <title>추억의 포토북</title>
     <style>
         body {
-            font-family: 'Arial Black', sans-serif;
-            background-color: #1a1a1a;
-            color: #fff;
+            font-family: 'Georgia', serif;
+            background-color: #fff;
+            color: #333;
             margin: 0;
             padding: 0;
             overflow-x: hidden;
         }
 
         header {
-            background-color: #2d2d2d;
+            background-color: #87CEEB;
             padding: 20px;
             text-align: center;
-            border-bottom: 5px solid #d4a017;
+            border-bottom: 5px solid #e0e0e0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         header h1 {
             font-size: 2.5em;
             margin: 0;
-            text-shadow: 2px 2px 4px #d4a017;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
         }
 
         .container {
@@ -33,26 +35,36 @@
             padding: 20px;
         }
 
-        /* 사진 슬라이드쇼 */
+        /* 사진 슬라이드쇼 (책 페이지 넘기기 효과) */
         .slideshow {
             position: relative;
             height: 500px;
             margin: 20px 0;
-            background-color: #333;
-            border: 3px solid #d4a017;
+            background-color: #f5f5f5;
+            border: 2px solid #87CEEB;
             border-radius: 10px;
             overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
         .slide {
-            display: none;
+            position: absolute;
             width: 100%;
             height: 100%;
             object-fit: cover;
+            opacity: 0;
+            transform-origin: right;
+            transition: transform 1s ease, opacity 1s ease;
         }
 
         .slide.active {
-            display: block;
+            opacity: 1;
+            transform: rotateY(0deg);
+        }
+
+        .slide.leaving {
+            opacity: 0;
+            transform: rotateY(-20deg);
         }
 
         .slide-controls {
@@ -61,17 +73,18 @@
         }
 
         .slide-controls button {
-            background-color: #d4a017;
+            background-color: #87CEEB;
             color: #fff;
             border: none;
             padding: 10px 20px;
             margin: 0 5px;
             cursor: pointer;
             border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .slide-controls button:hover {
-            background-color: #b78e0f;
+            background-color: #76c0e7;
         }
 
         /* 동영상 갤러리 */
@@ -83,11 +96,12 @@
         }
 
         .video-item {
-            background-color: #333;
+            background-color: #f5f5f5;
             padding: 15px;
-            border: 2px solid #d4a017;
+            border: 2px solid #87CEEB;
             border-radius: 8px;
             text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         video {
@@ -102,17 +116,18 @@
         }
 
         .video-controls button {
-            background-color: #d4a017;
+            background-color: #87CEEB;
             color: #fff;
             border: none;
             padding: 8px 15px;
             margin: 0 5px;
             cursor: pointer;
             border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .video-controls button:hover {
-            background-color: #b78e0f;
+            background-color: #76c0e7;
         }
 
         /* 반응형 디자인 */
@@ -133,22 +148,22 @@
 </head>
 <body>
     <header>
-        <h1>투어스 - Hey Hey 포토북</h1>
+        <h1>추억의 포토북</h1>
     </header>
 
     <div class="container">
         <div class="slideshow">
             <!-- 20개의 사진 슬라이드 (임시 이미지 URL 사용) -->
-            <img class="slide" src="https://via.placeholder.com/800x500.png?text=Photo+1" alt="Photo 1">
-            <img class="slide" src="https://via.placeholder.com/800x500.png?text=Photo+2" alt="Photo 2">
-            <img class="slide" src="https://via.placeholder.com/800x500.png?text=Photo+3" alt="Photo 3">
+            <img class="slide" src="https://via.placeholder.com/800x500.png?text=추억+사진+1" alt="추억 사진 1">
+            <img class="slide" src="https://via.placeholder.com/800x500.png?text=추억+사진+2" alt="추억 사진 2">
+            <img class="slide" src="https://via.placeholder.com/800x500.png?text=추억+사진+3" alt="추억 사진 3">
             <!-- 나머지 17개 사진도 비슷한 형식으로 추가 (총 20개) -->
-            <img class="slide" src="https://via.placeholder.com/800x500.png?text=Photo+20" alt="Photo 20">
+            <img class="slide" src="https://via.placeholder.com/800x500.png?text=추억+사진+20" alt="추억 사진 20">
         </div>
 
         <div class="slide-controls">
-            <button onclick="prevSlide()">이전</button>
-            <button onclick="nextSlide()">다음</button>
+            <button onclick="prevSlide()">이전 페이지</button>
+            <button onclick="nextSlide()">다음 페이지</button>
         </div>
 
         <div class="video-gallery">
@@ -186,11 +201,14 @@
         function showSlides() {
             const slides = document.getElementsByClassName("slide");
             for (let i = 0; i < slides.length; i++) {
-                slides[i].classList.remove("active");
+                slides[i].classList.remove("active", "leaving");
             }
             slideIndex++;
             if (slideIndex > slides.length) { slideIndex = 1; }
             slides[slideIndex - 1].classList.add("active");
+            if (slideIndex > 1) {
+                slides[slideIndex - 2].classList.add("leaving");
+            }
             setTimeout(showSlides, 5000); // 5초마다 자동 전환
         }
 
@@ -199,9 +217,12 @@
             slideIndex--;
             if (slideIndex < 1) { slideIndex = slides.length; }
             for (let i = 0; i < slides.length; i++) {
-                slides[i].classList.remove("active");
+                slides[i].classList.remove("active", "leaving");
             }
             slides[slideIndex - 1].classList.add("active");
+            if (slideIndex < slides.length) {
+                slides[slideIndex].classList.add("leaving");
+            }
         }
 
         function nextSlide() {
@@ -209,9 +230,12 @@
             slideIndex++;
             if (slideIndex > slides.length) { slideIndex = 1; }
             for (let i = 0; i < slides.length; i++) {
-                slides[i].classList.remove("active");
+                slides[i].classList.remove("active", "leaving");
             }
             slides[slideIndex - 1].classList.add("active");
+            if (slideIndex > 1) {
+                slides[slideIndex - 2].classList.add("leaving");
+            }
         }
 
         function playVideo(videoId) {
