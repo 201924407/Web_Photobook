@@ -19,27 +19,14 @@
         }
 
         .desk {
-            background-color: #d2b48c; /* 목재 색상 */
-            background-image: url('https://via.placeholder.com/1200x700.png?text=목재+책상+배경'); /* 목재 텍스처 임시 이미지 */
-            background-size: cover;
             width: 1200px;
             height: 700px;
             position: relative;
+            background-image: url('/background_desk.png'); /* 제공된 배경 이미지로 교체 */
+            background-size: cover;
+            background-position: center;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        /* 책상 위 소품 (배경 이미지에 포함) */
-        .desk::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0c8AAAAASUVORK5CYII='); /* 투명 이미지, 실제 이미지로 교체 필요 */
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: 50% 50%;
-            opacity: 0.8;
         }
 
         .book, .tablet {
@@ -51,38 +38,19 @@
         .book {
             width: 200px; /* 포토 프레임 크기 조정 */
             height: 150px;
-            background-color: #fff;
-            border: 5px solid #000; /* 검은 테두리 */
-            border-radius: 5px;
-            top: 150px;
-            left: 150px;
+            top: 200px; /* 이미지에서 포토 프레임 위치 조정 */
+            left: 150px; /* 이미지에서 포토 프레임 위치 조정 */
             box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-            background-image: url('https://via.placeholder.com/200x150.png?text=추억+사진'); /* 임시 사진 */
-            background-size: cover;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1em;
-            color: #333;
-            text-align: center;
+            background: transparent; /* 배경 제거, 이미지에 의존 */
         }
 
         .tablet {
             width: 250px;
             height: 150px;
-            background-color: #e0f0ff;
-            border: 2px solid #87CEEB;
-            border-radius: 5px;
-            top: 150px;
-            left: 400px;
+            top: 200px; /* 이미지에서 태블릿 위치 조정 */
+            left: 400px; /* 이미지에서 태블릿 위치 조정 */
             box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-            background-image: url('https://via.placeholder.com/250x150.png?text=태블릿+화면'); /* 임시 태블릿 화면 */
-            background-size: cover;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1em;
-            color: #333;
+            background: transparent; /* 배경 제거, 이미지에 의존 */
         }
 
         .book:hover, .tablet:hover {
@@ -213,14 +181,14 @@
             .book {
                 width: 150px;
                 height: 100px;
-                top: 100px;
+                top: 150px;
                 left: 50px;
             }
 
             .tablet {
                 width: 200px;
                 height: 100px;
-                top: 100px;
+                top: 150px;
                 left: 250px;
             }
 
@@ -261,10 +229,10 @@
     <div class="enlarged tablet-enlarged" id="tabletView" style="display: none;">
         <button class="back-button" onclick="hideEnlarged()">뒤로가기</button>
         <div class="video-gallery">
-            <!-- 10개의 동영상 (임시 MP4 URL 사용, 실제 동영상으로 교체 필요) -->
+            <!-- 10개의 동영상 (your-video.mp4 사용, 실제 동영상으로 교체 필요) -->
             <div class="video-item">
                 <video id="video1">
-                    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                    <source src="/your-video.mp4" type="video/mp4">
                     브라우저가 동영상을 지원하지 않습니다.
                 </video>
                 <div class="video-controls">
@@ -273,10 +241,10 @@
                     <button onclick="stopVideo('video1')">정지</button>
                 </div>
             </div>
-            <!-- 나머지 9개 동영상도 비슷한 형식으로 추가 (총 10개) -->
+            <!-- 나머지 9개 동영상도 비슷한 형식으로 추가 (your-video.mp4 복사본 사용) -->
             <div class="video-item">
                 <video id="video10">
-                    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                    <source src="/your-video.mp4" type="video/mp4">
                     브라우저가 동영상을 지원하지 않습니다.
                 </video>
                 <div class="video-controls">
