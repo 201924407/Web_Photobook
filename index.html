@@ -59,23 +59,199 @@
 </head>
 <body>
     <div class="desk">
-        <div class="book" onclick="showBook()"></div>
-        <div class="tablet" onclick="showTablet()"></div>
-        <div class="letter" onclick="showLetter()"></div>
+        <div class="section top-section">
+            <button id="book-btn" onclick="showBook()">추억의 책</button>
+        </div>
+        <div class="section bottom-section">
+            <button id="tablet-btn" onclick="showTablet()">추억의 영상</button>
+            <button id="letter-btn" onclick="showLetter()">추억의 편지</button>
+        </div>
+    </div>
+
+    <div class="enlarged book-enlarged" id="bookView" style="display: none;">
+        <button class="back-button" onclick="hideEnlarged()">뒤로가기</button>
+        <div class="photo-slideshow">
+            <!-- 20개의 사진 슬라이드 (임시 이미지 URL 사용) -->
+            <img class="slide" src="https://via.placeholder.com/800x600.png?text=추억+사진+1" alt="추억 사진 1">
+            <img class="slide" src="https://via.placeholder.com/800x600.png?text=추억+사진+2" alt="추억 사진 2">
+            <img class="slide" src="https://via.placeholder.com/800x600.png?text=추억+사진+3" alt="추억 사진 3">
+            <!-- 나머지 17개 사진도 비슷한 형식으로 추가 (총 20개) -->
+            <img class="slide" src="https://via.placeholder.com/800x600.png?text=추억+사진+20" alt="추억 사진 20">
+        </div>
+        <div class="slide-controls">
+            <button onclick="prevPhoto()">이전 페이지</button>
+            <button onclick="nextPhoto()">다음 페이지</button>
+        </div>
+    </div>
+
+    <div class="enlarged tablet-enlarged" id="tabletView" style="display: none;">
+        <button class="back-button" onclick="hideEnlarged()">뒤로가기</button>
+        <div class="video-gallery">
+            <!-- 10개의 동영상 (your-video.mp4 사용, 실제 동영상으로 교체 필요) -->
+            <div class="video-item">
+                <video id="video1">
+                    <source src="/your-video.mp4" type="video/mp4">
+                    브라우저가 동영상을 지원하지 않습니다.
+                </video>
+                <div class="video-controls">
+                    <button onclick="playVideo('video1')">재생</button>
+                    <button onclick="pauseVideo('video1')">일시정지</button>
+                    <button onclick="stopVideo('video1')">정지</button>
+                </div>
+            </div>
+            <!-- 나머지 9개 동영상도 비슷한 형식으로 추가 (your-video.mp4 복사본 사용) -->
+            <div class="video-item">
+                <video id="video10">
+                    <source src="/your-video.mp4" type="video/mp4">
+                    브라우저가 동영상을 지원하지 않습니다.
+                </video>
+                <div class="video-controls">
+                    <button onclick="playVideo('video10')">재생</button>
+                    <button onclick="pauseVideo('video10')">일시정지</button>
+                    <button onclick="stopVideo('video10')">정지</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="enlarged letter-enlarged" id="letterView" style="display: none;">
+        <button class="back-button" onclick="hideEnlarged()">뒤로가기</button>
+        <div class="letter-gallery">
+            <!-- 5개의 편지 이미지 슬라이드 (임시 이미지 URL 사용) -->
+            <img class="letter-slide" src="https://via.placeholder.com/800x600.png?text=추억+편지+1" alt="추억 편지 1">
+            <img class="letter-slide" src="https://via.placeholder.com/800x600.png?text=추억+편지+2" alt="추억 편지 2">
+            <img class="letter-slide" src="https://via.placeholder.com/800x600.png?text=추억+편지+3" alt="추억 편지 3">
+            <img class="letter-slide" src="https://via.placeholder.com/800x600.png?text=추억+편지+4" alt="추억 편지 4">
+            <img class="letter-slide" src="https://via.placeholder.com/800x600.png?text=추억+편지+5" alt="추억 편지 5">
+        </div>
+        <div class="letter-controls">
+            <button onclick="prevLetter()">이전 편지</button>
+            <button onclick="nextLetter()">다음 편지</button>
+        </div>
     </div>
 
     <script>
+        let photoIndex = 0;
+        let letterIndex = 0;
+        let isScrolled = false;
+
         function showBook() {
-            alert("추억의 책 보기");
+            document.getElementById('bookView').style.display = 'block';
+            showPhotos();
         }
 
         function showTablet() {
-            alert("추억의 영상 보기");
+            document.getElementById('tabletView').style.display = 'block';
         }
 
         function showLetter() {
-            alert("추억의 편지 보기");
+            document.getElementById('letterView').style.display = 'block';
+            showLetters();
         }
+
+        function hideEnlarged() {
+            document.getElementById('bookView').style.display = 'none';
+            document.getElementById('tabletView').style.display = 'none';
+            document.getElementById('letterView').style.display = 'none';
+        }
+
+        function showPhotos() {
+            const photos = document.getElementsByClassName("slide");
+            for (let i = 0; i < photos.length; i++) {
+                photos[i].classList.remove("active");
+            }
+            photoIndex++;
+            if (photoIndex > photos.length) { photoIndex = 1; }
+            photos[photoIndex - 1].classList.add("active");
+            setTimeout(showPhotos, 5000); // 5초마다 자동 전환
+        }
+
+        function prevPhoto() {
+            const photos = document.getElementsByClassName("slide");
+            photoIndex--;
+            if (photoIndex < 1) { photoIndex = photos.length; }
+            for (let i = 0; i < photos.length; i++) {
+                photos[i].classList.remove("active");
+            }
+            photos[photoIndex - 1].classList.add("active");
+        }
+
+        function nextPhoto() {
+            const photos = document.getElementsByClassName("slide");
+            photoIndex++;
+            if (photoIndex > photos.length) { photoIndex = 1; }
+            for (let i = 0; i < photos.length; i++) {
+                photos[i].classList.remove("active");
+            }
+            photos[photoIndex - 1].classList.add("active");
+        }
+
+        function playVideo(videoId) {
+            const video = document.getElementById(videoId);
+            video.play();
+        }
+
+        function pauseVideo(videoId) {
+            const video = document.getElementById(videoId);
+            video.pause();
+        }
+
+        function stopVideo(videoId) {
+            const video = document.getElementById(videoId);
+            video.pause();
+            video.currentTime = 0;
+        }
+
+        function showLetters() {
+            const letters = document.getElementsByClassName("letter-slide");
+            for (let i = 0; i < letters.length; i++) {
+                letters[i].classList.remove("active");
+            }
+            letterIndex++;
+            if (letterIndex > letters.length) { letterIndex = 1; }
+            letters[letterIndex - 1].classList.add("active");
+            setTimeout(showLetters, 5000); // 5초마다 자동 전환
+        }
+
+        function prevLetter() {
+            const letters = document.getElementsByClassName("letter-slide");
+            letterIndex--;
+            if (letterIndex < 1) { letterIndex = letters.length; }
+            for (let i = 0; i < letters.length; i++) {
+                letters[i].classList.remove("active");
+            }
+            letters[letterIndex - 1].classList.add("active");
+        }
+
+        function nextLetter() {
+            const letters = document.getElementsByClassName("letter-slide");
+            letterIndex++;
+            if (letterIndex > letters.length) { letterIndex = 1; }
+            for (let i = 0; i < letters.length; i++) {
+                letters[i].classList.remove("active");
+            }
+            letters[letterIndex - 1].classList.add("active");
+        }
+
+        // 스크롤 애니메이션 및 섹션 전환
+        window.addEventListener('scroll', function() {
+            const desk = document.querySelector('.desk');
+            const scrollPosition = window.scrollY;
+            const windowHeight = window.innerHeight;
+
+            if (scrollPosition < windowHeight / 2) {
+                desk.classList.remove('scrolled-bottom');
+                desk.classList.add('scrolled-top');
+            } else {
+                desk.classList.remove('scrolled-top');
+                desk.classList.add('scrolled-bottom');
+            }
+        });
+
+        // 초기 로드 시 상단으로 스크롤
+        window.addEventListener('load', function() {
+            window.scrollTo(0, 0);
+        });
     </script>
 </body>
 </html>
