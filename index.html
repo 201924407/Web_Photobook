@@ -17,9 +17,7 @@
 
         .desk {
             width: 100%;
-            height: auto;
-            min-height: 100vh;
-            max-height: 100vh;
+            height: 200vh;
             position: relative;
             background-image: url('/background_desk_mobile.png');
             background-size: cover;
@@ -28,116 +26,95 @@
             border-radius: 0;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             overflow: hidden;
+            scroll-behavior: smooth;
         }
 
-        .book, .tablet, .letter {
+        .section {
+            width: 100%;
+            height: 50vh;
+            position: relative;
+        }
+
+        .top-section {
+            top: 0;
+        }
+
+        .bottom-section {
+            top: 50vh;
+        }
+
+        .button {
             position: absolute;
-            width: 200px;
-            height: 100px;
-            background-color: rgba(255, 255, 255, 0);
             cursor: pointer;
+            width: 100px;
+            height: 30px;
+            background-color: transparent;
+            border: none;
         }
 
-        .book {
-            top: 140px;
-            left: 30%;
-            transform: translateX(-50%);
+        #book-btn {
+            top: 130px;
+            left: 50px;
         }
 
-        .tablet {
-            top: 360px;
-            left: 70%;
-            transform: translateX(-50%);
+        #tablet-btn {
+            top: 250px;
+            left: 220px;
         }
 
-        .letter {
-            top: 600px;
-            left: 20%;
-            transform: translateX(-50%);
+        #letter-btn {
+            top: 450px;
+            left: 30px;
+        }
+
+        .enlarged {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            background-color: #fff;
+            border: 3px solid #87CEEB;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            overflow: auto;
+            display: none;
+            width: 90%;
+            max-width: 90%;
+            height: auto;
+            max-height: 80vh;
         }
     </style>
 </head>
 <body>
     <div class="desk">
         <div class="section top-section">
-            <button id="book-btn" onclick="showBook()">추억의 책</button>
+            <button id="book-btn" class="button" onclick="showBook()"></button>
         </div>
         <div class="section bottom-section">
-            <button id="tablet-btn" onclick="showTablet()">추억의 영상</button>
-            <button id="letter-btn" onclick="showLetter()">추억의 편지</button>
+            <button id="tablet-btn" class="button" onclick="showTablet()"></button>
+            <button id="letter-btn" class="button" onclick="showLetter()"></button>
         </div>
     </div>
 
-    <div class="enlarged book-enlarged" id="bookView" style="display: none;">
-        <button class="back-button" onclick="hideEnlarged()">뒤로가기</button>
-        <div class="photo-slideshow">
-            <!-- 20개의 사진 슬라이드 (임시 이미지 URL 사용) -->
-            <img class="slide" src="https://via.placeholder.com/800x600.png?text=추억+사진+1" alt="추억 사진 1">
-            <img class="slide" src="https://via.placeholder.com/800x600.png?text=추억+사진+2" alt="추억 사진 2">
-            <img class="slide" src="https://via.placeholder.com/800x600.png?text=추억+사진+3" alt="추억 사진 3">
-            <!-- 나머지 17개 사진도 비슷한 형식으로 추가 (총 20개) -->
-            <img class="slide" src="https://via.placeholder.com/800x600.png?text=추억+사진+20" alt="추억 사진 20">
-        </div>
-        <div class="slide-controls">
-            <button onclick="prevPhoto()">이전 페이지</button>
-            <button onclick="nextPhoto()">다음 페이지</button>
-        </div>
+    <div class="enlarged" id="bookView">
+        <button onclick="hideEnlarged()">뒤로가기</button>
+        <p>추억의 책 내용</p>
     </div>
 
-    <div class="enlarged tablet-enlarged" id="tabletView" style="display: none;">
-        <button class="back-button" onclick="hideEnlarged()">뒤로가기</button>
-        <div class="video-gallery">
-            <!-- 10개의 동영상 (your-video.mp4 사용, 실제 동영상으로 교체 필요) -->
-            <div class="video-item">
-                <video id="video1">
-                    <source src="/your-video.mp4" type="video/mp4">
-                    브라우저가 동영상을 지원하지 않습니다.
-                </video>
-                <div class="video-controls">
-                    <button onclick="playVideo('video1')">재생</button>
-                    <button onclick="pauseVideo('video1')">일시정지</button>
-                    <button onclick="stopVideo('video1')">정지</button>
-                </div>
-            </div>
-            <!-- 나머지 9개 동영상도 비슷한 형식으로 추가 (your-video.mp4 복사본 사용) -->
-            <div class="video-item">
-                <video id="video10">
-                    <source src="/your-video.mp4" type="video/mp4">
-                    브라우저가 동영상을 지원하지 않습니다.
-                </video>
-                <div class="video-controls">
-                    <button onclick="playVideo('video10')">재생</button>
-                    <button onclick="pauseVideo('video10')">일시정지</button>
-                    <button onclick="stopVideo('video10')">정지</button>
-                </div>
-            </div>
-        </div>
+    <div class="enlarged" id="tabletView">
+        <button onclick="hideEnlarged()">뒤로가기</button>
+        <p>추억의 영상 내용</p>
     </div>
 
-    <div class="enlarged letter-enlarged" id="letterView" style="display: none;">
-        <button class="back-button" onclick="hideEnlarged()">뒤로가기</button>
-        <div class="letter-gallery">
-            <!-- 5개의 편지 이미지 슬라이드 (임시 이미지 URL 사용) -->
-            <img class="letter-slide" src="https://via.placeholder.com/800x600.png?text=추억+편지+1" alt="추억 편지 1">
-            <img class="letter-slide" src="https://via.placeholder.com/800x600.png?text=추억+편지+2" alt="추억 편지 2">
-            <img class="letter-slide" src="https://via.placeholder.com/800x600.png?text=추억+편지+3" alt="추억 편지 3">
-            <img class="letter-slide" src="https://via.placeholder.com/800x600.png?text=추억+편지+4" alt="추억 편지 4">
-            <img class="letter-slide" src="https://via.placeholder.com/800x600.png?text=추억+편지+5" alt="추억 편지 5">
-        </div>
-        <div class="letter-controls">
-            <button onclick="prevLetter()">이전 편지</button>
-            <button onclick="nextLetter()">다음 편지</button>
-        </div>
+    <div class="enlarged" id="letterView">
+        <button onclick="hideEnlarged()">뒤로가기</button>
+        <p>추억의 편지 내용</p>
     </div>
 
     <script>
-        let photoIndex = 0;
-        let letterIndex = 0;
-        let isScrolled = false;
-
         function showBook() {
             document.getElementById('bookView').style.display = 'block';
-            showPhotos();
         }
 
         function showTablet() {
@@ -146,7 +123,6 @@
 
         function showLetter() {
             document.getElementById('letterView').style.display = 'block';
-            showLetters();
         }
 
         function hideEnlarged() {
@@ -154,104 +130,6 @@
             document.getElementById('tabletView').style.display = 'none';
             document.getElementById('letterView').style.display = 'none';
         }
-
-        function showPhotos() {
-            const photos = document.getElementsByClassName("slide");
-            for (let i = 0; i < photos.length; i++) {
-                photos[i].classList.remove("active");
-            }
-            photoIndex++;
-            if (photoIndex > photos.length) { photoIndex = 1; }
-            photos[photoIndex - 1].classList.add("active");
-            setTimeout(showPhotos, 5000); // 5초마다 자동 전환
-        }
-
-        function prevPhoto() {
-            const photos = document.getElementsByClassName("slide");
-            photoIndex--;
-            if (photoIndex < 1) { photoIndex = photos.length; }
-            for (let i = 0; i < photos.length; i++) {
-                photos[i].classList.remove("active");
-            }
-            photos[photoIndex - 1].classList.add("active");
-        }
-
-        function nextPhoto() {
-            const photos = document.getElementsByClassName("slide");
-            photoIndex++;
-            if (photoIndex > photos.length) { photoIndex = 1; }
-            for (let i = 0; i < photos.length; i++) {
-                photos[i].classList.remove("active");
-            }
-            photos[photoIndex - 1].classList.add("active");
-        }
-
-        function playVideo(videoId) {
-            const video = document.getElementById(videoId);
-            video.play();
-        }
-
-        function pauseVideo(videoId) {
-            const video = document.getElementById(videoId);
-            video.pause();
-        }
-
-        function stopVideo(videoId) {
-            const video = document.getElementById(videoId);
-            video.pause();
-            video.currentTime = 0;
-        }
-
-        function showLetters() {
-            const letters = document.getElementsByClassName("letter-slide");
-            for (let i = 0; i < letters.length; i++) {
-                letters[i].classList.remove("active");
-            }
-            letterIndex++;
-            if (letterIndex > letters.length) { letterIndex = 1; }
-            letters[letterIndex - 1].classList.add("active");
-            setTimeout(showLetters, 5000); // 5초마다 자동 전환
-        }
-
-        function prevLetter() {
-            const letters = document.getElementsByClassName("letter-slide");
-            letterIndex--;
-            if (letterIndex < 1) { letterIndex = letters.length; }
-            for (let i = 0; i < letters.length; i++) {
-                letters[i].classList.remove("active");
-            }
-            letters[letterIndex - 1].classList.add("active");
-        }
-
-        function nextLetter() {
-            const letters = document.getElementsByClassName("letter-slide");
-            letterIndex++;
-            if (letterIndex > letters.length) { letterIndex = 1; }
-            for (let i = 0; i < letters.length; i++) {
-                letters[i].classList.remove("active");
-            }
-            letters[letterIndex - 1].classList.add("active");
-        }
-
-        // 스크롤 애니메이션 및 섹션 전환
-        window.addEventListener('scroll', function() {
-            const desk = document.querySelector('.desk');
-            const scrollPosition = window.scrollY;
-            const windowHeight = window.innerHeight;
-
-            if (scrollPosition < windowHeight / 2) {
-                desk.classList.remove('scrolled-bottom');
-                desk.classList.add('scrolled-top');
-            } else {
-                desk.classList.remove('scrolled-top');
-                desk.classList.add('scrolled-bottom');
-            }
-        });
-
-        // 초기 로드 시 상단으로 스크롤
-        window.addEventListener('load', function() {
-            window.scrollTo(0, 0);
-        });
     </script>
 </body>
 </html>
