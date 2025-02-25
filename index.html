@@ -15,11 +15,9 @@
             overflow-x: hidden;
         }
 
-        .desk {
+        .container {
             width: 100%;
-            height: auto;
-            min-height: 100vh;
-            max-height: 100vh;
+            min-height: 300vh; /* 3개의 페이지로 확장 */
             position: relative;
             background-image: url('/background_desk_mobile.png');
             background-size: cover;
@@ -27,33 +25,58 @@
             background-repeat: no-repeat;
             border-radius: 0;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            overflow: hidden;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            transition: transform 0.5s ease;
         }
 
-        .book, .tablet, .letter {
-            position: absolute;
-            width: 200px;
-            height: 100px;
-            background-color: rgba(255, 255, 255, 0);
+        .section {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .section.empty {
+            background: none; /* 첫 번째 페이지 비우기 */
+        }
+
+        .section.photo, .section.video, .section.letter {
+            background: none; /* 동일한 배경 유지 */
+        }
+
+        .button {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             cursor: pointer;
+            opacity: 0; /* 초기에는 숨김 */
+            transition: opacity 0.5s ease; /* 페이드인 애니메이션 */
         }
 
-        .book {
-            top: 140px;
-            left: 30%;
-            transform: translateX(-50%);
+        .button.active {
+            opacity: 1; /* 페이지 이동 완료 시 표시 */
         }
 
-        .tablet {
-            top: 360px;
-            left: 70%;
-            transform: translateX(-50%);
+        .button:hover {
+            transform: scale(1.05); /* 버튼 클릭 시 확대 애니메이션 */
+            transition: transform 0.3s ease;
         }
 
-        .letter {
-            top: 600px;
-            left: 20%;
-            transform: translateX(-50%);
+        #photo-btn {
+            background-image: url('/button/picture.png'); /* 두 번째 페이지 사진 버튼 */
+        }
+
+        #video-btn {
+            background-image: url('/button/video.png'); /* 세 번째 페이지 영상 버튼 (포스터 이미지) */
+        }
+
+        #letter-btn {
+            background-image: url('/button/letter.png'); /* 네 번째 페이지 편지 버튼 (임시 이미지) */
         }
 
         .enlarged {
@@ -163,7 +186,7 @@
             right: 20px;
             z-index: 2000;
             display: flex;
-            flex-direction: column; /* 세로로 배치 */
+            flex-direction: column;
             align-items: flex-end;
             gap: 10px;
         }
@@ -208,10 +231,17 @@
     </style>
 </head>
 <body>
-    <div class="desk">
-        <div class="book" onclick="showBook()"></div>
-        <div class="tablet" onclick="showTablet()"></div>
-        <div class="letter" onclick="showLetter()"></div>
+    <div class="container">
+        <div class="section empty"></div>
+        <div class="section photo">
+            <div id="photo-btn" class="button" onclick="showBook()"></div>
+        </div>
+        <div class="section video">
+            <div id="video-btn" class="button" onclick="showTablet()"></div>
+        </div>
+        <div class="section letter">
+            <div id="letter-btn" class="button" onclick="showLetter()"></div>
+        </div>
     </div>
 
     <audio id="backgroundMusic" loop>
@@ -276,6 +306,7 @@
         let letterIndex = 0;
         const audio = document.getElementById('backgroundMusic');
         let isPlaying = false;
+        let currentSection = 0;
 
         // 페이지 로드 시 초기 설정 (배경음 재생 시작)
         window.addEventListener('load', function() {
@@ -289,6 +320,38 @@
                 document.getElementById('toggleAudio').textContent = '배경음 켜기';
             });
         });
+
+        // 스크롤 이벤트 처리
+        window.addEventListener('scroll', function() {
+            const scrollPosition = window.scrollY;
+            const windowHeight = window.innerHeight;
+            const sections = document.querySelectorAll('.section');
+            let newSection = 0;
+
+            sections.forEach((section, index) => {
+                const sectionTop = section.offsetTop;
+                if (scrollPosition >= sectionTop - windowHeight / 2 && scrollPosition < sectionTop + windowHeight / 2) {
+                    newSection = index;
+                }
+            });
+
+            if (newSection !== currentSection) {
+                currentSection = newSection;
+                updateButtons();
+            }
+        });
+
+        // 버튼 표시/숨김 및 페이드인 애니메이션
+        function updateButtons() {
+            const buttons = document.querySelectorAll('.button');
+            buttons.forEach((button, index) => {
+                if (index === currentSection) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+        }
 
         function toggleAudio() {
             if (isPlaying) {
@@ -317,15 +380,28 @@
         function showBook() {
             document.getElementById('bookView').style.display = 'flex';
             initPhotos();
+            audio.play().then(() => {
+                isPlaying = true;
+                document.getElementById('toggleAudio').textContent = '배경음 끄기';
+            }).catch(error => console.log("재생 실패: ", error));
         }
 
         function showTablet() {
             document.getElementById('tabletView').style.display = 'flex';
+            initVideo();
+            audio.play().then(() => {
+                isPlaying = true;
+                document.getElementById('toggleAudio').textContent = '배경음 끄기';
+            }).catch(error => console.log("재생 실패: ", error));
         }
 
         function showLetter() {
             document.getElementById('letterView').style.display = 'flex';
             initLetters();
+            audio.play().then(() => {
+                isPlaying = true;
+                document.getElementById('toggleAudio').textContent = '배경음 끄기';
+            }).catch(error => console.log("재생 실패: ", error));
         }
 
         function hideEnlarged() {
@@ -341,6 +417,19 @@
             }
             photoIndex = 0;
             photos[photoIndex].classList.add("active");
+        }
+
+        function initVideo() {
+            // 영상 초기화 로직 (필요 시 추가)
+        }
+
+        function initLetters() {
+            const letters = document.getElementsByClassName("letter-slide");
+            for (let i = 0; i < letters.length; i++) {
+                letters[i].classList.remove("active");
+            }
+            letterIndex = 0;
+            letters[letterIndex].classList.add("active");
         }
 
         function prevPhoto() {
@@ -377,15 +466,6 @@
             const video = document.getElementById(videoId);
             video.pause();
             video.currentTime = 0;
-        }
-
-        function initLetters() {
-            const letters = document.getElementsByClassName("letter-slide");
-            for (let i = 0; i < letters.length; i++) {
-                letters[i].classList.remove("active");
-            }
-            letterIndex = 0;
-            letters[letterIndex].classList.add("active");
         }
 
         function prevLetter() {
