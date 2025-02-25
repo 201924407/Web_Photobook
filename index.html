@@ -36,10 +36,10 @@
         }
 
         .book {
-            width: 200px; /* 포토 프레임 크기 조정 */
+            width: 200px; /* 왼쪽 흰색 포토 프레임 크기 조정 */
             height: 150px;
-            top: 200px; /* 이미지에서 포토 프레임 위치 조정 */
-            left: 150px; /* 이미지에서 포토 프레임 위치 조정 */
+            top: 200px; /* 이미지에서 왼쪽 포토 프레임의 세로 위치 */
+            left: 100px; /* 이미지에서 왼쪽 포토 프레임의 가로 위치 */
             box-shadow: 0 5px 10px rgba(0,0,0,0.2);
             background: transparent; /* 배경 제거, 이미지에 의존 */
         }
@@ -47,8 +47,8 @@
         .tablet {
             width: 250px;
             height: 150px;
-            top: 200px; /* 이미지에서 태블릿 위치 조정 */
-            left: 400px; /* 이미지에서 태블릿 위치 조정 */
+            top: 200px; /* 이미지에서 오른쪽 태블릿의 세로 위치 */
+            left: 400px; /* 이미지에서 오른쪽 태블릿의 가로 위치 */
             box-shadow: 0 5px 10px rgba(0,0,0,0.2);
             background: transparent; /* 배경 제거, 이미지에 의존 */
         }
@@ -207,7 +207,7 @@
 <body>
     <div class="desk">
         <div class="book" onclick="showBook()">추억의 책</div>
-        <div class="tablet" onclick="showTablet()">추억의 태블릿</div>
+        <div class="tablet" onclick="showTablet()">추억의 영상</div>
     </div>
 
     <div class="enlarged book-enlarged" id="bookView" style="display: none;">
