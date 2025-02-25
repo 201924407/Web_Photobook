@@ -34,14 +34,8 @@
             position: absolute;
             width: 200px;
             height: 100px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             background-color: rgba(255, 255, 255, 0);
-            border-radius: 5px;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
             cursor: pointer;
-            transition: transform 0.3s ease;
         }
 
         .book {
@@ -61,35 +55,13 @@
             left: 20%;
             transform: translateX(-50%);
         }
-
-        .book:hover, .tablet:hover, .letter:hover {
-            transform: translateX(-50%) scale(1.1);
-        }
-
-        .enlarged {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1000;
-            background-color: #fff;
-            border: 3px solid #87CEEB;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            overflow: auto;
-            display: none;
-            width: 90%;
-            max-width: 90%;
-            height: auto;
-            max-height: 80vh;
-        }
     </style>
 </head>
 <body>
     <div class="desk">
-        <div class="book" onclick="showBook()">추억의 책</div>
-        <div class="tablet" onclick="showTablet()">추억의 영상</div>
-        <div class="letter" onclick="showLetter()">추억의 편지</div>
+        <div class="book" onclick="showBook()"></div>
+        <div class="tablet" onclick="showTablet()"></div>
+        <div class="letter" onclick="showLetter()"></div>
     </div>
 
     <script>
