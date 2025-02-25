@@ -158,12 +158,15 @@
             background-color: #76c0e7;
         }
 
-        /* 배경음 버튼 스타일 */
+        /* 배경음 제어 영역 스타일 */
         .audio-control {
             position: fixed;
             bottom: 20px;
             right: 20px;
             z-index: 2000;
+            display: flex;
+            align-items: center;
+            gap: 10px; /* 버튼과 슬라이더 사이 간격 */
         }
 
         .audio-control button {
@@ -180,6 +183,29 @@
         .audio-control button:hover {
             background-color: #76c0e7;
         }
+
+        .audio-control input[type="range"] {
+            width: 100px;
+            cursor: pointer;
+            -webkit-appearance: none;
+            background: #ddd;
+            border-radius: 5px;
+            height: 5px;
+            outline: none;
+        }
+
+        .audio-control input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 15px;
+            height: 15px;
+            background: #87CEEB;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .audio-control input[type="range"]::-webkit-slider-thumb:hover {
+            background: #76c0e7;
+        }
     </style>
 </head>
 <body>
@@ -195,9 +221,10 @@
         브라우저가 오디오를 지원하지 않습니다.
     </audio>
 
-    <!-- 배경음 제어 버튼 -->
+    <!-- 배경음 제어 영역 -->
     <div class="audio-control">
         <button id="toggleAudio" onclick="toggleAudio()">배경음 끄기</button>
+        <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="1" oninput="adjustVolume(this.value)">
     </div>
 
     <div class="enlarged book-enlarged" id="bookView">
@@ -253,8 +280,9 @@
         const audio = document.getElementById('backgroundMusic');
         let isPlaying = false;
 
-        // 페이지 로드 시 배경음 자동 재생
+        // 페이지 로드 시 배경음 자동 재생 및 초기 볼륨 설정
         window.addEventListener('load', function() {
+            audio.volume = 1; // 초기 볼륨 100%
             audio.play();
             isPlaying = true;
             document.getElementById('toggleAudio').textContent = '배경음 끄기';
@@ -270,6 +298,20 @@
                 document.getElementById('toggleAudio').textContent = '배경음 끄기';
             }
             isPlaying = !isPlaying;
+        }
+
+        // 볼륨 조정
+        function adjustVolume(volume) {
+            audio.volume = volume; // 0.0 ~ 1.0 사이 값으로 설정
+            if (volume > 0 && !isPlaying) {
+                audio.play();
+                isPlaying = true;
+                document.getElementById('toggleAudio').textContent = '배경음 끄기';
+            } else if (volume == 0 && isPlaying) {
+                audio.pause();
+                isPlaying = false;
+                document.getElementById('toggleAudio').textContent = '배경음 켜기';
+            }
         }
 
         function showBook() {
