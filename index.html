@@ -50,12 +50,20 @@
             background-position: center;
             background-repeat: no-repeat;
             cursor: pointer;
-            opacity: 0;
+            opacity: 1; /* Changed from 0 to ensure buttons are visible by default */
             transition: opacity 0.3s ease;
+            position: absolute; /* Ensure buttons are positioned correctly */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         .item.active {
-            opacity: 1;
+            opacity: 1; /* Ensure active items remain visible */
+        }
+
+        .item:not(.active) {
+            opacity: 0; /* Hide inactive items */
         }
 
         .item:hover {
@@ -378,34 +386,35 @@
         <button class="back-button" onclick="hideEnlarged('tablet')">뒤로가기</button>
         <div class="media-container">
             <div class="video-gallery">
-                <video class="video-slide" src="/videos/video1.mp4" alt="추억 영상 1" preload="metadata"></video>
-                <video class="video-slide" src="/videos/video2.mp4" alt="추억 영상 2" preload="metadata"></video>
-                <video class="video-slide" src="/videos/video3.mp4" alt="추억 영상 3" preload="metadata"></video>
-                <video class="video-slide" src="/videos/video4.mp4" alt="추억 영상 4" preload="metadata"></video>
-                <video class="video-slide" src="/videos/video5.mp4" alt="추억 영상 5" preload="metadata"></video>
-                <video class="video-slide" src="/videos/video6.mp4" alt="추억 영상 6" preload="metadata"></video>
-                <video class="video-slide" src="/videos/video7.mp4" alt="추억 영상 7" preload="metadata"></video>
-                <video class="video-slide" src="/videos/video8.mp4" alt="추억 영상 8" preload="metadata"></video>
-                <video class="video-slide" src="/videos/video9.mp4" alt="추억 영상 9" preload="metadata"></video>
-                <video class="video-slide" src="/videos/video10.mp4" alt="추억 영상 10" preload="metadata"></video>
-                <video class="video-slide" src="/videos/video11.mp4" alt="추억 영상 11" preload="metadata"></video>
-                <video class="video-slide" src="/videos/video12.mp4" alt="추억 영상 12" preload="metadata"></video>
-                <video class="video-slide" src="/videos/video13.mp4" alt="추억 영상 13" preload="metadata"></video>
-                <video class="video-slide" src="/videos/video14.mp4" alt="추억 영상 14" preload="metadata"></video>
-                <video class="video-slide" src="/videos/video15.mp4" alt="추억 영상 15" preload="metadata"></video>
-                <video class="video-slide" src="/videos/video16.mp4" alt="추억 영상 16" preload="metadata"></video>
-                <video class="video-slide" src="/videos/video17.mp4" alt="추억 영상 17" preload="metadata"></video>
-                <video class="video-slide" src="/videos/video18.mp4" alt="추억 영상 18" preload="metadata"></video>
-                <video class="video-slide" src="/videos/video19.mp4" alt="추억 영상 19" preload="metadata"></video>
-                <video class="video-slide" src="/videos/video20.mp4" alt="추억 영상 20" preload="metadata"></video>
-                <video class="video-slide" src="/videos/video21.mp4" alt="추억 영상 21" preload="metadata"></video>
-                <video class="video-slide" src="/videos/video22.mp4" alt="추억 영상 22" preload="metadata"></video>
-                <video class="video-slide" src="/videos/video23.mp4" alt="추억 영상 23" preload="metadata"></video>
-                <video class="video-slide" src="/videos/video24.mp4" alt="추억 영상 24" preload="metadata"></video>
-                <video class="video-slide" src="/videos/video25.mp4" alt="추억 영상 25" preload="metadata"></video>
-                <video class="video-slide" src="/videos/video26.mp4" alt="추억 영상 26" preload="metadata"></video>
-                <video class="video-slide" src="/videos/video27.mp4" alt="추억 영상 27" preload="metadata"></video>
-                <video class="video-slide" src="/videos/video28.mp4" alt="추억 영상 28" preload="metadata"></video>
+                <video class="video-slide" src="/web/video1.mp4" alt="추억 영상 1" preload="metadata"></video>
+                <video class="video-slide" src="/web/video2.mp4" alt="추억 영상 2" preload="metadata"></video>
+                <video class="video-slide" src="/web/video3.mp4" alt="추억 영상 3" preload="metadata"></video>
+                <video class="video-slide" src="/web/video4.mp4" alt="추억 영상 4" preload="metadata"></video>
+                <video class="video-slide" src="/web/video5.mp4" alt="추억 영상 5" preload="metadata"></video>
+                <video class="video-slide" src="/web/video6.mp4" alt="추억 영상 6" preload="metadata"></video>
+                <video class="video-slide" src="/web/video7.mp4" alt="추억 영상 7" preload="metadata"></video>
+                <video class="video-slide" src="/web/video8.mp4" alt="추억 영상 8" preload="metadata"></video>
+                <video class="video-slide" src="/web/video9.mp4" alt="추억 영상 9" preload="metadata"></video>
+                <video class="video-slide" src="/web/video10.mp4" alt="추억 영상 10" preload="metadata"></video>
+                <video class="video-slide" src="/web/video11.mp4" alt="추억 영상 11" preload="metadata"></video>
+                <video class="video-slide" src="/web/video12.mp4" alt="추억 영상 12" preload="metadata"></video>
+                <video class="video-slide" src="/web/video13.mp4" alt="추억 영상 13" preload="metadata"></video>
+                <video class="video-slide" src="/web/video14.mp4" alt="추억 영상 14" preload="metadata"></video>
+                <video class="video-slide" src="/web/video15.mp4" alt="추억 영상 15" preload="metadata"></video>
+                <video class="video-slide" src="/web/video16.mp4" alt="추억 영상 16" preload="metadata"></video>
+                <video class="video-slide" src="/web/video17.mp4" alt="추억 영상 17" preload="metadata"></video>
+                <video class="video-slide" src="/web/video18.mp4" alt="추억 영상 18" preload="metadata"></video>
+                <video class="video-slide" src="/web/video19.mp4" alt="추억 영상 19" preload="metadata"></video>
+                <video class="video-slide" src="/web/video20.mp4" alt="추억 영상 20" preload="metadata"></video>
+                <video class="video-slide" src="/web/video21.mp4" alt="추억 영상 21" preload="metadata"></video>
+                <video class="video-slide" src="/web/video22.mp4" alt="추억 영상 22" preload="metadata"></video>
+                <video class="video-slide" src="/web/video23.mp4" alt="추억 영상 23" preload="metadata"></video>
+                <video class="video-slide" src="/web/video24.mp4" alt="추억 영상 24" preload="metadata"></video>
+                <video class="video-slide" src="/web/video25.mp4" alt="추억 영상 25" preload="metadata"></video>
+                <video class="video-slide" src="/web/video26.mp4" alt="추억 영상 26" preload="metadata"></video>
+                <video class="video-slide" src="/web/video27.mp4" alt="추억 영상 27" preload="metadata"></video>
+                <video class="video-slide" src="/web/video28.mp4" alt="추억 영상 28" preload="metadata"></video>
+                <video class="video-slide" src="/web/video29.mp4" alt="추억 영상 29" preload="metadata"></video>
             </div>
         </div>
         <div class="video-controls">
@@ -558,7 +567,7 @@
             if (view) {
                 view.style.display = 'none';
             } else {
-                console.error(`${type} view element not found');
+                console.error(`${type} view element not found`);
             }
         }
 
