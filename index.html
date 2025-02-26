@@ -41,28 +41,16 @@
 
         .item {
             position: absolute; /* 아이템을 절대 위치로 설정 */
-            transition: opacity 0.5s ease, transform 0.3s ease; /* 페이드인과 호버 확대 효과 */
-            opacity: 0; /* 초기에는 투명 */
+            transition: opacity 0.5s ease; /* 호버 효과 제거, 페이드인만 유지 */
+            opacity: 1; /* 초기에는 항상 보이도록 설정 */
+            width: 100%; /* 화면을 꽉 채우도록 너비 설정 */
+            height: 100%; /* 화면을 꽉 채우도록 높이 설정 */
+            background-size: cover; /* 이미지 비율 유지하며 화면 채우기 */
+            background-repeat: no-repeat;
+            cursor: pointer;
         }
 
-        .item.active {
-            opacity: 1; /* 활성화 시 보임 */
-        }
-
-        .item:hover {
-            transform: scale(1.05); /* 호버 시 약간 확대 */
-        }
-
-        /* 오디오 섹션 */
-        .audio .item#audio-image {
-            width: 200px;
-            height: 200px;
-            background-image: url('/images/audio_image.png');
-            top: 20%;
-            left: 70%;
-            transform: translate(-50%, -50%);
-        }
-
+        /* 재생/일시정지 버튼은 기존 크기와 위치 유지, 호버 효과 유지 */
         .audio .item#audio-play-pause {
             width: 80px;
             height: 80px;
@@ -70,8 +58,25 @@
             top: 50%;
             left: 30%;
             transform: translate(-50%, -50%);
+            transition: opacity 0.5s ease, transform 0.3s ease; /* 호버 효과 유지 */
         }
 
+        .audio .item#audio-play-pause:hover {
+            transform: scale(1.05); /* 호버 시 확대 유지 */
+        }
+
+        /* 오디오 이미지도 기존 크기 유지, 하지만 호버 효과 제거 */
+        .audio .item#audio-image {
+            width: 200px;
+            height: 200px;
+            background-image: url('/images/audio_image.png');
+            top: 20%;
+            left: 70%;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.5s ease; /* 호버 효과 제거 */
+        }
+
+        /* 음량 조절 슬라이더는 기존 위치 유지 */
         .audio input[type="range"]#volume-control {
             width: 200px;
             height: 20px;
@@ -81,110 +86,41 @@
             position: absolute;
         }
 
-        /* 사진 섹션 */
-        .photo .item#photo-btn {
-            width: 120px;
-            height: 120px;
-            background-image: url('/button/picture.png');
-            top: 50%;
-            left: 70%;
-            transform: translate(-50%, -50%);
-        }
-
-        .photo .item.photo-1 {
-            width: 200px;
-            height: 150px;
-            background-image: url('/pictures/picture_1.jpg');
-            top: 20%;
-            left: 30%;
-            transform: translate(-50%, -50%);
-            background-size: cover;
-        }
-
-        .photo .item.photo-2 {
-            width: 150px;
-            height: 100px;
-            background-image: url('/pictures/picture_2.jpg');
-            top: 60%;
-            left: 40%;
-            transform: translate(-50%, -50%);
-            background-size: cover;
-        }
-
-        .photo .item.photo-3 {
-            width: 120px;
-            height: 80px;
-            background-image: url('/pictures/picture_3.jpg');
-            top: 80%;
-            left: 70%;
-            transform: translate(-50%, -50%);
-            background-size: cover;
-        }
-
-        /* 비디오 섹션 */
-        .video .item#video-btn {
-            width: 120px;
-            height: 120px;
-            background-image: url('/button/video.png');
-            top: 50%;
-            left: 30%;
-            transform: translate(-50%, -50%);
-        }
-
-        .video .item.video-1 {
-            width: 200px;
-            height: 150px;
-            background-image: url('/your-video-thumbnail.jpg'); /* 비디오 썸네일로 대체 가능 */
-            top: 20%;
-            left: 70%;
-            transform: translate(-50%, -50%);
-            background-size: cover;
-        }
-
-        .video .item.video-2 {
-            width: 150px;
-            height: 100px;
-            background-image: url('/your-video-thumbnail2.jpg');
-            top: 70%;
-            left: 60%;
-            transform: translate(-50%, -50%);
-            background-size: cover;
-        }
-
-        /* 편지 섹션 */
-        .letter .item#letter-btn {
-            width: 120px;
-            height: 120px;
-            background-image: url('/button/letter.png');
-            top: 50%;
-            left: 70%;
-            transform: translate(-50%, -50%);
-        }
-
-        .letter .item.letter-1 {
-            width: 200px;
-            height: 150px;
-            background-image: url('https://via.placeholder.com/200x150.png?text=편지+1');
-            top: 20%;
-            left: 30%;
-            transform: translate(-50%, -50%);
-            background-size: cover;
-        }
-
+        /* 사진, 비디오, 편지 버튼 및 이미지 - 화면 꽉 채우기, 호버 효과 제거 */
+        .photo .item#photo-btn,
+        .video .item#video-btn,
+        .letter .item#letter-btn,
+        .photo .item.photo-1,
+        .photo .item.photo-2,
+        .photo .item.photo-3,
+        .video .item.video-1,
+        .video .item.video-2,
+        .letter .item.letter-1,
         .letter .item.letter-2 {
-            width: 150px;
-            height: 100px;
-            background-image: url('https://via.placeholder.com/150x100.png?text=편지+2');
-            top: 70%;
-            left: 60%;
-            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
             background-size: cover;
+            background-repeat: no-repeat;
+            top: 0;
+            left: 0;
+            transform: none; /* 중앙 정렬 대신 전체 화면 커버 */
+            transition: opacity 0.5s ease; /* 호버 효과 제거 */
         }
+
+        /* 각 섹션의 버튼 및 이미지 배경 이미지 설정 */
+        .photo .item#photo-btn { background-image: url('/button/picture.png'); }
+        .photo .item.photo-1 { background-image: url('/pictures/picture_1.jpg'); }
+        .photo .item.photo-2 { background-image: url('/pictures/picture_2.jpg'); }
+        .photo .item.photo-3 { background-image: url('/pictures/picture_3.jpg'); }
+        .video .item#video-btn { background-image: url('/button/video.png'); }
+        .video .item.video-1 { background-image: url('/your-video-thumbnail.jpg'); }
+        .video .item.video-2 { background-image: url('/your-video-thumbnail2.jpg'); }
+        .letter .item#letter-btn { background-image: url('/button/letter.png'); }
+        .letter .item.letter-1 { background-image: url('https://via.placeholder.com/200x150.png?text=편지+1'); }
+        .letter .item.letter-2 { background-image: url('https://via.placeholder.com/150x100.png?text=편지+2'); }
 
         /* 버튼 및 이미지 공통 스타일 */
         .button, .audio-image {
-            background-size: contain;
-            background-repeat: no-repeat;
             cursor: pointer;
         }
 
@@ -450,10 +386,9 @@
             document.querySelectorAll('.enlarged').forEach(el => el.style.display = 'none');
         }
 
-        // 사진 슬라이드쇼 (기존 코드에서 가져옴, 필요 시 구현)
+        // 사진 슬라이드쇼
         let currentSlide = 0;
         function initPhotos() {
-            // 사진 슬라이드쇼 초기화 로직 (기존 코드 유지)
             currentSlide = 0;
             showSlide();
         }
@@ -477,9 +412,9 @@
             showSlide();
         }
 
-        // 비디오 초기화 (기본적으로 비디오 로직 유지)
+        // 비디오 초기화
         function initVideos() {
-            // 비디오 초기화 로직 (기존 코드 유지)
+            // 비디오 초기화 로직
         }
 
         function playVideo(videoId) {
@@ -496,10 +431,9 @@
             video.currentTime = 0;
         }
 
-        // 편지 슬라이드쇼 (기존 코드에서 가져옴, 필요 시 구현)
+        // 편지 슬라이드쇼
         let currentLetter = 0;
         function initLetters() {
-            // 편지 슬라이드쇼 초기화 로직 (기존 코드 유지)
             currentLetter = 0;
             showLetterSlide();
         }
