@@ -58,8 +58,8 @@
             transition: opacity 0.3s ease; /* 페이드인/페이드아웃 애니메이션 */
         }
 
-        .button.active {
-            opacity: 0; /* 스크롤 시 숨김 (페이드아웃 상태) */
+        .button.outside-viewport {
+            opacity: 0; /* 뷰포트 밖으로 벗어나면 페이드아웃 */
         }
 
         /* 호버 효과 유지 (버튼 클릭 시 확대 애니메이션) */
@@ -69,7 +69,7 @@
         }
 
         #photo-btn {
-            background-image: url('/button/picture.png'); /* 두 번째 페이지 사진 버튼 */
+            background-image: url('/button/image.png'); /* 두 번째 페이지 사진 버튼 */
         }
 
         #video-btn {
@@ -331,7 +331,21 @@
 
             sections.forEach((section, index) => {
                 const sectionTop = section.offsetTop;
-                if (scrollPosition >= sectionTop - windowHeight / 2 && scrollPosition < sectionTop + windowHeight / 2) {
+                const sectionBottom = sectionTop + section.offsetHeight;
+
+                // 뷰포트 내에 섹션이 완전히 포함되는지 확인
+                if (scrollPosition + windowHeight < sectionTop || scrollPosition > sectionBottom) {
+                    // 뷰포트 밖으로 완전히 벗어났을 때
+                    if (index === currentSection && index !== 0) { // 첫 번째 섹션(empty)은 제외
+                        const button = section.querySelector('.button');
+                        if (button) button.classList.add('outside-viewport');
+                    }
+                } else {
+                    // 뷰포트 내에 있을 때
+                    if (index === currentSection && index !== 0) {
+                        const button = section.querySelector('.button');
+                        if (button) button.classList.remove('outside-viewport');
+                    }
                     newSection = index;
                 }
             });
@@ -342,14 +356,14 @@
             }
         });
 
-        // 버튼 표시/숨김 및 페이드인/페이드아웃 애니메이션 (반대로 적용)
+        // 버튼 표시/숨김 및 페이드인/페이드아웃 애니메이션
         function updateButtons() {
             const buttons = document.querySelectorAll('.button');
             buttons.forEach((button, index) => {
                 if (index === currentSection && index !== 0) { // 첫 번째 섹션(empty)은 제외
-                    button.classList.add('active');
+                    button.classList.remove('outside-viewport');
                 } else {
-                    button.classList.remove('active');
+                    button.classList.add('outside-viewport');
                 }
             });
         }
