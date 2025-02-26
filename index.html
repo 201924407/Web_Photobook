@@ -20,9 +20,13 @@
             min-height: 400vh; /* 4개의 페이지로 확장 */
             position: relative;
             background-image: url('/images/background_blue_mobile.png'); /* 배경 변경 */
-            background-size: auto; /* 해상도 유지, 원본 크기에 맞춤 */
+            background-size: auto 25%; /* 각 이미지 크기를 25%로 설정 (4개로 나누기) */
             background-position: center top;
             background-repeat: repeat-y; /* 위아래로 반복 */
+            /* 경계 부드럽게 블랜딩 효과 */
+            background-blend-mode: overlay;
+            /* 부드러운 전환을 위한 그래디언트 추가 (선택적) */
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 90%, rgba(0, 0, 0, 0.1) 100%), url('/images/background_blue_mobile.png');
             border-radius: 0;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             overflow-x: hidden;
@@ -368,22 +372,4 @@
 
         function showTablet() {
             document.getElementById('tabletView').style.display = 'flex';
-            initVideo();
-        }
-
-        function showLetter() {
-            document.getElementById('letterView').style.display = 'flex';
-            initLetters();
-        }
-
-        function hideEnlarged() {
-            document.getElementById('audioControlView').style.display = 'none';
-            document.getElementById('bookView').style.display = 'none';
-            document.getElementById('tabletView').style.display = 'none';
-            document.getElementById('letterView').style.display = 'none';
-        }
-
-        // 나머지 JavaScript 함수 (사진, 비디오, 편지 초기화 및 이동)는 기존과 동일
-    </script>
-</body>
-</html>
+            ini
