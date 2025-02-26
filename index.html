@@ -20,7 +20,7 @@
             min-height: 400vh; /* 4개의 페이지로 확장 */
             position: relative;
             background-image: url('/images/background_blue_mobile.png'); /* 배경 변경 */
-            background-size: cover;
+            background-size: contain; /* 해상도를 유지하며 확대하지 않음 */
             background-position: center;
             background-repeat: no-repeat;
             border-radius: 0;
@@ -45,16 +45,16 @@
         }
 
         .button, .audio-image {
-            position: absolute; /* 버튼과 이미지 위치를 절대 위치로 설정 */
+            position: relative; /* 절대 위치 제거, 상대 위치로 변경 */
             background-size: contain; /* 이미지 비율 유지 */
             background-repeat: no-repeat;
             cursor: pointer;
             opacity: 0; /* 초기에는 투명 */
-            transition: opacity 0.5s ease; /* 페이드인 애니메이션 */
+            transition: opacity 0.5s ease; /* 페이드인만 유지 */
         }
 
         .button.active, .audio-image.active {
-            opacity: 1; /* 활성화 시 보임 */
+            opacity: 1; /* 활성화 시 보임, 페이드인만 적용 */
         }
 
         .button:hover {
@@ -62,56 +62,61 @@
             transition: transform 0.3s ease;
         }
 
-        /* 버튼 크기 및 위치 (이미지 기준 가정) */
+        /* 버튼 및 이미지 크기 및 위치 (이미지 기준 가정) */
         #audio-play-pause {
-            width: 80px; /* 이미지 기준 가정 */
-            height: 80px; /* 이미지 기준 가정 */
+            width: 80px;
+            height: 80px;
             background-image: url('/button/play.png'); /* 기본 재생 이미지 */
-            top: 50%; /* 파란색 원 위치 (중앙 기준) */
+            position: absolute;
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
 
         #volume-control {
-            width: 200px; /* 툴바 크기 */
-            height: 20px; /* 툴바 높이 */
-            background: none; /* 배경 없음 */
-            top: 60%; /* 빨간색 네모 위치 (중앙 아래로 약간 이동) */
+            width: 200px;
+            height: 20px;
+            position: absolute;
+            top: 60%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
 
         #audio-image {
-            width: 200px; /* 이미지 크기 가정 */
-            height: 200px; /* 이미지 크기 가정 */
+            width: 200px;
+            height: 200px;
             background-image: url('/images/audio_image.png'); /* 추가 이미지 경로 */
-            top: 30%; /* 중앙 상단에 위치 */
+            position: absolute;
+            top: 30%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
 
         #photo-btn {
-            width: 120px; /* 이미지 기준 가정 */
+            width: 120px;
             height: 120px;
             background-image: url('/button/picture.png');
+            position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
 
         #video-btn {
-            width: 120px; /* 이미지 기준 가정 */
+            width: 120px;
             height: 120px;
             background-image: url('/button/video.png');
+            position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
 
         #letter-btn {
-            width: 120px; /* 이미지 기준 가정 */
+            width: 120px;
             height: 120px;
             background-image: url('/button/letter.png');
+            position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -296,13 +301,14 @@
             }
         });
 
-        // 버튼 및 이미지 표시/숨김 및 페이드인
+        // 버튼 및 이미지 표시/숨김 및 페이드인 (페이드아웃 제거)
         function updateButtons() {
-            const buttons = document.querySelectorAll('.button, .audio-image');
-            buttons.forEach((element, index) => {
+            const elements = document.querySelectorAll('.button, .audio-image');
+            elements.forEach((element, index) => {
                 if (index === currentSection) {
                     element.classList.add('active');
                 } else {
+                    // 페이드아웃 제거: opacity를 0으로 강제로 설정하지 않음
                     element.classList.remove('active');
                 }
             });
@@ -349,7 +355,7 @@
             }
         }
 
-        // 확대 뷰 표시 함수
+        // 확대 �-view 표시 함수
         function showAudioControl() {
             document.getElementById('audioControlView').style.display = 'flex';
         }
