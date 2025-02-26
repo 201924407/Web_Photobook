@@ -20,9 +20,9 @@
             min-height: 400vh; /* 4개의 페이지로 확장 */
             position: relative;
             background-image: url('/images/background_blue_mobile.png'); /* 배경 변경 */
-            background-size: contain; /* 해상도를 유지하며 확대하지 않음 */
-            background-position: center;
-            background-repeat: no-repeat;
+            background-size: auto; /* 해상도 유지, 원본 크기에 맞춤 */
+            background-position: center top;
+            background-repeat: repeat-y; /* 위아래로 반복 */
             border-radius: 0;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             overflow-x: hidden;
@@ -38,10 +38,11 @@
             justify-content: center;
             align-items: center;
             scroll-snap-align: center; /* 섹션 중앙에 부드럽게 멈춤 */
+            background: none; /* 섹션 배경 제거, 컨테이너 배경만 사용 */
         }
 
         .section.audio, .section.photo, .section.video, .section.letter {
-            background: none; /* 동일한 배경 유지 */
+            background: none; /* 동일한 배경 유지, 컨테이너 배경 사용 */
         }
 
         .button, .audio-image {
@@ -355,7 +356,7 @@
             }
         }
 
-        // 확대 �-view 표시 함수
+        // 확대 뷰 표시 함수
         function showAudioControl() {
             document.getElementById('audioControlView').style.display = 'flex';
         }
