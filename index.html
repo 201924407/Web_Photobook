@@ -44,9 +44,9 @@
         }
 
         .item {
-            width: 60%; /* Reduced from 80% to ensure full visibility */
-            height: 60%; /* Reduced from 80% to ensure full visibility */
-            background-size: contain; /* Changed to contain for better scaling */
+            width: 70%; /* Slightly increased to ensure full visibility */
+            height: 70%; /* Slightly increased to ensure full visibility */
+            background-size: contain; /* Use 'contain' to prevent cutting off */
             background-position: center;
             background-repeat: no-repeat;
             cursor: pointer;
@@ -66,6 +66,13 @@
 
         #first-image {
             background-image: url('/images/background_1page_image.png');
+            /* Ensure the image scales properly and isn't cut off */
+            background-size: contain;
+            width: 100%; /* Full width within its container */
+            height: 100%; /* Full height within its container */
+            position: absolute;
+            top: 0;
+            left: 0;
         }
 
         #photo-btn {
@@ -98,24 +105,24 @@
         /* Responsive design for different devices */
         @media (max-width: 768px) {
             .item {
-                width: 50%;
-                height: 50%;
+                width: 60%;
+                height: 60%;
             }
-            #photo-btn, #video-btn, #letter-btn {
+            #first-image, #photo-btn, #video-btn, #letter-btn {
                 width: 100%;
-                margin: 0; /* Remove margins on mobile */
+                margin: 0;
                 padding: 0;
             }
         }
 
         @media (max-width: 480px) {
             .item {
-                width: 40%;
-                height: 40%;
+                width: 50%;
+                height: 50%;
             }
-            #photo-btn, #video-btn, #letter-btn {
+            #first-image, #photo-btn, #video-btn, #letter-btn {
                 width: 100%;
-                margin: 0; /* Remove margins on mobile */
+                margin: 0;
                 padding: 0;
             }
         }
@@ -368,6 +375,12 @@
             items.forEach(item => {
                 item.classList.remove('active');
             });
+            
+            // Show first image immediately on load
+            const firstImage = document.getElementById('first-image');
+            if (firstImage) {
+                firstImage.classList.add('active');
+            }
         });
 
         // Scroll event handler
