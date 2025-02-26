@@ -136,15 +136,14 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             overflow: auto;
             display: none;
-            width: auto; /* Dynamic width based on content */
+            width: auto;
             max-width: 95%;
-            height: auto; /* Dynamic height based on content */
+            height: auto;
             max-height: 90vh;
             flex-direction: column;
         }
 
         .book-enlarged, .tablet-enlarged {
-            /* Dynamic sizing for images and videos based on content resolution */
             width: auto;
             height: auto;
             max-width: 95%;
@@ -152,7 +151,6 @@
         }
 
         .letter-enlarged {
-            /* Fixed size for letters */
             width: 90%;
             max-width: 90%;
             height: auto;
@@ -166,14 +164,14 @@
             overflow: hidden;
         }
 
-        .slide, .letter-slide {
+        .slide, .video-slide, .letter-slide {
             width: 100%;
             height: 100%;
             object-fit: contain;
             display: none;
         }
 
-        .slide.active, .letter-slide.active {
+        .slide.active, .video-slide.active, .letter-slide.active {
             display: block;
         }
 
@@ -333,17 +331,16 @@
     <div class="enlarged tablet-enlarged" id="tabletView">
         <button class="back-button" onclick="hideEnlarged('tablet')">뒤로가기</button>
         <div class="video-gallery">
-            <div class="video-item">
-                <video id="video1" onload="adjustEnlargedSize(this)">
-                    <source src="/your-video.mp4" type="video/mp4">
-                    브라우저가 동영상을 지원하지 않습니다.
-                </video>
-                <div class="video-controls">
-                    <button onclick="playVideo('video1')">재생</button>
-                    <button onclick="pauseVideo('video1')">일시정지</button>
-                    <button onclick="stopVideo('video1')">정지</button>
-                </div>
-            </div>
+            <video class="video-slide" src="/videos/video_1.mp4" alt="추억 영상 1" preload="metadata" onload="adjustEnlargedSize(this)"></video>
+            <video class="video-slide" src="/videos/video_2.mp4" alt="추억 영상 2" preload="metadata" onload="adjustEnlargedSize(this)"></video>
+            <video class="video-slide" src="/videos/video_3.mp4" alt="추억 영상 3" preload="metadata" onload="adjustEnlargedSize(this)"></video>
+        </div>
+        <div class="video-controls">
+            <button onclick="prevVideo()">이전 영상</button>
+            <button onclick="playVideo()">재생</button>
+            <button onclick="pauseVideo()">일시정지</button>
+            <button onclick="stopVideo()">정지</button>
+            <button onclick="nextVideo()">다음 영상</button>
         </div>
     </div>
 
@@ -362,6 +359,7 @@
 
     <script>
         let photoIndex = 0;
+        let videoIndex = 0;
         let letterIndex = 0;
         const backgroundAudio = document.getElementById('backgroundMusic');
         let isPlaying = false;
@@ -447,21 +445,18 @@
             const bookView = document.getElementById('bookView');
             bookView.style.display = 'flex';
             initPhotos();
-            // Do not play background music here
         }
 
         function showTablet() {
             const tabletView = document.getElementById('tabletView');
             tabletView.style.display = 'flex';
-            initVideo();
-            // Do not play background music here
+            initVideos();
         }
 
         function showLetter() {
             const letterView = document.getElementById('letterView');
             letterView.style.display = 'flex';
             initLetters();
-            // Do not play background music here
         }
 
         function showFirstAction() {
@@ -479,13 +474,18 @@
             }
             photoIndex = 0;
             photos[photoIndex].classList.add("active");
-            adjustEnlargedSize(photos[photoIndex]); // Adjust size based on image
+            adjustEnlargedSize(photos[photoIndex]);
         }
 
-        function initVideo() {
-            const video = document.getElementById('video1');
-            video.classList.add("active");
-            adjustEnlargedSize(video); // Adjust size based on video
+        function initVideos() {
+            const videos = document.getElementsByClassName("video-slide");
+            for (let i = 0; i < videos.length; i++) {
+                videos[i].classList.remove("active");
+            }
+            videoIndex = 0;
+            videos[videoIndex].classList.add("active");
+            adjustEnlargedSize(videos[videoIndex]);
+            stopVideo(); // Ensure no video is playing initially
         }
 
         function initLetters() {
@@ -560,20 +560,50 @@
             adjustEnlargedSize(photos[photoIndex]);
         }
 
-        function playVideo(videoId) {
-            const video = document.getElementById(videoId);
-            video.play();
+        function prevVideo() {
+            const videos = document.getElementsByClassName("video-slide");
+            for (let i = 0; i < videos.length; i++) {
+                videos[i].classList.remove("active");
+            }
+            videoIndex--;
+            if (videoIndex < 0) { videoIndex = videos.length - 1; }
+            videos[videoIndex].classList.add("active");
+            stopVideo(); // Stop current video before switching
+            adjustEnlargedSize(videos[videoIndex]);
         }
 
-        function pauseVideo(videoId) {
-            const video = document.getElementById(videoId);
-            video.pause();
+        function nextVideo() {
+            const videos = document.getElementsByClassName("video-slide");
+            for (let i = 0; i < videos.length; i++) {
+                videos[i].classList.remove("active");
+            }
+            videoIndex++;
+            if (videoIndex >= videos.length) { videoIndex = 0; }
+            videos[videoIndex].classList.add("active");
+            stopVideo(); // Stop current video before switching
+            adjustEnlargedSize(videos[videoIndex]);
         }
 
-        function stopVideo(videoId) {
-            const video = document.getElementById(videoId);
-            video.pause();
-            video.currentTime = 0;
+        function playVideo() {
+            const video = document.querySelector('.video-slide.active');
+            if (video) {
+                video.play();
+            }
+        }
+
+        function pauseVideo() {
+            const video = document.querySelector('.video-slide.active');
+            if (video) {
+                video.pause();
+            }
+        }
+
+        function stopVideo() {
+            const video = document.querySelector('.video-slide.active');
+            if (video) {
+                video.pause();
+                video.currentTime = 0;
+            }
         }
 
         function prevLetter() {
