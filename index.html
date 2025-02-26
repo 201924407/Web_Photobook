@@ -252,6 +252,23 @@
             background-color: #76c0e7;
         }
 
+        .video-progress {
+            width: 100%;
+            background-color: #ddd;
+            height: 5px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .video-progress-bar {
+            height: 100%;
+            background-color: #87CEEB;
+            width: 0%;
+            border-radius: 5px;
+            transition: width 0.1s linear;
+        }
+
         .audio-control {
             position: fixed;
             bottom: 20px;
@@ -339,6 +356,16 @@
                 <img class="slide" src="/pictures/picture_5.jpg" alt="추억 사진 5">
                 <img class="slide" src="/pictures/picture_6.jpg" alt="추억 사진 6">
                 <img class="slide" src="/pictures/picture_7.jpg" alt="추억 사진 7">
+                <img class="slide" src="/pictures/picture_8.jpg" alt="추억 사진 8">
+                <img class="slide" src="/pictures/picture_9.jpg" alt="추억 사진 9">
+                <img class="slide" src="/pictures/picture_10.jpg" alt="추억 사진 10">
+                <img class="slide" src="/pictures/picture_11.jpg" alt="추억 사진 11">
+                <img class="slide" src="/pictures/picture_12.jpg" alt="추억 사진 12">
+                <img class="slide" src="/pictures/picture_13.jpg" alt="추억 사진 13">
+                <img class="slide" src="/pictures/picture_14.jpg" alt="추억 사진 14">
+                <img class="slide" src="/pictures/picture_15.jpg" alt="추억 사진 15">
+                <img class="slide" src="/pictures/picture_16.jpg" alt="추억 사진 16">
+                <img class="slide" src="/pictures/picture_17.jpg" alt="추억 사진 17">
             </div>
         </div>
         <div class="slide-controls">
@@ -351,17 +378,47 @@
         <button class="back-button" onclick="hideEnlarged('tablet')">뒤로가기</button>
         <div class="media-container">
             <div class="video-gallery">
-                <video class="video-slide" src="/videos/video_1.mp4" alt="추억 영상 1" preload="metadata"></video>
-                <video class="video-slide" src="/videos/video_2.mp4" alt="추억 영상 2" preload="metadata"></video>
-                <video class="video-slide" src="/videos/video_3.mp4" alt="추억 영상 3" preload="metadata"></video>
+                <video class="video-slide" src="/videos/video1.mp4" alt="추억 영상 1" preload="metadata"></video>
+                <video class="video-slide" src="/videos/video2.mp4" alt="추억 영상 2" preload="metadata"></video>
+                <video class="video-slide" src="/videos/video3.mp4" alt="추억 영상 3" preload="metadata"></video>
+                <video class="video-slide" src="/videos/video4.mp4" alt="추억 영상 4" preload="metadata"></video>
+                <video class="video-slide" src="/videos/video5.mp4" alt="추억 영상 5" preload="metadata"></video>
+                <video class="video-slide" src="/videos/video6.mp4" alt="추억 영상 6" preload="metadata"></video>
+                <video class="video-slide" src="/videos/video7.mp4" alt="추억 영상 7" preload="metadata"></video>
+                <video class="video-slide" src="/videos/video8.mp4" alt="추억 영상 8" preload="metadata"></video>
+                <video class="video-slide" src="/videos/video9.mp4" alt="추억 영상 9" preload="metadata"></video>
+                <video class="video-slide" src="/videos/video10.mp4" alt="추억 영상 10" preload="metadata"></video>
+                <video class="video-slide" src="/videos/video11.mp4" alt="추억 영상 11" preload="metadata"></video>
+                <video class="video-slide" src="/videos/video12.mp4" alt="추억 영상 12" preload="metadata"></video>
+                <video class="video-slide" src="/videos/video13.mp4" alt="추억 영상 13" preload="metadata"></video>
+                <video class="video-slide" src="/videos/video14.mp4" alt="추억 영상 14" preload="metadata"></video>
+                <video class="video-slide" src="/videos/video15.mp4" alt="추억 영상 15" preload="metadata"></video>
+                <video class="video-slide" src="/videos/video16.mp4" alt="추억 영상 16" preload="metadata"></video>
+                <video class="video-slide" src="/videos/video17.mp4" alt="추억 영상 17" preload="metadata"></video>
+                <video class="video-slide" src="/videos/video18.mp4" alt="추억 영상 18" preload="metadata"></video>
+                <video class="video-slide" src="/videos/video19.mp4" alt="추억 영상 19" preload="metadata"></video>
+                <video class="video-slide" src="/videos/video20.mp4" alt="추억 영상 20" preload="metadata"></video>
+                <video class="video-slide" src="/videos/video21.mp4" alt="추억 영상 21" preload="metadata"></video>
+                <video class="video-slide" src="/videos/video22.mp4" alt="추억 영상 22" preload="metadata"></video>
+                <video class="video-slide" src="/videos/video23.mp4" alt="추억 영상 23" preload="metadata"></video>
+                <video class="video-slide" src="/videos/video24.mp4" alt="추억 영상 24" preload="metadata"></video>
+                <video class="video-slide" src="/videos/video25.mp4" alt="추억 영상 25" preload="metadata"></video>
+                <video class="video-slide" src="/videos/video26.mp4" alt="추억 영상 26" preload="metadata"></video>
+                <video class="video-slide" src="/videos/video27.mp4" alt="추억 영상 27" preload="metadata"></video>
+                <video class="video-slide" src="/videos/video28.mp4" alt="추억 영상 28" preload="metadata"></video>
             </div>
         </div>
         <div class="video-controls">
             <button onclick="prevVideo()">이전 영상</button>
+            <button onclick="skipBackward()">-10초</button>
             <button onclick="playVideo()">재생</button>
             <button onclick="pauseVideo()">일시정지</button>
             <button onclick="stopVideo()">정지</button>
+            <button onclick="skipForward()">+10초</button>
             <button onclick="nextVideo()">다음 영상</button>
+            <div class="video-progress" onclick="seekVideo(event)">
+                <div class="video-progress-bar" id="videoProgressBar"></div>
+            </div>
         </div>
     </div>
 
@@ -501,7 +558,7 @@
             if (view) {
                 view.style.display = 'none';
             } else {
-                console.error(`${type} view element not found`);
+                console.error(`${type} view element not found');
             }
         }
 
@@ -522,6 +579,7 @@
             videoIndex = 0;
             videos[videoIndex].classList.add("active");
             stopVideo(); // Ensure no video is playing initially
+            updateVideoProgress(); // Initialize video progress
         }
 
         function initLetters() {
@@ -562,6 +620,7 @@
             if (videoIndex < 0) { videoIndex = videos.length - 1; }
             videos[videoIndex].classList.add("active");
             stopVideo(); // Stop current video before switching
+            updateVideoProgress(); // Update progress for new video
         }
 
         function nextVideo() {
@@ -573,12 +632,14 @@
             if (videoIndex >= videos.length) { videoIndex = 0; }
             videos[videoIndex].classList.add("active");
             stopVideo(); // Stop current video before switching
+            updateVideoProgress(); // Update progress for new video
         }
 
         function playVideo() {
             const video = document.querySelector('.video-slide.active');
             if (video) {
                 video.play();
+                updateVideoProgress();
             }
         }
 
@@ -594,6 +655,49 @@
             if (video) {
                 video.pause();
                 video.currentTime = 0;
+                updateVideoProgress(); // Reset progress bar
+            }
+        }
+
+        function skipForward() {
+            const video = document.querySelector('.video-slide.active');
+            if (video) {
+                video.currentTime = Math.min(video.currentTime + 10, video.duration);
+                updateVideoProgress();
+            }
+        }
+
+        function skipBackward() {
+            const video = document.querySelector('.video-slide.active');
+            if (video) {
+                video.currentTime = Math.max(video.currentTime - 10, 0);
+                updateVideoProgress();
+            }
+        }
+
+        function updateVideoProgress() {
+            const video = document.querySelector('.video-slide.active');
+            const progressBar = document.getElementById('videoProgressBar');
+            if (video && progressBar) {
+                const update = () => {
+                    const percent = (video.currentTime / video.duration) * 100;
+                    progressBar.style.width = `${percent}%`;
+                };
+                video.addEventListener('timeupdate', update);
+                update(); // Initial update
+            }
+        }
+
+        function seekVideo(event) {
+            const progress = document.querySelector('.video-progress');
+            const video = document.querySelector('.video-slide.active');
+            if (video && progress) {
+                const rect = progress.getBoundingClientRect();
+                const clickX = event.clientX - rect.left;
+                const width = rect.width;
+                const percent = clickX / width;
+                video.currentTime = percent * video.duration;
+                updateVideoProgress();
             }
         }
 
