@@ -50,20 +50,12 @@
             background-position: center;
             background-repeat: no-repeat;
             cursor: pointer;
-            opacity: 1; /* Ensure buttons are visible by default */
+            opacity: 0;
             transition: opacity 0.3s ease;
-            position: absolute; /* Center buttons correctly */
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
         }
 
         .item.active {
-            opacity: 1; /* Ensure active items remain visible */
-        }
-
-        .item:not(.active) {
-            opacity: 0; /* Hide inactive items */
+            opacity: 1;
         }
 
         .item:hover {
