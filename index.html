@@ -17,19 +17,17 @@
 
         .container {
             width: 100%;
-            min-height: 300vh; /* 3개의 페이지로 확장 */
+            min-height: 400vh; /* 4개의 페이지로 확장 */
             position: relative;
-            background-image: url('/background_desk_mobile.png');
+            background-image: url('/images/background_blue_mobile.png'); /* 배경 변경 */
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             border-radius: 0;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             overflow-x: hidden;
-            scroll-behavior: smooth;
-            transition: transform 0.5s ease;
-            /* 스크롤 스냅 추가 */
-            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth; /* 부드러운 스크롤 */
+            scroll-snap-type: y mandatory; /* 스크롤 스냅 */
         }
 
         .section {
@@ -39,51 +37,86 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            /* 각 섹션이 스크롤 스냅 지점으로 설정 */
-            scroll-snap-align: center;
+            scroll-snap-align: center; /* 섹션 중앙에 부드럽게 멈춤 */
         }
 
-        .section.empty {
-            background: none; /* 첫 번째 페이지 비우기 */
-        }
-
-        .section.photo, .section.video, .section.letter {
+        .section.audio, .section.photo, .section.video, .section.letter {
             background: none; /* 동일한 배경 유지 */
         }
 
-        .button {
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
+        .button, .audio-image {
+            position: absolute; /* 버튼과 이미지 위치를 절대 위치로 설정 */
+            background-size: contain; /* 이미지 비율 유지 */
             background-repeat: no-repeat;
             cursor: pointer;
-            opacity: 0; /* 초기에는 숨김 */
+            opacity: 0; /* 초기에는 투명 */
             transition: opacity 0.5s ease; /* 페이드인 애니메이션 */
         }
 
-        .button.active {
-            opacity: 1; /* 페이지 이동 완료 시 표시 */
+        .button.active, .audio-image.active {
+            opacity: 1; /* 활성화 시 보임 */
         }
 
         .button:hover {
-            transform: scale(1.05); /* 버튼 클릭 시 확대 애니메이션 */
+            transform: scale(1.05);
             transition: transform 0.3s ease;
         }
 
+        /* 버튼 크기 및 위치 (이미지 기준 가정) */
+        #audio-play-pause {
+            width: 80px; /* 이미지 기준 가정 */
+            height: 80px; /* 이미지 기준 가정 */
+            background-image: url('/button/play.png'); /* 기본 재생 이미지 */
+            top: 50%; /* 파란색 원 위치 (중앙 기준) */
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #volume-control {
+            width: 200px; /* 툴바 크기 */
+            height: 20px; /* 툴바 높이 */
+            background: none; /* 배경 없음 */
+            top: 60%; /* 빨간색 네모 위치 (중앙 아래로 약간 이동) */
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #audio-image {
+            width: 200px; /* 이미지 크기 가정 */
+            height: 200px; /* 이미지 크기 가정 */
+            background-image: url('/images/audio_image.png'); /* 추가 이미지 경로 */
+            top: 30%; /* 중앙 상단에 위치 */
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
         #photo-btn {
+            width: 120px; /* 이미지 기준 가정 */
+            height: 120px;
             background-image: url('/button/picture.png');
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         #video-btn {
+            width: 120px; /* 이미지 기준 가정 */
+            height: 120px;
             background-image: url('/button/video.png');
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         #letter-btn {
+            width: 120px; /* 이미지 기준 가정 */
+            height: 120px;
             background-image: url('/button/letter.png');
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
-        /* 나머지 스타일은 동일 */
         .enlarged {
             position: fixed;
             top: 50%;
@@ -103,16 +136,61 @@
             flex-direction: column;
         }
 
-        .book-enlarged, .tablet-enlarged, .letter-enlarged {
+        .audio-control-enlarged, .book-enlarged, .tablet-enlarged, .letter-enlarged {
             max-height: 400px;
         }
 
-        /* 나머지 스타일은 생략 */
+        /* 오디오 컨트롤 스타일 (확대 뷰) */
+        .audio-control-panel {
+            width: 100%;
+            flex-grow: 1;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .audio-control-panel button {
+            background-color: #87CEEB;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        .audio-control-panel input[type="range"] {
+            width: 200px;
+            cursor: pointer;
+            -webkit-appearance: none;
+            background: #ddd;
+            border-radius: 5px;
+            height: 5px;
+            outline: none;
+        }
+
+        .audio-control-panel input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 15px;
+            height: 15px;
+            background: #87CEEB;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        /* 나머지 스타일 (photo-slideshow, video-gallery 등)은 기존과 동일 */
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="section empty"></div>
+        <div class="section audio">
+            <div id="audio-image" class="audio-image" onclick="showAudioControl()"></div>
+            <div id="audio-play-pause" class="button" onclick="toggleAudio()"></div>
+            <input type="range" id="volume-control" min="0" max="1" step="0.01" value="1" oninput="adjustVolume(this.value)">
+        </div>
         <div class="section photo">
             <div id="photo-btn" class="button" onclick="showBook()"></div>
         </div>
@@ -124,10 +202,73 @@
         </div>
     </div>
 
-    <!-- 나머지 HTML (audio, enlarged div 등)은 동일 -->
+    <audio id="backgroundMusic" loop>
+        <source src="/audio/background_music.mp3" type="audio/mp3">
+        브라우저가 오디오를 지원하지 않습니다.
+    </audio>
+
+    <!-- 오디오 컨트롤 확대 뷰 -->
+    <div class="enlarged audio-control-enlarged" id="audioControlView">
+        <button class="back-button" onclick="hideEnlarged()">뒤로가기</button>
+        <div class="audio-control-panel">
+            <button id="toggleAudioEnlarged" onclick="toggleAudio()">배경음 끄기</button>
+            <input type="range" id="volumeControlEnlarged" min="0" max="1" step="0.01" value="1" oninput="adjustVolume(this.value)">
+        </div>
+    </div>
+
+    <!-- 사진 확대 뷰 -->
+    <div class="enlarged book-enlarged" id="bookView">
+        <button class="back-button" onclick="hideEnlarged()">뒤로가기</button>
+        <div class="photo-slideshow">
+            <img class="slide" src="/pictures/picture_1.jpg" alt="추억 사진 1">
+            <img class="slide" src="/pictures/picture_2.jpg" alt="추억 사진 2">
+            <img class="slide" src="/pictures/picture_3.jpg" alt="추억 사진 3">
+            <img class="slide" src="/pictures/picture_4.jpg" alt="추억 사진 4">
+            <img class="slide" src="/pictures/picture_5.jpg" alt="추억 사진 5">
+            <img class="slide" src="/pictures/picture_6.jpg" alt="추억 사진 6">
+            <img class="slide" src="/pictures/picture_7.jpg" alt="추억 사진 7">
+        </div>
+        <div class="slide-controls">
+            <button onclick="prevPhoto()">이전 페이지</button>
+            <button onclick="nextPhoto()">다음 페이지</button>
+        </div>
+    </div>
+
+    <!-- 비디오 확대 뷰 -->
+    <div class="enlarged tablet-enlarged" id="tabletView">
+        <button class="back-button" onclick="hideEnlarged()">뒤로가기</button>
+        <div class="video-gallery">
+            <div class="video-item">
+                <video id="video1">
+                    <source src="/your-video.mp4" type="video/mp4">
+                    브라우저가 동영상을 지원하지 않습니다.
+                </video>
+                <div class="video-controls">
+                    <button onclick="playVideo('video1')">재생</button>
+                    <button onclick="pauseVideo('video1')">일시정지</button>
+                    <button onclick="stopVideo('video1')">정지</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 편지 확대 뷰 -->
+    <div class="enlarged letter-enlarged" id="letterView">
+        <button class="back-button" onclick="hideEnlarged()">뒤로가기</button>
+        <div class="letter-gallery">
+            <img class="letter-slide" src="https://via.placeholder.com/800x600.png?text=추억+편지+1" alt="추억 편지 1">
+            <img class="letter-slide" src="https://via.placeholder.com/800x600.png?text=추억+편지+2" alt="추억 편지 2">
+            <img class="letter-slide" src="https://via.placeholder.com/800x600.png?text=추억+편지+3" alt="추억 편지 3">
+        </div>
+        <div class="letter-controls">
+            <button onclick="prevLetter()">이전 편지</button>
+            <button onclick="nextLetter()">다음 편지</button>
+        </div>
+    </div>
 
     <script>
         let currentSection = 0;
+        let isPlaying = false;
 
         // 페이지 로드 시 초기 설정
         window.addEventListener('load', function() {
@@ -135,7 +276,8 @@
             audio.volume = 1;
             audio.play().then(() => {
                 isPlaying = true;
-                document.getElementById('toggleAudio').textContent = '배경음 끄기';
+                updatePlayPauseButton();
+                document.getElementById('toggleAudioEnlarged').textContent = '배경음 끄기';
             }).catch(error => {
                 console.log("자동 재생 실패: ", error);
             });
@@ -146,7 +288,6 @@
         window.addEventListener('scroll', function() {
             const scrollPosition = window.scrollY;
             const windowHeight = window.innerHeight;
-            const sections = document.querySelectorAll('.section');
             let newSection = Math.round(scrollPosition / windowHeight);
 
             if (newSection !== currentSection) {
@@ -155,19 +296,64 @@
             }
         });
 
-        // 버튼 표시/숨김 및 페이드인 애니메이션
+        // 버튼 및 이미지 표시/숨김 및 페이드인
         function updateButtons() {
-            const buttons = document.querySelectorAll('.button');
-            buttons.forEach((button, index) => {
+            const buttons = document.querySelectorAll('.button, .audio-image');
+            buttons.forEach((element, index) => {
                 if (index === currentSection) {
-                    button.classList.add('active');
+                    element.classList.add('active');
                 } else {
-                    button.classList.remove('active');
+                    element.classList.remove('active');
                 }
             });
         }
 
-        // 확대 뷰 표시/숨김 함수 (기존 그대로 유지)
+        // 오디오 재생/일시정지 토글
+        function toggleAudio() {
+            const audio = document.getElementById('backgroundMusic');
+            if (isPlaying) {
+                audio.pause();
+                document.getElementById('toggleAudioEnlarged').textContent = '배경음 켜기';
+            } else {
+                audio.play();
+                document.getElementById('toggleAudioEnlarged').textContent = '배경음 끄기';
+            }
+            isPlaying = !isPlaying;
+            updatePlayPauseButton();
+        }
+
+        // 재생/일시정지 버튼 이미지 업데이트
+        function updatePlayPauseButton() {
+            const playPauseBtn = document.getElementById('audio-play-pause');
+            if (isPlaying) {
+                playPauseBtn.style.backgroundImage = "url('/button/pause.png')";
+            } else {
+                playPauseBtn.style.backgroundImage = "url('/button/play.png')";
+            }
+        }
+
+        // 음량 조절
+        function adjustVolume(volume) {
+            const audio = document.getElementById('backgroundMusic');
+            audio.volume = volume;
+            if (volume > 0 && !isPlaying) {
+                audio.play();
+                isPlaying = true;
+                document.getElementById('toggleAudioEnlarged').textContent = '배경음 끄기';
+                updatePlayPauseButton();
+            } else if (volume == 0 && isPlaying) {
+                audio.pause();
+                isPlaying = false;
+                document.getElementById('toggleAudioEnlarged').textContent = '배경음 켜기';
+                updatePlayPauseButton();
+            }
+        }
+
+        // 확대 뷰 표시 함수
+        function showAudioControl() {
+            document.getElementById('audioControlView').style.display = 'flex';
+        }
+
         function showBook() {
             document.getElementById('bookView').style.display = 'flex';
             initPhotos();
@@ -184,12 +370,13 @@
         }
 
         function hideEnlarged() {
+            document.getElementById('audioControlView').style.display = 'none';
             document.getElementById('bookView').style.display = 'none';
             document.getElementById('tabletView').style.display = 'none';
             document.getElementById('letterView').style.display = 'none';
         }
 
-        // 나머지 JavaScript 함수 (initPhotos, nextPhoto 등)는 동일
+        // 나머지 JavaScript 함수 (사진, 비디오, 편지 초기화 및 이동)는 기존과 동일
     </script>
 </body>
 </html>
