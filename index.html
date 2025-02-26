@@ -17,7 +17,7 @@
 
         .container {
             width: 100%;
-            min-height: 400vh; /* 4개의 페이지로 확장 */
+            min-height: 400vh;
             position: relative;
             background-image: url('/images/background_combined.png');
             background-size: cover;
@@ -40,44 +40,84 @@
         }
 
         .section.empty, .section.photo, .section.video, .section.letter {
-            background: none; /* 모든 섹션 배경 제거 */
+            background: none;
         }
 
         .item {
-            width: 80%; /* 버튼 및 이미지 크기를 약간 축소 (20% 줄임) */
-            height: 80%; /* 버튼 및 이미지 크기를 약간 축소 (20% 줄임) */
-            background-size: cover;
+            width: 60%; /* Reduced from 80% to ensure full visibility */
+            height: 60%; /* Reduced from 80% to ensure full visibility */
+            background-size: contain; /* Changed to contain for better scaling */
             background-position: center;
             background-repeat: no-repeat;
             cursor: pointer;
-            opacity: 1; /* 초기에는 보이도록 설정 (페이드인 상태) */
-            transition: opacity 0.3s ease; /* 페이드인/페이드아웃 애니메이션 */
+            opacity: 0; /* Start hidden (fade out state) */
+            transition: opacity 0.3s ease; /* Fade animation */
         }
 
         .item.active {
-            opacity: 0; /* 스크롤 시 숨김 (페이드아웃 상태) */
+            opacity: 1; /* Visible when active (fade in state) */
         }
 
-        /* 호버 효과 유지 (아이템 클릭 시 확대 애니메이션) */
+        /* Hover effect maintained */
         .item:hover {
             transform: scale(1.05);
             transition: transform 0.3s ease;
         }
 
         #first-image {
-            background-image: url('/images/background_1page_image.png'); /* 첫 번째 페이지 이미지 */
+            background-image: url('/images/background_1page_image.png');
         }
 
         #photo-btn {
-            background-image: url('/button/image.png'); /* 두 번째 페이지 사진 버튼 */
+            background-image: url('/button/image.png');
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: contain;
         }
 
         #video-btn {
-            background-image: url('/button/video.png'); /* 세 번째 페이지 영상 버튼 (포스터 이미지) */
+            background-image: url('/button/video.png');
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: contain;
         }
 
         #letter-btn {
-            background-image: url('/button/letter.png'); /* 네 번째 페이지 편지 버튼 (임시 이미지) */
+            background-image: url('/button/letter.png');
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: contain;
+        }
+
+        /* Responsive design for different devices */
+        @media (max-width: 768px) {
+            .item {
+                width: 50%;
+                height: 50%;
+            }
+            #photo-btn, #video-btn, #letter-btn {
+                width: 100%;
+                margin: 0; /* Remove margins on mobile */
+                padding: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .item {
+                width: 40%;
+                height: 40%;
+            }
+            #photo-btn, #video-btn, #letter-btn {
+                width: 100%;
+                margin: 0; /* Remove margins on mobile */
+                padding: 0;
+            }
         }
 
         .enlarged {
@@ -234,7 +274,7 @@
 <body>
     <div class="container">
         <div class="section empty">
-            <div id="first-image" class="item" onclick="showFirstAction()"></div> <!-- 첫 번째 페이지 이미지 추가 -->
+            <div id="first-image" class="item" onclick="showFirstAction()"></div>
         </div>
         <div class="section photo">
             <div id="photo-btn" class="item" onclick="showBook()"></div>
@@ -311,7 +351,7 @@
         let isPlaying = false;
         let currentSection = 0;
 
-        // 페이지 로드 시 초기 설정 (배경음 재생 시작)
+        // Page load handler to start with items hidden
         window.addEventListener('load', function() {
             audio.volume = 1;
             audio.play().then(() => {
@@ -322,9 +362,15 @@
                 isPlaying = false;
                 document.getElementById('toggleAudio').textContent = '배경음 켜기';
             });
+            
+            // Ensure all items start hidden
+            const items = document.querySelectorAll('.item');
+            items.forEach(item => {
+                item.classList.remove('active');
+            });
         });
 
-        // 스크롤 이벤트 처리
+        // Scroll event handler
         window.addEventListener('scroll', function() {
             const scrollPosition = window.scrollY;
             const windowHeight = window.innerHeight;
@@ -344,14 +390,14 @@
             }
         });
 
-        // 버튼 및 이미지 표시/숨김 및 페이드인/페이드아웃 애니메이션 (반대로 적용)
+        // Update buttons and apply fade effect
         function updateButtons() {
             const items = document.querySelectorAll('.item');
             items.forEach((item, index) => {
-                if (index === currentSection) { // 모든 섹션에 적용
-                    item.classList.add('active');
+                if (index === currentSection) {
+                    item.classList.add('active'); // Fade in (visible)
                 } else {
-                    item.classList.remove('active');
+                    item.classList.remove('active'); // Fade out (hidden)
                 }
             });
         }
@@ -408,7 +454,6 @@
         }
 
         function showFirstAction() {
-            // 첫 번째 이미지 클릭 시 동작 (필요 시 정의)
             console.log("첫 번째 이미지 클릭됨");
         }
 
@@ -428,7 +473,7 @@
         }
 
         function initVideo() {
-            // 영상 초기화 로직 (필요 시 추가)
+            // Video initialization logic (if needed)
         }
 
         function initLetters() {
