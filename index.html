@@ -15,118 +15,180 @@
             overflow-x: hidden;
         }
 
-     .container {
-    width: 100%;
-    min-height: 400vh; /* 4개의 페이지로 확장 */
-    position: relative;
-    background-image: url('/images/background_combined.png'); /* 제공된 단일 이미지로 변경 */
-    background-size: auto 100%; /* 전체 높이에 맞춤 (4개 섹션 모두 커버) */
-    background-position: center top;
-    background-repeat: no-repeat; /* 반복하지 않음, 단일 이미지 사용 */
-    /* 경계 부드럽게 블랜딩 효과 (필요 시 유지) */
-    background-blend-mode: overlay;
-    /* 부드러운 전환을 위한 그래디언트 추가 (선택적) */
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 90%, rgba(0, 0, 0, 0.1) 100%), url('/images/background_combined.png');
-    border-radius: 0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    overflow-x: hidden;
-    scroll-behavior: smooth; /* 부드러운 스크롤 */
-    scroll-snap-type: y mandatory; /* 스크롤 스냅 */
-}
+        .container {
+            width: 100%;
+            min-height: 400vh; /* 4개의 페이지로 확장 */
+            position: relative;
+            background-image: url('/images/background_combined.png'); /* 단일 이미지로 변경 */
+            background-size: auto 100%; /* 전체 높이에 맞춤 */
+            background-position: center top;
+            background-repeat: no-repeat;
+            border-radius: 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            scroll-snap-type: y mandatory;
+        }
 
         .section {
             width: 100%;
             height: 100vh;
             position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            scroll-snap-align: center; /* 섹션 중앙에 부드럽게 멈춤 */
-            background: none; /* 섹션 배경 제거, 컨테이너 배경만 사용 */
+            display: block; /* flex 대신 block으로 변경, 아이템을 절대 위치로 배치 */
+            scroll-snap-align: center;
+            background: none;
         }
 
-        .section.audio, .section.photo, .section.video, .section.letter {
-            background: none; /* 동일한 배경 유지, 컨테이너 배경 사용 */
-        }
-
-        .button, .audio-image {
-            position: relative; /* 절대 위치 제거, 상대 위치로 변경 */
-            background-size: contain; /* 이미지 비율 유지 */
-            background-repeat: no-repeat;
-            cursor: pointer;
+        .item {
+            position: absolute; /* 아이템을 절대 위치로 설정 */
+            transition: opacity 0.5s ease, transform 0.3s ease; /* 페이드인과 호버 확대 효과 */
             opacity: 0; /* 초기에는 투명 */
-            transition: opacity 0.5s ease; /* 페이드인만 유지 */
         }
 
-        .button.active, .audio-image.active {
-            opacity: 1; /* 활성화 시 보임, 페이드인만 적용 */
+        .item.active {
+            opacity: 1; /* 활성화 시 보임 */
         }
 
-        .button:hover {
-            transform: scale(1.05);
-            transition: transform 0.3s ease;
+        .item:hover {
+            transform: scale(1.05); /* 호버 시 약간 확대 */
         }
 
-        /* 버튼 및 이미지 크기 및 위치 (이미지 기준 가정) */
-        #audio-play-pause {
-            width: 80px;
-            height: 80px;
-            background-image: url('/button/play.png'); /* 기본 재생 이미지 */
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        #volume-control {
-            width: 200px;
-            height: 20px;
-            position: absolute;
-            top: 60%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        #audio-image {
+        /* 오디오 섹션 */
+        .audio .item#audio-image {
             width: 200px;
             height: 200px;
-            background-image: url('/images/audio_image.png'); /* 추가 이미지 경로 */
-            position: absolute;
-            top: 30%;
-            left: 50%;
+            background-image: url('/images/audio_image.png');
+            top: 20%;
+            left: 70%;
             transform: translate(-50%, -50%);
         }
 
-        #photo-btn {
+        .audio .item#audio-play-pause {
+            width: 80px;
+            height: 80px;
+            background-image: url('/button/play.png');
+            top: 50%;
+            left: 30%;
+            transform: translate(-50%, -50%);
+        }
+
+        .audio input[type="range"]#volume-control {
+            width: 200px;
+            height: 20px;
+            top: 70%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            position: absolute;
+        }
+
+        /* 사진 섹션 */
+        .photo .item#photo-btn {
             width: 120px;
             height: 120px;
             background-image: url('/button/picture.png');
-            position: absolute;
             top: 50%;
-            left: 50%;
+            left: 70%;
             transform: translate(-50%, -50%);
         }
 
-        #video-btn {
+        .photo .item.photo-1 {
+            width: 200px;
+            height: 150px;
+            background-image: url('/pictures/picture_1.jpg');
+            top: 20%;
+            left: 30%;
+            transform: translate(-50%, -50%);
+            background-size: cover;
+        }
+
+        .photo .item.photo-2 {
+            width: 150px;
+            height: 100px;
+            background-image: url('/pictures/picture_2.jpg');
+            top: 60%;
+            left: 40%;
+            transform: translate(-50%, -50%);
+            background-size: cover;
+        }
+
+        .photo .item.photo-3 {
+            width: 120px;
+            height: 80px;
+            background-image: url('/pictures/picture_3.jpg');
+            top: 80%;
+            left: 70%;
+            transform: translate(-50%, -50%);
+            background-size: cover;
+        }
+
+        /* 비디오 섹션 */
+        .video .item#video-btn {
             width: 120px;
             height: 120px;
             background-image: url('/button/video.png');
-            position: absolute;
             top: 50%;
-            left: 50%;
+            left: 30%;
             transform: translate(-50%, -50%);
         }
 
-        #letter-btn {
+        .video .item.video-1 {
+            width: 200px;
+            height: 150px;
+            background-image: url('/your-video-thumbnail.jpg'); /* 비디오 썸네일로 대체 가능 */
+            top: 20%;
+            left: 70%;
+            transform: translate(-50%, -50%);
+            background-size: cover;
+        }
+
+        .video .item.video-2 {
+            width: 150px;
+            height: 100px;
+            background-image: url('/your-video-thumbnail2.jpg');
+            top: 70%;
+            left: 60%;
+            transform: translate(-50%, -50%);
+            background-size: cover;
+        }
+
+        /* 편지 섹션 */
+        .letter .item#letter-btn {
             width: 120px;
             height: 120px;
             background-image: url('/button/letter.png');
-            position: absolute;
             top: 50%;
-            left: 50%;
+            left: 70%;
             transform: translate(-50%, -50%);
         }
 
+        .letter .item.letter-1 {
+            width: 200px;
+            height: 150px;
+            background-image: url('https://via.placeholder.com/200x150.png?text=편지+1');
+            top: 20%;
+            left: 30%;
+            transform: translate(-50%, -50%);
+            background-size: cover;
+        }
+
+        .letter .item.letter-2 {
+            width: 150px;
+            height: 100px;
+            background-image: url('https://via.placeholder.com/150x100.png?text=편지+2');
+            top: 70%;
+            left: 60%;
+            transform: translate(-50%, -50%);
+            background-size: cover;
+        }
+
+        /* 버튼 및 이미지 공통 스타일 */
+        .button, .audio-image {
+            background-size: contain;
+            background-repeat: no-repeat;
+            cursor: pointer;
+        }
+
+        /* 확대 뷰 스타일 */
         .enlarged {
             position: fixed;
             top: 50%;
@@ -190,25 +252,30 @@
             border-radius: 50%;
             cursor: pointer;
         }
-
-        /* 나머지 스타일 (photo-slideshow, video-gallery 등)은 기존과 동일 */
     </style>
 </head>
 <body>
     <div class="container">
         <div class="section audio">
-            <div id="audio-image" class="audio-image" onclick="showAudioControl()"></div>
-            <div id="audio-play-pause" class="button" onclick="toggleAudio()"></div>
+            <div class="item audio-image" id="audio-image" onclick="showAudioControl()"></div>
+            <div class="item button" id="audio-play-pause" onclick="toggleAudio()"></div>
             <input type="range" id="volume-control" min="0" max="1" step="0.01" value="1" oninput="adjustVolume(this.value)">
         </div>
         <div class="section photo">
-            <div id="photo-btn" class="button" onclick="showBook()"></div>
+            <div class="item button" id="photo-btn" onclick="showBook()"></div>
+            <div class="item photo-item photo-1"></div>
+            <div class="item photo-item photo-2"></div>
+            <div class="item photo-item photo-3"></div>
         </div>
         <div class="section video">
-            <div id="video-btn" class="button" onclick="showTablet()"></div>
+            <div class="item button" id="video-btn" onclick="showTablet()"></div>
+            <div class="item video-item video-1"></div>
+            <div class="item video-item video-2"></div>
         </div>
         <div class="section letter">
-            <div id="letter-btn" class="button" onclick="showLetter()"></div>
+            <div class="item button" id="letter-btn" onclick="showLetter()"></div>
+            <div class="item letter-item letter-1"></div>
+            <div class="item letter-item letter-2"></div>
         </div>
     </div>
 
@@ -306,14 +373,13 @@
             }
         });
 
-        // 버튼 및 이미지 표시/숨김 및 페이드인 (페이드아웃 제거)
+        // 버튼 및 이미지 표시/숨김
         function updateButtons() {
-            const elements = document.querySelectorAll('.button, .audio-image');
+            const elements = document.querySelectorAll('.item');
             elements.forEach((element, index) => {
                 if (index === currentSection) {
                     element.classList.add('active');
                 } else {
-                    // 페이드아웃 제거: opacity를 0으로 강제로 설정하지 않음
                     element.classList.remove('active');
                 }
             });
@@ -372,4 +438,90 @@
 
         function showTablet() {
             document.getElementById('tabletView').style.display = 'flex';
-            ini
+            initVideos();
+        }
+
+        function showLetter() {
+            document.getElementById('letterView').style.display = 'flex';
+            initLetters();
+        }
+
+        function hideEnlarged() {
+            document.querySelectorAll('.enlarged').forEach(el => el.style.display = 'none');
+        }
+
+        // 사진 슬라이드쇼 (기존 코드에서 가져옴, 필요 시 구현)
+        let currentSlide = 0;
+        function initPhotos() {
+            // 사진 슬라이드쇼 초기화 로직 (기존 코드 유지)
+            currentSlide = 0;
+            showSlide();
+        }
+
+        function showSlide() {
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach((slide, index) => {
+                slide.style.display = index === currentSlide ? 'block' : 'none';
+            });
+        }
+
+        function nextPhoto() {
+            const slides = document.querySelectorAll('.slide');
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide();
+        }
+
+        function prevPhoto() {
+            const slides = document.querySelectorAll('.slide');
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide();
+        }
+
+        // 비디오 초기화 (기본적으로 비디오 로직 유지)
+        function initVideos() {
+            // 비디오 초기화 로직 (기존 코드 유지)
+        }
+
+        function playVideo(videoId) {
+            document.getElementById(videoId).play();
+        }
+
+        function pauseVideo(videoId) {
+            document.getElementById(videoId).pause();
+        }
+
+        function stopVideo(videoId) {
+            const video = document.getElementById(videoId);
+            video.pause();
+            video.currentTime = 0;
+        }
+
+        // 편지 슬라이드쇼 (기존 코드에서 가져옴, 필요 시 구현)
+        let currentLetter = 0;
+        function initLetters() {
+            // 편지 슬라이드쇼 초기화 로직 (기존 코드 유지)
+            currentLetter = 0;
+            showLetterSlide();
+        }
+
+        function showLetterSlide() {
+            const letters = document.querySelectorAll('.letter-slide');
+            letters.forEach((letter, index) => {
+                letter.style.display = index === currentLetter ? 'block' : 'none';
+            });
+        }
+
+        function nextLetter() {
+            const letters = document.querySelectorAll('.letter-slide');
+            currentLetter = (currentLetter + 1) % letters.length;
+            showLetterSlide();
+        }
+
+        function prevLetter() {
+            const letters = document.querySelectorAll('.letter-slide');
+            currentLetter = (currentLetter - 1 + letters.length) % letters.length;
+            showLetterSlide();
+        }
+    </script>
+</body>
+</html>
