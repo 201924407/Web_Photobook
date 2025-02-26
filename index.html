@@ -136,16 +136,16 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             overflow: auto;
             display: none;
-            width: auto;
+            width: 900px; /* Fixed width for enlarged view */
+            height: 600px; /* Fixed height for enlarged view */
             max-width: 95%;
-            height: auto;
             max-height: 90vh;
             flex-direction: column;
         }
 
         .book-enlarged, .tablet-enlarged {
-            width: auto;
-            height: auto;
+            width: 900px;
+            height: 600px;
             max-width: 95%;
             max-height: 90vh;
         }
@@ -157,18 +157,34 @@
             max-height: 400px;
         }
 
+        .media-container {
+            width: 100%;
+            height: 100%;
+            background-color: #000; /* Black background for padding */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
         .photo-slideshow, .video-gallery, .letter-gallery {
             width: 100%;
-            flex-grow: 1;
+            height: 100%;
             position: relative;
             overflow: hidden;
         }
 
         .slide, .video-slide, .letter-slide {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
+            width: auto; /* Allow natural width */
+            height: auto; /* Allow natural height */
+            max-width: 100%; /* Ensure it fits within container */
+            max-height: 100%; /* Ensure it fits within container */
+            object-fit: contain; /* Scale to fit while maintaining aspect ratio */
             display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         .slide.active, .video-slide.active, .letter-slide.active {
@@ -184,8 +200,9 @@
         }
 
         video {
-            width: 100%;
+            width: auto;
             height: auto;
+            max-width: 100%;
             max-height: 100%;
             object-fit: contain;
             border-radius: 5px;
@@ -311,16 +328,18 @@
         <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="1" oninput="adjustVolume(this.value)">
     </div>
 
-    <div class="enlarged book-enlarged" id="bookView">
+    <div class="enlarged book-enlarged">
         <button class="back-button" onclick="hideEnlarged('book')">뒤로가기</button>
-        <div class="photo-slideshow">
-            <img class="slide" src="/pictures/picture_1.jpg" alt="추억 사진 1" onload="adjustEnlargedSize(this)">
-            <img class="slide" src="/pictures/picture_2.jpg" alt="추억 사진 2" onload="adjustEnlargedSize(this)">
-            <img class="slide" src="/pictures/picture_3.jpg" alt="추억 사진 3" onload="adjustEnlargedSize(this)">
-            <img class="slide" src="/pictures/picture_4.jpg" alt="추억 사진 4" onload="adjustEnlargedSize(this)">
-            <img class="slide" src="/pictures/picture_5.jpg" alt="추억 사진 5" onload="adjustEnlargedSize(this)">
-            <img class="slide" src="/pictures/picture_6.jpg" alt="추억 사진 6" onload="adjustEnlargedSize(this)">
-            <img class="slide" src="/pictures/picture_7.jpg" alt="추억 사진 7" onload="adjustEnlargedSize(this)">
+        <div class="media-container">
+            <div class="photo-slideshow">
+                <img class="slide" src="/pictures/picture_1.jpg" alt="추억 사진 1">
+                <img class="slide" src="/pictures/picture_2.jpg" alt="추억 사진 2">
+                <img class="slide" src="/pictures/picture_3.jpg" alt="추억 사진 3">
+                <img class="slide" src="/pictures/picture_4.jpg" alt="추억 사진 4">
+                <img class="slide" src="/pictures/picture_5.jpg" alt="추억 사진 5">
+                <img class="slide" src="/pictures/picture_6.jpg" alt="추억 사진 6">
+                <img class="slide" src="/pictures/picture_7.jpg" alt="추억 사진 7">
+            </div>
         </div>
         <div class="slide-controls">
             <button onclick="prevPhoto()">이전 페이지</button>
@@ -330,10 +349,12 @@
 
     <div class="enlarged tablet-enlarged" id="tabletView">
         <button class="back-button" onclick="hideEnlarged('tablet')">뒤로가기</button>
-        <div class="video-gallery">
-            <video class="video-slide" src="/videos/video_1.mp4" alt="추억 영상 1" preload="metadata" onload="adjustEnlargedSize(this)"></video>
-            <video class="video-slide" src="/videos/video_2.mp4" alt="추억 영상 2" preload="metadata" onload="adjustEnlargedSize(this)"></video>
-            <video class="video-slide" src="/videos/video_3.mp4" alt="추억 영상 3" preload="metadata" onload="adjustEnlargedSize(this)"></video>
+        <div class="media-container">
+            <div class="video-gallery">
+                <video class="video-slide" src="/videos/video_1.mp4" alt="추억 영상 1" preload="metadata"></video>
+                <video class="video-slide" src="/videos/video_2.mp4" alt="추억 영상 2" preload="metadata"></video>
+                <video class="video-slide" src="/videos/video_3.mp4" alt="추억 영상 3" preload="metadata"></video>
+            </div>
         </div>
         <div class="video-controls">
             <button onclick="prevVideo()">이전 영상</button>
@@ -474,7 +495,6 @@
             }
             photoIndex = 0;
             photos[photoIndex].classList.add("active");
-            adjustEnlargedSize(photos[photoIndex]);
         }
 
         function initVideos() {
@@ -484,7 +504,6 @@
             }
             videoIndex = 0;
             videos[videoIndex].classList.add("active");
-            adjustEnlargedSize(videos[videoIndex]);
             stopVideo(); // Ensure no video is playing initially
         }
 
@@ -497,47 +516,6 @@
             letters[letterIndex].classList.add("active");
         }
 
-        function adjustEnlargedSize(element) {
-            const enlarged = element.closest('.enlarged');
-            if (enlarged && (enlarged.classList.contains('book-enlarged') || enlarged.classList.contains('tablet-enlarged'))) {
-                if (element.tagName === 'IMG') {
-                    const img = new Image();
-                    img.src = element.src;
-                    img.onload = function() {
-                        const aspectRatio = this.width / this.height;
-                        const maxWidth = window.innerWidth * 0.95;
-                        const maxHeight = window.innerHeight * 0.9;
-                        let width = maxWidth;
-                        let height = width / aspectRatio;
-
-                        if (height > maxHeight) {
-                            height = maxHeight;
-                            width = height * aspectRatio;
-                        }
-
-                        enlarged.style.width = `${width}px`;
-                        enlarged.style.height = `${height}px`;
-                    };
-                } else if (element.tagName === 'VIDEO') {
-                    element.onloadedmetadata = function() {
-                        const aspectRatio = this.videoWidth / this.videoHeight;
-                        const maxWidth = window.innerWidth * 0.95;
-                        const maxHeight = window.innerHeight * 0.9;
-                        let width = maxWidth;
-                        let height = width / aspectRatio;
-
-                        if (height > maxHeight) {
-                            height = maxHeight;
-                            width = height * aspectRatio;
-                        }
-
-                        enlarged.style.width = `${width}px`;
-                        enlarged.style.height = `${height}px`;
-                    };
-                }
-            }
-        }
-
         function prevPhoto() {
             const photos = document.getElementsByClassName("slide");
             for (let i = 0; i < photos.length; i++) {
@@ -546,7 +524,6 @@
             photoIndex--;
             if (photoIndex < 0) { photoIndex = photos.length - 1; }
             photos[photoIndex].classList.add("active");
-            adjustEnlargedSize(photos[photoIndex]);
         }
 
         function nextPhoto() {
@@ -557,7 +534,6 @@
             photoIndex++;
             if (photoIndex >= photos.length) { photoIndex = 0; }
             photos[photoIndex].classList.add("active");
-            adjustEnlargedSize(photos[photoIndex]);
         }
 
         function prevVideo() {
@@ -569,7 +545,6 @@
             if (videoIndex < 0) { videoIndex = videos.length - 1; }
             videos[videoIndex].classList.add("active");
             stopVideo(); // Stop current video before switching
-            adjustEnlargedSize(videos[videoIndex]);
         }
 
         function nextVideo() {
@@ -581,7 +556,6 @@
             if (videoIndex >= videos.length) { videoIndex = 0; }
             videos[videoIndex].classList.add("active");
             stopVideo(); // Stop current video before switching
-            adjustEnlargedSize(videos[videoIndex]);
         }
 
         function playVideo() {
