@@ -54,12 +54,16 @@
             background-position: center;
             background-repeat: no-repeat;
             cursor: pointer;
-            opacity: 1; /* 초기에는 보이도록 설정 (페이드인 상태) */
+            opacity: 0; /* 페이지 로드 시 모든 버튼이 안 보이도록 설정 (페이드아웃 상태) */
             transition: opacity 0.3s ease; /* 페이드인/페이드아웃 애니메이션 */
         }
 
+        .button.visible {
+            opacity: 1; /* 뷰포트 내에 있을 때 보이도록 (페이드인 상태) */
+        }
+
         .button.outside-viewport {
-            opacity: 0; /* 뷰포트 밖으로 벗어나면 페이드아웃 */
+            opacity: 0; /* 뷰포트 밖으로 완전히 벗어나면 페이드아웃 */
         }
 
         /* 호버 효과 유지 (버튼 클릭 시 확대 애니메이션) */
@@ -69,7 +73,7 @@
         }
 
         #photo-btn {
-            background-image: url('/button/image.png'); /* 두 번째 페이지 사진 버튼 */
+            background-image: url('/button/picture.png'); /* 두 번째 페이지 사진 버튼 */
         }
 
         #video-btn {
@@ -309,7 +313,7 @@
         let isPlaying = false;
         let currentSection = 0;
 
-        // 페이지 로드 시 초기 설정 (배경음 재생 시작)
+        // 페이지 로드 시 초기 설정 (배경음 재생 시작, 버튼 안 보임)
         window.addEventListener('load', function() {
             audio.volume = 1;
             audio.play().then(() => {
@@ -320,6 +324,9 @@
                 isPlaying = false;
                 document.getElementById('toggleAudio').textContent = '배경음 켜기';
             });
+            // 페이지 로드 시 모든 버튼을 안 보이게 설정 (초기 상태 유지)
+            const buttons = document.querySelectorAll('.button');
+            buttons.forEach(button => button.classList.remove('visible', 'outside-viewport'));
         });
 
         // 스크롤 이벤트 처리
@@ -338,13 +345,19 @@
                     // 뷰포트 밖으로 완전히 벗어났을 때
                     if (index === currentSection && index !== 0) { // 첫 번째 섹션(empty)은 제외
                         const button = section.querySelector('.button');
-                        if (button) button.classList.add('outside-viewport');
+                        if (button) {
+                            button.classList.remove('visible');
+                            button.classList.add('outside-viewport');
+                        }
                     }
                 } else {
                     // 뷰포트 내에 있을 때
-                    if (index === currentSection && index !== 0) {
+                    if (index !== 0) { // 첫 번째 섹션(empty)은 제외
                         const button = section.querySelector('.button');
-                        if (button) button.classList.remove('outside-viewport');
+                        if (button) {
+                            button.classList.remove('outside-viewport');
+                            button.classList.add('visible');
+                        }
                     }
                     newSection = index;
                 }
@@ -361,8 +374,10 @@
             const buttons = document.querySelectorAll('.button');
             buttons.forEach((button, index) => {
                 if (index === currentSection && index !== 0) { // 첫 번째 섹션(empty)은 제외
+                    button.classList.add('visible');
                     button.classList.remove('outside-viewport');
                 } else {
+                    button.classList.remove('visible');
                     button.classList.add('outside-viewport');
                 }
             });
