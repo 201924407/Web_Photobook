@@ -50,12 +50,16 @@
             background-position: center;
             background-repeat: no-repeat;
             cursor: pointer;
-            opacity: 1; /* 초기에는 보이도록 설정 (페이드인 상태) */
+            opacity: 0; /* 페이지 로드 시 모든 버튼 및 이미지가 안 보이도록 설정 (페이드아웃 상태) */
             transition: opacity 0.3s ease; /* 페이드인/페이드아웃 애니메이션 */
         }
 
-        .item.active {
-            opacity: 0; /* 스크롤 시 숨김 (페이드아웃 상태) */
+        .item.visible {
+            opacity: 1; /* 뷰포트 내에 있을 때 보이도록 (페이드인 상태) */
+        }
+
+        .item.outside-viewport {
+            opacity: 0; /* 뷰포트 밖으로 완전히 벗어나면 페이드아웃 */
         }
 
         /* 호버 효과 유지 (아이템 클릭 시 확대 애니메이션) */
@@ -311,7 +315,7 @@
         let isPlaying = false;
         let currentSection = 0;
 
-        // 페이지 로드 시 초기 설정 (배경음 재생 시작)
+        // 페이지 로드 시 초기 설정 (배경음 재생 시작, 모든 아이템 안 보임)
         window.addEventListener('load', function() {
             audio.volume = 1;
             audio.play().then(() => {
@@ -322,6 +326,9 @@
                 isPlaying = false;
                 document.getElementById('toggleAudio').textContent = '배경음 켜기';
             });
+            // 페이지 로드 시 모든 아이템을 안 보이게 설정 (초기 상태 유지)
+            const items = document.querySelectorAll('.item');
+            items.forEach(item => item.classList.remove('visible', 'outside-viewport'));
         });
 
         // 스크롤 이벤트 처리
@@ -333,7 +340,23 @@
 
             sections.forEach((section, index) => {
                 const sectionTop = section.offsetTop;
-                if (scrollPosition >= sectionTop - windowHeight / 2 && scrollPosition < sectionTop + windowHeight / 2) {
+                const sectionBottom = sectionTop + section.offsetHeight;
+
+                // 뷰포트 내에 섹션이 완전히 포함되는지 확인
+                if (scrollPosition + windowHeight < sectionTop || scrollPosition > sectionBottom) {
+                    // 뷰포트 밖으로 완전히 벗어났을 때
+                    const item = section.querySelector('.item');
+                    if (item) {
+                        item.classList.remove('visible');
+                        item.classList.add('outside-viewport');
+                    }
+                } else {
+                    // 뷰포트 내에 있을 때
+                    const item = section.querySelector('.item');
+                    if (item) {
+                        item.classList.remove('outside-viewport');
+                        item.classList.add('visible');
+                    }
                     newSection = index;
                 }
             });
@@ -349,9 +372,11 @@
             const items = document.querySelectorAll('.item');
             items.forEach((item, index) => {
                 if (index === currentSection) { // 모든 섹션에 적용
-                    item.classList.add('active');
+                    item.classList.add('visible');
+                    item.classList.remove('outside-viewport');
                 } else {
-                    item.classList.remove('active');
+                    item.classList.remove('visible');
+                    item.classList.add('outside-viewport');
                 }
             });
         }
