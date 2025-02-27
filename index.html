@@ -1,32 +1,40 @@
-<!-- 책 뷰 -->
-<div class="enlarged book-enlarged" id="bookView">
-    <img src="/images/home.png" class="back-button" onclick="hideEnlarged('book')" alt="뒤로가기">
-    <div class="media-container">
-        <!-- 나머지 내용 동일 -->
-    </div>
-    <div class="slide-controls">
-        <!-- 나머지 내용 동일 -->
-    </div>
-</div>
+.control-button {
+    width: 30px; /* 버튼 이미지 크기 조정 */
+    height: 30px; /* 버튼 이미지 크기 조정 */
+    margin: 0 5px;
+    cursor: pointer;
+    vertical-align: middle; /* 버튼 정렬 */
+}
 
-<!-- 태블릿 뷰 -->
-<div class="enlarged tablet-enlarged" id="tabletView">
-    <img src="/images/home.png" class="back-button" onclick="hideEnlarged('tablet')" alt="뒤로가기">
-    <div class="media-container">
-        <!-- 나머지 내용 동일 -->
-    </div>
-    <div class="video-controls">
-        <!-- 나머지 내용 동일 -->
-    </div>
-</div>
+.control-button:hover {
+    opacity: 0.8; /* 호버 시 투명도 효과 */
+}
 
-<!-- 편지 뷰 -->
-<div class="enlarged letter-enlarged" id="letterView">
-    <img src="/images/home.png" class="back-button" onclick="hideEnlarged('letter')" alt="뒤로가기">
-    <div class="letter-gallery">
-        <!-- 나머지 내용 동일 -->
-    </div>
-    <div class="letter-controls">
-        <!-- 나머지 내용 동일 -->
-    </div>
-</div>
+/* 기존 back-button 스타일 유지 및 조정 */
+.back-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 30px; /* 홈 버튼 크기 */
+    height: 30px;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.back-button:hover {
+    opacity: 0.8; /* 호버 효과 */
+}
+
+/* 컨트롤 섹션 스타일 유지 */
+.slide-controls, .video-controls, .letter-controls {
+    text-align: center;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-top: 1px solid #ddd;
+    width: 100%;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: center; /* 버튼 중앙 정렬 */
+    align-items: center;
+    gap: 10px; /* 버튼 간격 */
+}
