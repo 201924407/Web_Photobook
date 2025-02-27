@@ -1,40 +1,718 @@
-.control-button {
-    width: 30px; /* 버튼 이미지 크기 조정 */
-    height: 30px; /* 버튼 이미지 크기 조정 */
-    margin: 0 5px;
-    cursor: pointer;
-    vertical-align: middle; /* 버튼 정렬 */
-}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hey!Hey!졸업기념포토북</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #fff;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
 
-.control-button:hover {
-    opacity: 0.8; /* 호버 시 투명도 효과 */
-}
+        .container {
+            width: 100%;
+            min-height: 400vh;
+            position: relative;
+            background-image: url('/images/background_combined.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border-radius: 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            transition: transform 0.5s ease;
+        }
 
-/* 기존 back-button 스타일 유지 및 조정 */
-.back-button {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    width: 30px; /* 홈 버튼 크기 */
-    height: 30px;
-    cursor: pointer;
-    z-index: 1001;
-}
+        .section {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-.back-button:hover {
-    opacity: 0.8; /* 호버 효과 */
-}
+        .section.empty, .section.photo, .section.video, .section.letter {
+            background: none;
+        }
 
-/* 컨트롤 섹션 스타일 유지 */
-.slide-controls, .video-controls, .letter-controls {
-    text-align: center;
-    padding: 10px;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-top: 1px solid #ddd;
-    width: 100%;
-    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
-    display: flex;
-    justify-content: center; /* 버튼 중앙 정렬 */
-    align-items: center;
-    gap: 10px; /* 버튼 간격 */
-}
+        .item {
+            width: 70%;
+            height: 70%;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .item.active {
+            opacity: 1;
+        }
+
+        .item:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s ease;
+        }
+
+        #first-image {
+            background-image: url('/images/background_1page_image.png');
+            background-size: contain;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        #photo-btn {
+            background-image: url('/button/image.png');
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: contain;
+        }
+
+        #video-btn {
+            background-image: url('/button/video.png');
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: contain;
+        }
+
+        #letter-btn {
+            background-image: url('/button/letter.png');
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: contain;
+        }
+
+        @media (max-width: 768px) {
+            .item {
+                width: 60%;
+                height: 60%;
+            }
+            #first-image, #photo-btn, #video-btn, #letter-btn {
+                width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .item {
+                width: 50%;
+                height: 50%;
+            }
+            #first-image, #photo-btn, #video-btn, #letter-btn {
+                width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+        }
+
+        .enlarged {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            background-color: #fff;
+            border: 3px solid #87CEEB;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            overflow: auto;
+            display: none;
+            width: 900px;
+            height: 600px;
+            max-width: 95%;
+            max-height: 90vh;
+            flex-direction: column;
+        }
+
+        .book-enlarged, .tablet-enlarged {
+            width: 900px;
+            height: 600px;
+            max-width: 95%;
+            max-height: 90vh;
+        }
+
+        .letter-enlarged {
+            width: 90%;
+            max-width: 90%;
+            height: auto;
+            max-height: 400px;
+        }
+
+        .media-container {
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .photo-slideshow, .video-gallery, .letter-gallery {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide, .video-slide, .letter-slide {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .slide.active, .video-slide.active, .letter-slide.active {
+            display: block;
+        }
+
+        .video-item {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        video {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 5px;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .back-button:hover {
+            opacity: 0.8;
+        }
+
+        .slide-controls, .video-controls, .letter-controls {
+            text-align: center;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-top: 1px solid #ddd;
+            width: 100%;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .control-button {
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+
+        .control-button:hover {
+            opacity: 0.8;
+        }
+
+        .video-progress {
+            width: 100%;
+            background-color: #ddd;
+            height: 5px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .video-progress-bar {
+            height: 100%;
+            background-color: #87CEEB;
+            width: 0%;
+            border-radius: 5px;
+            transition: width 0.1s linear;
+        }
+
+        .audio-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+        }
+
+        .audio-control button {
+            background-color: #87CEEB;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            font-size: 0.9em;
+        }
+
+        .audio-control button:hover {
+            background-color: #76c0e7;
+        }
+
+        .audio-control input[type="range"] {
+            width: 100px;
+            cursor: pointer;
+            -webkit-appearance: none;
+            background: #ddd;
+            border-radius: 5px;
+            height: 5px;
+            outline: none;
+        }
+
+        .audio-control input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 15px;
+            height: 15px;
+            background: #87CEEB;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .audio-control input[type="range"]::-webkit-slider-thumb:hover {
+            background: #76c0e7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="section empty">
+            <div id="first-image" class="item" onclick="showFirstAction()"></div>
+        </div>
+        <div class="section photo">
+            <div id="photo-btn" class="item" onclick="showBook()"></div>
+        </div>
+        <div class="section video">
+            <div id="video-btn" class="item" onclick="showTablet()"></div>
+        </div>
+        <div class="section letter">
+            <div id="letter-btn" class="item" onclick="showLetter()"></div>
+        </div>
+    </div>
+
+    <audio id="backgroundMusic" loop>
+        <source src="/audio/background_music.mp3" type="audio/mp3">
+        브라우저가 오디오를 지원하지 않습니다.
+    </audio>
+
+    <div class="audio-control">
+        <button id="toggleAudio" onclick="toggleAudio()">배경음 끄기</button>
+        <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="1" oninput="adjustVolume(this.value)">
+    </div>
+
+    <div class="enlarged book-enlarged" id="bookView">
+        <img src="/button/home.png" class="back-button" onclick="hideEnlarged('book')" alt="홈으로 뒤로가기">
+        <div class="media-container">
+            <div class="photo-slideshow">
+                <img class="slide" src="/pictures/picture_1.jpg" alt="추억 사진 1">
+                <img class="slide" src="/pictures/picture_2.jpg" alt="추억 사진 2">
+                <img class="slide" src="/pictures/picture_3.jpg" alt="추억 사진 3">
+                <img class="slide" src="/pictures/picture_4.jpg" alt="추억 사진 4">
+                <img class="slide" src="/pictures/picture_5.jpg" alt="추억 사진 5">
+                <img class="slide" src="/pictures/picture_6.jpg" alt="추억 사진 6">
+                <img class="slide" src="/pictures/picture_7.jpg" alt="추억 사진 7">
+                <img class="slide" src="/pictures/picture_8.jpg" alt="추억 사진 8">
+                <img class="slide" src="/pictures/picture_9.jpg" alt="추억 사진 9">
+                <img class="slide" src="/pictures/picture_10.jpg" alt="추억 사진 10">
+                <img class="slide" src="/pictures/picture_11.jpg" alt="추억 사진 11">
+                <img class="slide" src="/pictures/picture_12.jpg" alt="추억 사진 12">
+                <img class="slide" src="/pictures/picture_13.jpg" alt="추억 사진 13">
+                <img class="slide" src="/pictures/picture_14.jpg" alt="추억 사진 14">
+                <img class="slide" src="/pictures/picture_15.jpg" alt="추억 사진 15">
+                <img class="slide" src="/pictures/picture_16.jpg" alt="추억 사진 16">
+                <img class="slide" src="/pictures/picture_17.jpg" alt="추억 사진 17">
+            </div>
+        </div>
+        <div class="slide-controls">
+            <img src="/button/previous.png" class="control-button" onclick="prevPhoto()" alt="이전 페이지">
+            <img src="/button/next.png" class="control-button" onclick="nextPhoto()" alt="다음 페이지">
+        </div>
+    </div>
+
+    <div class="enlarged tablet-enlarged" id="tabletView">
+        <img src="/button/home.png" class="back-button" onclick="hideEnlarged('tablet')" alt="홈으로 뒤로가기">
+        <div class="media-container">
+            <div class="video-gallery">
+                <video class="video-slide" src="/web/video1.mp4" alt="추억 영상 1" preload="metadata"></video>
+                <video class="video-slide" src="/web/video2.mp4" alt="추억 영상 2" preload="metadata"></video>
+                <video class="video-slide" src="/web/video3.mp4" alt="추억 영상 3" preload="metadata"></video>
+                <video class="video-slide" src="/web/video4.mp4" alt="추억 영상 4" preload="metadata"></video>
+                <video class="video-slide" src="/web/video5.mp4" alt="추억 영상 5" preload="metadata"></video>
+                <video class="video-slide" src="/web/video6.mp4" alt="추억 영상 6" preload="metadata"></video>
+                <video class="video-slide" src="/web/video7.mp4" alt="추억 영상 7" preload="metadata"></video>
+                <video class="video-slide" src="/web/video8.mp4" alt="추억 영상 8" preload="metadata"></video>
+                <video class="video-slide" src="/web/video9.mp4" alt="추억 영상 9" preheat="metadata"></video>
+                <video class="video-slide" src="/web/video10.mp4" alt="추억 영상 10" preload="metadata"></video>
+                <video class="video-slide" src="/web/video11.mp4" alt="추억 영상 11" preload="metadata"></video>
+                <video class="video-slide" src="/web/video12.mp4" alt="추억 영상 12" preload="metadata"></video>
+                <video class="video-slide" src="/web/video13.mp4" alt="추억 영상 13" preload="metadata"></video>
+                <video class="video-slide" src="/web/video14.mp4" alt="추억 영상 14" preload="metadata"></video>
+                <video class="video-slide" src="/web/video15.mp4" alt="추억 영상 15" preload="metadata"></video>
+                <video class="video-slide" src="/web/video16.mp4" alt="추억 영상 16" preload="metadata"></video>
+                <video class="video-slide" src="/web/video17.mp4" alt="추억 영상 17" preload="metadata"></video>
+                <video class="video-slide" src="/web/video18.mp4" alt="추억 영상 18" preload="metadata"></video>
+                <video class="video-slide" src="/web/video19.mp4" alt="추억 영상 19" preload="metadata"></video>
+                <video class="video-slide" src="/web/video20.mp4" alt="추억 영상 20" preload="metadata"></video>
+                <video class="video-slide" src="/web/video21.mp4" alt="추억 영상 21" preload="metadata"></video>
+                <video class="video-slide" src="/web/video22.mp4" alt="추억 영상 22" preload="metadata"></video>
+                <video class="video-slide" src="/web/video23.mp4" alt="추억 영상 23" preload="metadata"></video>
+                <video class="video-slide" src="/web/video24.mp4" alt="추억 영상 24" preload="metadata"></video>
+                <video class="video-slide" src="/web/video25.mp4" alt="추억 영상 25" preload="metadata"></video>
+                <video class="video-slide" src="/web/video26.mp4" alt="추억 영상 26" preload="metadata"></video>
+                <video class="video-slide" src="/web/video27.mp4" alt="추억 영상 27" preload="metadata"></video>
+                <video class="video-slide" src="/web/video28.mp4" alt="추억 영상 28" preload="metadata"></video>
+                <video class="video-slide" src="/web/video29.mp4" alt="추억 영상 29" preload="metadata"></video>
+            </div>
+        </div>
+        <div class="video-controls">
+            <img src="/button/previous.png" class="control-button" onclick="prevVideo()" alt="이전 영상">
+            <img src="/button/back.png" class="control-button" onclick="skipBackward()" alt="-10초">
+            <img src="/button/play.png" class="control-button" onclick="playVideo()" alt="재생">
+            <img src="/button/pause.png" class="control-button" onclick="pauseVideo()" alt="일시정지">
+            <img src="/button/forward.png" class="control-button" onclick="skipForward()" alt="+10초">
+            <img src="/button/next.png" class="control-button" onclick="nextVideo()" alt="다음 영상">
+            <div class="video-progress" onclick="seekVideo(event)">
+                <div class="video-progress-bar" id="videoProgressBar"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="enlarged letter-enlarged" id="letterView">
+        <img src="/button/home.png" class="back-button" onclick="hideEnlarged('letter')" alt="홈으로 뒤로가기">
+        <div class="letter-gallery">
+            <img class="letter-slide" src="https://via.placeholder.com/800x600.png?text=추억+편지+1" alt="추억 편지 1">
+            <img class="letter-slide" src="https://via.placeholder.com/800x600.png?text=추억+편지+2" alt="추억 편지 2">
+            <img class="letter-slide" src="https://via.placeholder.com/800x600.png?text=추억+편지+3" alt="추억 편지 3">
+        </div>
+        <div class="letter-controls">
+            <img src="/button/previous.png" class="control-button" onclick="prevLetter()" alt="이전 편지">
+            <img src="/button/next.png" class="control-button" onclick="nextLetter()" alt="다음 편지">
+        </div>
+    </div>
+
+    <script>
+        let photoIndex = 0;
+        let videoIndex = 0;
+        let letterIndex = 0;
+        const backgroundAudio = document.getElementById('backgroundMusic');
+        let isPlaying = false;
+        let currentSection = 0;
+
+        window.addEventListener('load', function() {
+            backgroundAudio.volume = 1;
+            backgroundAudio.play().then(() => {
+                isPlaying = true;
+                document.getElementById('toggleAudio').textContent = '배경음 끄기';
+            }).catch(error => {
+                console.log("자동 재생 실패: ", error);
+                isPlaying = false;
+                document.getElementById('toggleAudio').textContent = '배경음 켜기';
+            });
+            
+            const items = document.querySelectorAll('.item');
+            items.forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            const firstImage = document.getElementById('first-image');
+            if (firstImage) {
+                firstImage.classList.add('active');
+            }
+        });
+
+        window.addEventListener('scroll', function() {
+            const scrollPosition = window.scrollY;
+            const windowHeight = window.innerHeight;
+            const sections = document.querySelectorAll('.section');
+            let newSection = 0;
+
+            sections.forEach((section, index) => {
+                const sectionTop = section.offsetTop;
+                if (scrollPosition >= sectionTop - windowHeight / 2 && scrollPosition < sectionTop + windowHeight / 2) {
+                    newSection = index;
+                }
+            });
+
+            if (newSection !== currentSection) {
+                currentSection = newSection;
+                updateButtons();
+            }
+        });
+
+        function updateButtons() {
+            const items = document.querySelectorAll('.item');
+            items.forEach((item, index) => {
+                if (index === currentSection) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        function toggleAudio() {
+            if (isPlaying) {
+                backgroundAudio.pause();
+                document.getElementById('toggleAudio').textContent = '배경음 켜기';
+            } else {
+                backgroundAudio.play();
+                document.getElementById('toggleAudio').textContent = '배경음 끄기';
+            }
+            isPlaying = !isPlaying;
+        }
+
+        function adjustVolume(volume) {
+            backgroundAudio.volume = volume;
+            if (volume > 0 && !isPlaying) {
+                backgroundAudio.play();
+                isPlaying = true;
+                document.getElementById('toggleAudio').textContent = '배경음 끄기';
+            } else if (volume == 0 && isPlaying) {
+                backgroundAudio.pause();
+                isPlaying = false;
+                document.getElementById('toggleAudio').textContent = '배경음 켜기';
+            }
+        }
+
+        function showBook() {
+            const bookView = document.getElementById('bookView');
+            if (bookView) {
+                bookView.style.display = 'flex';
+                initPhotos();
+            } else {
+                console.error('Book view element not found');
+            }
+        }
+
+        function showTablet() {
+            const tabletView = document.getElementById('tabletView');
+            if (tabletView) {
+                tabletView.style.display = 'flex';
+                initVideos();
+            } else {
+                console.error('Tablet view element not found');
+            }
+        }
+
+        function showLetter() {
+            const letterView = document.getElementById('letterView');
+            if (letterView) {
+                letterView.style.display = 'flex';
+                initLetters();
+            } else {
+                console.error('Letter view element not found');
+            }
+        }
+
+        function showFirstAction() {
+            console.log("첫 번째 이미지 클릭됨");
+        }
+
+        function hideEnlarged(type) {
+            const view = document.getElementById(`${type}View`);
+            if (view) {
+                view.style.display = 'none';
+            } else {
+                console.error(`${type} view element not found`);
+            }
+        }
+
+        function initPhotos() {
+            const photos = document.getElementsByClassName("slide");
+            for (let i = 0; i < photos.length; i++) {
+                photos[i].classList.remove("active");
+            }
+            photoIndex = 0;
+            photos[photoIndex].classList.add("active");
+        }
+
+        function initVideos() {
+            const videos = document.getElementsByClassName("video-slide");
+            for (let i = 0; i < videos.length; i++) {
+                videos[i].classList.remove("active");
+            }
+            videoIndex = 0;
+            videos[videoIndex].classList.add("active");
+            stopVideo(); // Ensure no video is playing initially
+            updateVideoProgress(); // Initialize video progress
+        }
+
+        function initLetters() {
+            const letters = document.getElementsByClassName("letter-slide");
+            for (let i = 0; i < letters.length; i++) {
+                letters[i].classList.remove("active");
+            }
+            letterIndex = 0;
+            letters[letterIndex].classList.add("active");
+        }
+
+        function prevPhoto() {
+            const photos = document.getElementsByClassName("slide");
+            for (let i = 0; i < photos.length; i++) {
+                photos[i].classList.remove("active");
+            }
+            photoIndex--;
+            if (photoIndex < 0) { photoIndex = photos.length - 1; }
+            photos[photoIndex].classList.add("active");
+        }
+
+        function nextPhoto() {
+            const photos = document.getElementsByClassName("slide");
+            for (let i = 0; i < photos.length; i++) {
+                photos[i].classList.remove("active");
+            }
+            photoIndex++;
+            if (photoIndex >= photos.length) { photoIndex = 0; }
+            photos[photoIndex].classList.add("active");
+        }
+
+        function prevVideo() {
+            const videos = document.getElementsByClassName("video-slide");
+            for (let i = 0; i < videos.length; i++) {
+                videos[i].classList.remove("active");
+            }
+            videoIndex--;
+            if (videoIndex < 0) { videoIndex = videos.length - 1; }
+            videos[videoIndex].classList.add("active");
+            stopVideo(); // Stop current video before switching
+            updateVideoProgress(); // Update progress for new video
+        }
+
+        function nextVideo() {
+            const videos = document.getElementsByClassName("video-slide");
+            for (let i = 0; i < videos.length; i++) {
+                videos[i].classList.remove("active");
+            }
+            videoIndex++;
+            if (videoIndex >= videos.length) { videoIndex = 0; }
+            videos[videoIndex].classList.add("active");
+            stopVideo(); // Stop current video before switching
+            updateVideoProgress(); // Update progress for new video
+        }
+
+        function playVideo() {
+            const video = document.querySelector('.video-slide.active');
+            if (video) {
+                video.play();
+                updateVideoProgress();
+            }
+        }
+
+        function pauseVideo() {
+            const video = document.querySelector('.video-slide.active');
+            if (video) {
+                video.pause();
+            }
+        }
+
+        function stopVideo() {
+            const video = document.querySelector('.video-slide.active');
+            if (video) {
+                video.pause();
+                video.currentTime = 0;
+                updateVideoProgress(); // Reset progress bar
+            }
+        }
+
+        function skipForward() {
+            const video = document.querySelector('.video-slide.active');
+            if (video) {
+                video.currentTime = Math.min(video.currentTime + 10, video.duration);
+                updateVideoProgress();
+            }
+        }
+
+        function skipBackward() {
+            const video = document.querySelector('.video-slide.active');
+            if (video) {
+                video.currentTime = Math.max(video.currentTime - 10, 0);
+                updateVideoProgress();
+            }
+        }
+
+        function updateVideoProgress() {
+            const video = document.querySelector('.video-slide.active');
+            const progressBar = document.getElementById('videoProgressBar');
+            if (video && progressBar) {
+                const update = () => {
+                    const percent = (video.currentTime / video.duration) * 100;
+                    progressBar.style.width = `${percent}%`;
+                };
+                video.addEventListener('timeupdate', update);
+                update(); // Initial update
+            }
+        }
+
+        function seekVideo(event) {
+            const progress = document.querySelector('.video-progress');
+            const video = document.querySelector('.video-slide.active');
+            if (video && progress) {
+                const rect = progress.getBoundingClientRect();
+                const clickX = event.clientX - rect.left;
+                const width = rect.width;
+                const percent = clickX / width;
+                video.currentTime = percent * video.duration;
+                updateVideoProgress();
+            }
+        }
+
+        function prevLetter() {
+            const letters = document.getElementsByClassName("letter-slide");
+            for (let i = 0; i < letters.length; i++) {
+                letters[i].classList.remove("active");
+            }
+            letterIndex--;
+            if (letterIndex < 0) { letterIndex = letters.length - 1; }
+            letters[letterIndex].classList.add("active");
+        }
+
+        function nextLetter() {
+            const letters = document.getElementsByClassName("letter-slide");
+            for (let i = 0; i < letters.length; i++) {
+                letters[i].classList.remove("active");
+            }
+            letterIndex++;
+            if (letterIndex >= letters.length) { letterIndex = 0; }
+            letters[letterIndex].classList.add("active");
+        }
+    </script>
+</body>
+</html>
