@@ -1,6 +1,6 @@
 # 📸 Web Photobook Project (졸업 기념 디지털 포토북)
 
-<img src="Doc/Images/Main.png" width="400" height="225" style="aspect-ratio: 16/9; object-fit: cover;" alt="MainScreen">
+<img src="Doc/Images/Main.png" width="225" height="400" style="aspect-ratio: 9/16; object-fit: cover;" alt="MainScreen">
 
 > **"소중한 추억을 디지털 공간에 담다."**
 >
@@ -27,11 +27,11 @@
 
 | 사진첩 페이지 | 사진첩 뷰어 (Photo Gallery) |
 | :---: | :---: |
-| <img src="Doc/Images/Picture.png" width="400" height="225" style="aspect-ratio: 16/9; object-fit: cover;" alt="MainScreen"> | <img src="Doc/Images/Gallery.png" width="400" height="225" style="aspect-ratio: 16/9; object-fit: cover;" alt="PhotoGallery"> |
+| <img src="Doc/Images/Picture.png" width="225" height="400" style="aspect-ratio: 9/16; object-fit: cover;" alt="MainScreen"> | <img src="Doc/Images/Gallery.png" width="400" height="225" style="aspect-ratio: 16/9; object-fit: cover;" alt="PhotoGallery"> |
 
 | 비디오 페이지 | 비디오 플레이어 (Video Player) | 
 | :---: | :---: |
-| <img src="Doc/Images/Video.png" width="400" height="225" style="aspect-ratio: 16/9; object-fit: cover;" alt="VideoPlayer"> | <img src="Doc/Images/Player.png" width="400" height="225" style="aspect-ratio: 16/9; object-fit: cover;" alt="VideoPlayer"> |
+| <img src="Doc/Images/Video.png" width="225" height="400" style="aspect-ratio: 9/16; object-fit: cover;" alt="VideoPlayer"> | <img src="Doc/Images/Player.png" width="400" height="225" style="aspect-ratio: 16/9; object-fit: cover;" alt="VideoPlayer"> |
 
 ---
 
