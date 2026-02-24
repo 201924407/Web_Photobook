@@ -1,8 +1,9 @@
 # 📸 Web Photobook Project (졸업 기념 디지털 포토북)
 <img src="Doc/Images/Main.png" width="225" height="300" style="aspect-ratio: 9/14; object-fit: cover;" alt="MainScreen">
+
 > **"소중한 추억을 디지털 공간에 담다."**
 >
-> *처음으로 제작해본 HTML, CSS, Vanilla JS로 구현한 인터랙티브 웹 포토북 프로젝트입니다.* 동아리 동료의 졸업 기념 선물용으로 제작하였습니다.
+> **처음으로 제작해본 HTML, CSS, Vanilla JS로 구현한 인터랙티브 웹 포토북 프로젝트입니다.** 동아리 동료의 졸업 기념 선물용으로 제작하였습니다.
 ---
 
 ## 📋 1. 프로젝트 개요 (Overview)
