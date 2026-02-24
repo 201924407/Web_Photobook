@@ -1,6 +1,6 @@
 # 📸 Web Photobook Project (졸업 기념 디지털 포토북)
 
-<img src="Doc/Images/Lobby.png" width="300" align="left" style="margin-right: 20px;">
+<img src="Doc/Images/Main.png" width="300" align="left" style="margin-right: 20px;">
 
 > **"소중한 추억을 디지털 공간에 담다."**
 >
