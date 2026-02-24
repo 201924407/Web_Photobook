@@ -1,5 +1,7 @@
 # 📸 Web Photobook Project (졸업 기념 디지털 포토북)
 
+<img src="Doc/Images/Main.png" width="400" height="225" style="aspect-ratio: 16/9; object-fit: cover;" alt="MainScreen">
+
 > **"소중한 추억을 디지털 공간에 담다."**
 >
 > *처음으로 제작해본 HTML, CSS, Vanilla JS로 구현한 인터랙티브 웹 포토북 프로젝트입니다.* 동아리 동료의 졸업 기념 선물용으로 제작하였습니다.
@@ -23,13 +25,13 @@
 
 ## 📱 2. 미리보기 (Preview)
 
-| 메인 화면 (Main) | 사진첩 뷰어 (Photo Gallery) |
+| 사진첩 페이지 | 사진첩 뷰어 (Photo Gallery) |
 | :---: | :---: |
-| <img src="Doc/Images/Main.png" width="400" height="225" style="aspect-ratio: 16/9; object-fit: cover;" alt="MainScreen"> | <img src="Doc/Images/Gallery.png" width="400" height="225" style="aspect-ratio: 16/9; object-fit: cover;" alt="PhotoGallery"> |
+| <img src="Doc/Images/Picture.png" width="400" height="225" style="aspect-ratio: 16/9; object-fit: cover;" alt="MainScreen"> | <img src="Doc/Images/Gallery.png" width="400" height="225" style="aspect-ratio: 16/9; object-fit: cover;" alt="PhotoGallery"> |
 
-| 비디오 플레이어 (Video Player) |
-| :---: |
-| <img src="Doc/Images/Video.png" width="400" height="225" style="aspect-ratio: 16/9; object-fit: cover;" alt="VideoPlayer"> |
+| 비디오 페이지 | 비디오 플레이어 (Video Player) | 
+| :---: | :---: |
+| <img src="Doc/Images/Video.png" width="400" height="225" style="aspect-ratio: 16/9; object-fit: cover;" alt="VideoPlayer"> | <img src="Doc/Images/Player.png" width="400" height="225" style="aspect-ratio: 16/9; object-fit: cover;" alt="VideoPlayer"> |
 
 ---
 
