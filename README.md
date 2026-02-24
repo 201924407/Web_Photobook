@@ -2,7 +2,7 @@
 
 > **"소중한 추억을 디지털 공간에 담다."**
 >
-> *HTML, CSS, Vanilla JS로 구현한 인터랙티브 웹 포토북 프로젝트입니다.*
+> *처음으로 제작해본 HTML, CSS, Vanilla JS로 구현한 인터랙티브 웹 포토북 프로젝트입니다.* 동아리 동료의 졸업 기념 선물용으로 제작하였습니다.
 
 ---
 
@@ -10,25 +10,26 @@
 
 *   **프로젝트명:** Hey!Hey!졸업기념포토북
 *   **유형:** 웹 기반 인터랙티브 디지털 앨범
+*   **플랫폼:** 모바일(웹 호환성X)
 *   **개발 인원:** 1인 개발
-*   **개발 기간:** 20XX.XX ~ 20XX.XX
+*   **개발 기간:** 2025.02.17 ~ 2025.02.19
 *   **주요 특징:**
     *   별도의 프레임워크 없이 **순수 JavaScript(Vanilla JS)**로 동적 기능 구현.
     *   사용자 경험(UX)을 고려한 **커스텀 비디오 컨트롤러** 제작.
     *   배경음악(BGM) 제어 및 볼륨 조절 기능 탑재.
     *   반응형 웹 디자인(Responsive Web Design) 적용.
-
+    *   **Netlify** 오픈소스를 사용하여 배포.
 ---
 
 ## 📱 2. 미리보기 (Preview)
 
 | 메인 화면 (Main) | 사진첩 뷰어 (Photo Gallery) |
 | :---: | :---: |
-| ![MainScreen](https://via.placeholder.com/600x350?text=Main+Screen+Preview) | ![PhotoGallery](https://via.placeholder.com/600x350?text=Photo+Gallery+Preview) |
+| <img src="Doc/Images/Main.png" width="400" height="225" style="aspect-ratio: 16/9; object-fit: cover;" alt="MainScreen"> | <img src="Doc/Images/Gallery.png" width="400" height="225" style="aspect-ratio: 16/9; object-fit: cover;" alt="PhotoGallery"> |
 
-| 비디오 플레이어 (Video Player) | 모바일 화면 (Responsive) |
-| :---: | :---: |
-| ![VideoPlayer](https://via.placeholder.com/600x350?text=Video+Player+Preview) | ![MobileView](https://via.placeholder.com/600x350?text=Mobile+View+Preview) |
+| 비디오 플레이어 (Video Player) |
+| :---: |
+| <img src="Doc/Images/Video.png" width="400" height="225" style="aspect-ratio: 16/9; object-fit: cover;" alt="VideoPlayer"> |
 
 ---
 
@@ -41,7 +42,8 @@
 
 ### Assets & Tools
 *   **Media**: 이미지, 비디오(MP4), 오디오(MP3) 리소스 관리.
-*   **Design**: 커스텀 버튼 아이콘 및 배경 이미지 적용.
+*   **MiriCanvas&Photoshop**: 커스텀 버튼 아이콘 및 배경 이미지 디자인.
+*   **Netlify**: 웹 호스팅
 
 ---
 
@@ -168,4 +170,4 @@ Web_Photobook/
 
 ---
 
-*Contact: (Your Name/Email)*
+*Contact: (강원우/king_wonwoo@naver.com)*
